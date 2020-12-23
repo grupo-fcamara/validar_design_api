@@ -1,11 +1,11 @@
-# Desafio validar desing de API
+# Validação do Design de uma API Rest
 
-Esse é um desafio para validarmos o desing de uma API Rest!
+O objetivo deste projeto é validar o Design de uma API Rest
 
 ##  Funcionalidades
 - Verificar se todos os paths estão no idioma definido
-- Verificar se todos os paths estão respeitando o padrão de rotas definido
-- Verificar se todos os paths estão respeitando o verbo http
+- Verificar se todos os paths estão respeitando os padrões de rotas definido
+- Verificar se todos os paths estão respeitando os verbos http
 - Verificar se todos os paths estão respeitando os códigos http esperados para cada verbo http
 - Verificar se todos os paths não possuem operações (cadastrar / consultar / getByID)
 - Verificar se os níveis de path estão dentro do limite permitido
@@ -31,8 +31,17 @@ Antes de iniciar a validação da API, devemos passar como parametro as seguinte
 
 ## Requisitos
 - Utilizar Java 11 ou .net core 3
-- Definir uma regra de avaliação da qualidade de API
-- Definir como será o output dessa avaliação
+- Utilizar o Maturity Model do Martin Fowler para avaliar o nível da API
+- Utilizar um container docker para executar a aplicação
+- Utilizar o output para jogar a avaliação final
+- Utilizar algum board para quebrar todas as atividades
 
 ## Material de Apoio
 - https://medium.com/@wssilva.willian/design-de-api-rest-9807a5b16c9f
+— https://blog.octo.com/pt-br/projetando-uma-api-rest/
+— https://github.com/Gutem/http-api-design/
+— https://www.thoughtworks.com/pt/insights/blog/rest-api-design-resource-modeling
+— https://martinfowler.com/articles/richardsonMaturityModel.html
+— https://tools.ietf.org/html/rfc2616
+— https://developers.google.com/web/fundamentals/performance/http2/
+— https://developer.mozilla.org/pt-BR/docs/Web/HTTP
