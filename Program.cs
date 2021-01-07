@@ -6,7 +6,7 @@ namespace validar_design_api
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ApiValidationParams apiValidationParams = new ApiValidationParams();
         }
     }
 }
