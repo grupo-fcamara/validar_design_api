@@ -1,0 +1,13 @@
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.exe
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.deps.json
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.runtimeconfig.json
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.runtimeconfig.dev.json
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.dll
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\bin\Debug\netcoreapp3.1\validar_design_api.pdb
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.csprojAssemblyReference.cache
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.AssemblyInfoInputs.cache
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.AssemblyInfo.cs
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.csproj.CoreCompileInputs.cache
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.dll
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.pdb
+C:\Users\jaime.mathias\Desktop\Klabin\validar_design_api\obj\Debug\netcoreapp3.1\validar_design_api.genruntimeconfig.cache
