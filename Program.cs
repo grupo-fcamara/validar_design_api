@@ -7,7 +7,7 @@ namespace validar_design_api
         static void Main(string[] args)
         {
             HttpVerbs httpVerbs = new HttpVerbs();
-            System.Console.WriteLine("httpVerbs.Value[0]: ", httpVerbs.Value[0]);
+            System.Console.WriteLine("httpVerbs.Value[0]: " + httpVerbs.Value[0]);
             LanguageVariable language = new LanguageVariable();
             System.Console.WriteLine("Language: " + language.Value);
             PathLevels pathLevels = new PathLevels();
