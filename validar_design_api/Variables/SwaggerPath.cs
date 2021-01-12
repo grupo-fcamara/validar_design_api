@@ -2,9 +2,9 @@ using System;
 
 namespace validar_design_api
 {
-    class SwaggerPath
+    public class SwaggerPath
     {
-        public string Value { get; set; }
+        public string Value { get; private set; }
 
         public SwaggerPath()
         {

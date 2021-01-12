@@ -2,20 +2,20 @@ using System;
 
 namespace validar_design_api
 {
-    class BaseUrl
+    public class Versioned : IVariableValidation
     {
-        public string Value { get; set; }
-        
-        public BaseUrl()
+        public bool Value { get; private set; }
+
+        public Versioned()
         {
             GetEnvironmentVariable();
         }
         public void GetEnvironmentVariable() {
-            string value = Environment.GetEnvironmentVariable("BASE_URL");
+            string value = Environment.GetEnvironmentVariable("PATH_VERSIONADO");
             ValidateVariable(value);
         }
         public void ValidateVariable(string value) {
-            Value = value;
+            Value = bool.Parse(value);
         }
     }
 }

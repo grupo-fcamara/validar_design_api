@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace validar_design_api
 {
-    class StatusCode
+    public class StatusCode
     {
         public int[] GET { get; set; }
         public int[] POST { get; set; }
@@ -11,9 +11,9 @@ namespace validar_design_api
         public int[] DELETE { get; set; }
     }
 
-    class StatusCodeVariable : IVariableValidation
+    public class StatusCodeVariable : IVariableValidation
     {
-        public StatusCode Value { get; set; }
+        public StatusCode Value { get; private set; }
 
         public StatusCodeVariable()
         {

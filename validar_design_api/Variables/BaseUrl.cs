@@ -2,16 +2,16 @@ using System;
 
 namespace validar_design_api
 {
-    class PathLevels
+    public class BaseUrl
     {
-        public string Value { get; set; }
-
-        public PathLevels()
+        public string Value { get; private set; }
+        
+        public BaseUrl()
         {
             GetEnvironmentVariable();
         }
         public void GetEnvironmentVariable() {
-            string value = Environment.GetEnvironmentVariable("NIVEIS_PATH");
+            string value = Environment.GetEnvironmentVariable("BASE_URL");
             ValidateVariable(value);
         }
         public void ValidateVariable(string value) {

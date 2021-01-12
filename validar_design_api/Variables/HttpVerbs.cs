@@ -5,9 +5,9 @@ namespace validar_design_api
 {
     public enum EHttpVerbs { GET = 1, POST = 2, PUT = 4, DELETE = 8, HEAD = 16, PATCH = 32, OPTIONS = 64 }
 
-    class HttpVerbs : IVariableValidation
+    public class HttpVerbs : IVariableValidation
     {
-        public EHttpVerbs[] Value { get; set; }
+        public EHttpVerbs[] Value { get; private set; }
 
         public HttpVerbs()
         {

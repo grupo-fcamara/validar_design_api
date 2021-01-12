@@ -3,9 +3,10 @@ using System;
 namespace validar_design_api
 {
     public enum Language { ENGLISH, PORTUGUESE }
-    class LanguageVariable
+    
+    public class LanguageVariable
     {
-        public Language Value { get; set; }
+        public Language Value { get; private set; }
 
         public LanguageVariable()
         {

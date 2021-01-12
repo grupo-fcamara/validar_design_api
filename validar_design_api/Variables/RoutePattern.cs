@@ -3,9 +3,10 @@ using System;
 namespace validar_design_api
 {
     public enum Case { PLURAL, SINGULAR, CAMEL, SNAKE, SPINAL }
-    class RoutePattern
+    
+    public class RoutePattern
     {
-        public Case Value { get; set; }
+        public Case Value { get; private set; }
 
         public RoutePattern()
         {

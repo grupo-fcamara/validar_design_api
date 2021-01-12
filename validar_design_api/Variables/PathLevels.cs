@@ -2,20 +2,20 @@ using System;
 
 namespace validar_design_api
 {
-    class Versioned : IVariableValidation
+    public class PathLevels
     {
-        public string Value { get; set; }
+        public int Value { get; private set; }
 
-        public Versioned()
+        public PathLevels()
         {
             GetEnvironmentVariable();
         }
         public void GetEnvironmentVariable() {
-            string value = Environment.GetEnvironmentVariable("PATH_VERSIONADO");
+            string value = Environment.GetEnvironmentVariable("NIVEIS_PATH");
             ValidateVariable(value);
         }
         public void ValidateVariable(string value) {
-            Value = value;
+            Value = int.Parse(value);
         }
     }
 }
