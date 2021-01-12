@@ -18,7 +18,15 @@ namespace validar_design_api
             ValidateVariable(value);
         }
         public void ValidateVariable(string value) {
-            string[] verbosHttp = JsonSerializer.Deserialize<string[]>(value);
+            string[] verbosHttp = null;
+            try {
+                verbosHttp = JsonSerializer.Deserialize<string[]>(value);
+            }
+            catch (ArgumentNullException) {
+                System.Console.WriteLine("null isn't a HTTP Verb\n" +
+                "Existing HTTP Verbs: 'GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'PATCH' and 'OPTIONS'. ");
+                Environment.Exit(1);
+            }
             Value = new EHttpVerbs[verbosHttp.Length];
 
             for (int i = 0; i < verbosHttp.Length; i++) {
