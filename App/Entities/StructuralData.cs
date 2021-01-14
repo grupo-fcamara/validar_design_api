@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace validar_design_api.Entities 
+namespace App.Entities 
 {
     public enum LANG { NOT_SET = 0, ENGLISH = 1, PORTUGUESE = 2 }
     public enum CASE { NOT_SET = 0, PLURAL, SINGULAR, CAMEL, SNAKE, SPINAL }

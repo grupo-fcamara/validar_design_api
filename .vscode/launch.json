@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/validar_design_api/bin/Debug/netcoreapp3.1/validar_design_api.dll",
+            "program": "${workspaceFolder}/App/bin/Debug/netcoreapp3.1/App.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/validar_design_api",
+            "cwd": "${workspaceFolder}/App",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false,

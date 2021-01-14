@@ -1,6 +1,6 @@
 using System;
 
-namespace validar_design_api.Services {
+namespace App.Services {
     public class ExceptionError : Exception 
     {
         public string errorMsg;

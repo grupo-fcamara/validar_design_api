@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\validar_design_api\validar_design_api.csproj" />
+    <ProjectReference Include="..\App\App.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-using validar_design_api.Entities;
+using App.Entities;
 
-namespace validar_design_api.Services
+namespace App.Services
 {
     public interface IStructuralValidation
     {

@@ -1,9 +1,9 @@
 ﻿using System;
-using validar_design_api.Services;
-using validar_design_api.Entities;
+using App.Services;
+using App.Entities;
 using System.Text.Json;
 
-namespace validar_design_api
+namespace App
 {
     class Program
     {

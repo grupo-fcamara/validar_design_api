@@ -1,9 +1,9 @@
 using System;
 using System.Text.Json;
-using validar_design_api.Entities;
+using App.Entities;
 using System.Collections.Generic;
 
-namespace validar_design_api.Services
+namespace App.Services
 {
     public class GetEnvironmentVariables : IGetEnvironmentVariables
     {
