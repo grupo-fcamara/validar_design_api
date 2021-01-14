@@ -1,28 +1,54 @@
 ﻿using System;
+using validar_design_api.Services;
+using validar_design_api.Entities;
+using System.Text.Json;
 
 namespace validar_design_api
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            HttpVerbs httpVerbs = new HttpVerbs();
-            System.Console.WriteLine("httpVerbs.Value[0]: " + httpVerbs.Value[0]);
-            LanguageVariable language = new LanguageVariable();
-            System.Console.WriteLine("Language: " + language.Value);
-            PathLevels pathLevels = new PathLevels();
-            System.Console.WriteLine("PathLevels: " + pathLevels.Value);
-            RoutePattern routePattern = new RoutePattern();
-            System.Console.WriteLine("RoutePattern: " + routePattern.Value);
-            StatusCodeVariable statusCode = new StatusCodeVariable();
-            System.Console.WriteLine("statusCode.Value.GET[0]: " + statusCode.Value.GET[0]);
-            Versioned versioned = new Versioned();
-            System.Console.WriteLine("Versioned: " + versioned.Value);
+            StructuralData data = new StructuralData();
+            IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            BaseUrl baseUrl = new BaseUrl();
-            System.Console.WriteLine("BaseUrl: "+ baseUrl.Value);
-            SwaggerPath swaggerPath = new SwaggerPath();
-            System.Console.WriteLine("SwaggerPath: " + swaggerPath.Value);
+            try {
+                getEnvironmentVariables.Validate(data);
+            }
+            catch(ExceptionError ex) {
+                System.Console.WriteLine(ex.errorMsg);
+                return 1;
+            }
+
+            PrintData(data);
+
+            return 0;
+        }
+
+        public static void PrintData(StructuralData data) 
+        {
+            System.Console.WriteLine("Language: " + data.Language);
+            System.Console.WriteLine("RoutePattern: " + data.RoutePattern);
+            System.Console.WriteLine("Versioned: " + data.Versioned);
+            System.Console.Write("HttpVerbs: ");
+            foreach (var value in data.HttpVerbs) {
+                Console.Write(value + ", ");
+            }
+            Console.Write("\b\b \n");
+            System.Console.WriteLine("PathLevels: " + data.PathLevels);
+            System.Console.WriteLine("StatusCode: {");
+            foreach (var value in data.StatusCode)
+            {
+                System.Console.Write("   {0}: ", value.Key);
+                foreach (var item in value.Value)
+                {
+                    System.Console.Write(item + ", ");
+                }
+                System.Console.Write("\b\b \n");
+            }
+            System.Console.WriteLine("}");
+            System.Console.WriteLine("BaseUrl: " + data.BaseUrl);
+            System.Console.WriteLine("SwaggerPath: " + data.SwaggerPath);
         }
     }
 }
