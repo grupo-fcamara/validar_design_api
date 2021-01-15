@@ -13,6 +13,12 @@ namespace Tests
             Theory,
             InlineData
             (
+                new string[] { "LANGUAGE" },
+                new string[] { "" },
+                "LANGUAGE variable not set properly, available languages:\n\"ENGLISH\" OR \"PORTUGUESE\""
+            ),
+            InlineData
+            (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN" },
                 new string[] { "ENGLISH", "" },
                 "ROUTE_PATTERN variable not set properly, available route patterns:\n\"SINGULAR\", \"PLURAL\", \"SNAKE\", \"SPINAL\" OR \"CAMEL\""

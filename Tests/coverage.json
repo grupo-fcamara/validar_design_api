@@ -103,8 +103,8 @@
       "App.Services.GetEnvironmentVariables": {
         "System.Boolean App.Services.GetEnvironmentVariables::Validate(App.Entities.StructuralData)": {
           "Lines": {
-            "11": 7,
-            "12": 7,
+            "11": 8,
+            "12": 8,
             "13": 0,
             "14": 0,
             "16": 7,
@@ -138,7 +138,7 @@
               "EndOffset": 27,
               "Path": 0,
               "Ordinal": 0,
-              "Hits": 0
+              "Hits": 1
             },
             {
               "Line": 12,
@@ -264,13 +264,13 @@
         },
         "App.Entities.LANG App.Services.GetEnvironmentVariables::GetLanguage()": {
           "Lines": {
-            "47": 8,
-            "48": 8,
-            "49": 8,
-            "51": 8,
-            "52": 0,
+            "47": 9,
+            "48": 9,
+            "49": 9,
+            "51": 10,
+            "52": 1,
             "55": 8,
-            "56": 8
+            "56": 9
           },
           "Branches": [
             {
@@ -287,7 +287,7 @@
               "EndOffset": 33,
               "Path": 1,
               "Ordinal": 1,
-              "Hits": 0
+              "Hits": 1
             },
             {
               "Line": 51,
@@ -295,7 +295,7 @@
               "EndOffset": 38,
               "Path": 0,
               "Ordinal": 2,
-              "Hits": 0
+              "Hits": 1
             },
             {
               "Line": 51,
@@ -559,10 +559,10 @@
       "App.Services.Exceptions.ExceptionError": {
         "System.Void App.Services.Exceptions.ExceptionError::.ctor(System.String)": {
           "Lines": {
-            "7": 6,
-            "8": 6,
-            "9": 6,
-            "10": 6
+            "7": 7,
+            "8": 7,
+            "9": 7,
+            "10": 7
           },
           "Branches": []
         }
@@ -572,7 +572,7 @@
       "App.Entities.StructuralData": {
         "App.Entities.LANG App.Entities.StructuralData::get_Language()": {
           "Lines": {
-            "11": 7
+            "11": 8
           },
           "Branches": []
         },
