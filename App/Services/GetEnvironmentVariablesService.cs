@@ -1,7 +1,8 @@
 using System;
 using System.Text.Json;
-using App.Entities;
 using System.Collections.Generic;
+using App.Entities;
+using App.Services.Exceptions;
 
 namespace App.Services
 {
@@ -21,7 +22,7 @@ namespace App.Services
                                         "\"true\" OR \"false\"");
             
             if ((data.HttpVerbs = GetHttpVerbs()) == null)
-                throw new ExceptionError("HTTP_VERBS variable not set properly, available http verbs::\n" + 
+                throw new ExceptionError("HTTP_VERBS variable not set properly, available http verbs:\n" + 
                                         "\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"OPTIONS\", \"HEAD\"");
             
             if ((data.StatusCode = GetStatusCode()) == null)

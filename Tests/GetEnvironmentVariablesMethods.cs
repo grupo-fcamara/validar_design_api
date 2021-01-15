@@ -8,7 +8,7 @@ using App.Services;
 
 namespace Tests
 {
-    public class IsEnvironmentVariableWorking
+    public class GetEnvironmentVariablesMethods
     {
         [Theory]
         [InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)]

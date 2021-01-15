@@ -1,6 +1,6 @@
 using System;
 
-namespace App.Services {
+namespace App.Services.Exceptions {
     public class ExceptionError : Exception 
     {
         public string errorMsg;
