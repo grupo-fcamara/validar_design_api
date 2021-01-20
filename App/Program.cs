@@ -1,7 +1,8 @@
 ﻿using System;
 using App.Entities;
 using App.Services;
-using App.Services.Exceptions;
+using App.Services.Exceptions;    
+using Microsoft.Extensions.Logging;
 
 namespace App
 {
