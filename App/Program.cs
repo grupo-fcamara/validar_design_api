@@ -2,6 +2,7 @@
 using App.Entities;
 using App.Services;
 using App.Services.Exceptions;    
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace App
@@ -10,6 +11,12 @@ namespace App
     {
         static int Main(string[] args)
         {
+            var serviceProvider = new ServiceCollection().
+            AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>
+            (cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider(); 
+                 
+            ILogger logger = serviceProvider.GetService<ILogger<Program>>();
+
             StructuralData data = new StructuralData();
             IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
@@ -17,7 +24,7 @@ namespace App
                 getEnvironmentVariables.Validate(data);
             }
             catch(ExceptionError ex) {
-                System.Console.WriteLine(ex.errorMsg);
+                logger.LogWarning(ex.errorMsg);
                 return 1;
             }
 
@@ -28,28 +35,44 @@ namespace App
 
         public static void PrintData(StructuralData data) 
         {
-            System.Console.WriteLine("Language: " + data.Language);
-            System.Console.WriteLine("RoutePattern: " + data.RoutePattern);
-            System.Console.WriteLine("Versioned: " + data.Versioned);
-            System.Console.Write("HttpVerbs: ");
+            var serviceProvider = new ServiceCollection().
+            AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>
+            (cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();          
+              
+            ILogger logger = serviceProvider.GetService<ILogger<Program>>();
+
+            logger.LogInformation(
+            "Language: " + data.Language +
+            " RoutePattern: " + data.RoutePattern +
+            " Versioned: " + data.Versioned +
+            " HttpVerbs: "
+            );
+
             foreach (var value in data.HttpVerbs) {
-                Console.Write(value + ", ");
+                logger.LogInformation(value + ", ");
             }
-            Console.Write("\b\b \n");
-            System.Console.WriteLine("PathLevels: " + data.PathLevels);
-            System.Console.WriteLine("StatusCode: {");
+
+            logger.LogInformation(
+            "\b\b \n" + 
+            "PathLevels: " + data.PathLevels +
+            "StatusCode: {"
+            );
+
             foreach (var value in data.StatusCode)
             {
-                System.Console.Write("   {0}: ", value.Key);
+                logger.LogInformation("   {0}: ", value.Key);
                 foreach (var item in value.Value)
                 {
-                    System.Console.Write(item + ", ");
+                    logger.LogInformation(item + ", ");
                 }
-                System.Console.Write("\b\b \n");
+                logger.LogInformation("\b\b \n");
             }
-            System.Console.WriteLine("}");
-            System.Console.WriteLine("BaseUrl: " + data.BaseUrl);
-            System.Console.WriteLine("SwaggerPath: " + data.SwaggerPath);
+
+            logger.LogInformation(
+            "}" + 
+            "BaseUrl: " + data.BaseUrl + 
+            "SwaggerPath: " + data.SwaggerPath
+            );
         }
     }
 }
