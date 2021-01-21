@@ -3,52 +3,65 @@ using App.Entities;
 using App.Services;
 using App.Services.Exceptions;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
 namespace App
 {
     class Program
     {
         static int Main(string[] args)
         {
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider(); 
+            ILogger logger = serviceProvider.GetService<ILogger<Program>>();
+
             StructuralData data = new StructuralData();
             IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
             try {
                 getEnvironmentVariables.Validate(data);
-            }
-            catch(ExceptionError ex) {
-                System.Console.WriteLine(ex.errorMsg);
+            } catch(ExceptionError ex) {
+                logger.LogWarning(ex.errorMsg);
                 return 1;
             }
 
-            PrintData(data);
+            ShowData(data);
 
             return 0;
         }
 
-        public static void PrintData(StructuralData data) 
+        public static void ShowData(StructuralData data) 
         {
-            System.Console.WriteLine("Language: " + data.Language);
-            System.Console.WriteLine("RoutePattern: " + data.RoutePattern);
-            System.Console.WriteLine("Versioned: " + data.Versioned);
-            System.Console.Write("HttpVerbs: ");
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            ILogger logger = serviceProvider.GetService<ILogger<Program>>(); 
+            
+            logger.LogInformation("Language: " + data.Language + 
+            "RoutePattern: " + data.RoutePattern +
+            "Versioned: " + data.Versioned +
+            "HttpVerbs: ");
+            
             foreach (var value in data.HttpVerbs) {
-                Console.Write(value + ", ");
+                logger.LogInformation(value + ", ");
             }
-            Console.Write("\b\b \n");
-            System.Console.WriteLine("PathLevels: " + data.PathLevels);
-            System.Console.WriteLine("StatusCode: {");
-            foreach (var value in data.StatusCode)
-            {
-                System.Console.Write("   {0}: ", value.Key);
-                foreach (var item in value.Value)
-                {
-                    System.Console.Write(item + ", ");
+
+            logger.LogInformation("\b\b \n" +
+            "PathLevels: " + data.PathLevels +
+            "StatusCode: {");
+
+            foreach (var value in data.StatusCode) {
+                logger.LogInformation("   {0}: ", value.Key);
+
+                foreach (var item in value.Value) {
+                    
+                    logger.LogInformation(item + ", ");
                 }
-                System.Console.Write("\b\b \n");
+
+                logger.LogInformation("\b\b \n");
             }
-            System.Console.WriteLine("}");
-            System.Console.WriteLine("BaseUrl: " + data.BaseUrl);
-            System.Console.WriteLine("SwaggerPath: " + data.SwaggerPath);
+
+            logger.LogInformation("}" + 
+            "BaseUrl: " + data.BaseUrl +
+            "SwaggerPath: " + data.SwaggerPath);
         }
     }
 }

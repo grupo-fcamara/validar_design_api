@@ -72,8 +72,7 @@ namespace Tests
 
             try {
                 getEnvironmentVariables.Validate(data);
-            }
-            catch(ExceptionError ex) {
+            } catch(ExceptionError ex) {
                 Assert.Equal(ex.errorMsg, error);
             }
         }
