@@ -3,7 +3,6 @@ using Xunit;
 
 using App.Entities;
 using App.Services;
-using App.Services.Exceptions;
 
 namespace Tests 
 {
@@ -72,8 +71,8 @@ namespace Tests
 
             try {
                 getEnvironmentVariables.Validate(data);
-            } catch(ExceptionError ex) {
-                Assert.Equal(ex.errorMsg, error);
+            } catch(Exception ex) {
+                Assert.Equal(ex.Message, error);
             }
         }
     }

@@ -2,7 +2,6 @@ using System;
 using System.Text.Json;
 using System.Collections.Generic;
 using App.Entities;
-using App.Services.Exceptions;
 
 namespace App.Services
 {
@@ -10,35 +9,35 @@ namespace App.Services
     {
         public bool Validate(StructuralData data) {
             if ((int) (data.Language = GetLanguage()) <= 0)
-                throw new ExceptionError("LANGUAGE variable not set properly, available languages:\n" + 
+                throw new Exception("LANGUAGE variable not set properly, available languages:\n" + 
                                         "\"ENGLISH\" OR \"PORTUGUESE\"");
 
             if ((int) (data.RoutePattern = GetRoutePattern()) <= 0)
-                throw new ExceptionError("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
+                throw new Exception("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
                                         "\"SINGULAR\", \"PLURAL\", \"SNAKE\", \"SPINAL\" OR \"CAMEL\"");
             
             if (!(data.Versioned = GetVersioned()))
-                throw new ExceptionError("VERSIONED_PATH variable not set properly, available versioned's:\n" + 
+                throw new Exception("VERSIONED_PATH variable not set properly, available versioned's:\n" + 
                                         "\"true\" OR \"false\"");
             
             if ((data.HttpVerbs = GetHttpVerbs()) == null)
-                throw new ExceptionError("HTTP_VERBS variable not set properly, available http verbs:\n" + 
+                throw new Exception("HTTP_VERBS variable not set properly, available http verbs:\n" + 
                                         "\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"OPTIONS\", \"HEAD\"");
             
             if ((data.StatusCode = GetStatusCode()) == null)
-                throw new ExceptionError("STATUS_CODE variable not set properly, example on how to set:\n" + 
+                throw new Exception("STATUS_CODE variable not set properly, example on how to set:\n" + 
                                         "\"{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }\"");
             
             if ((data.PathLevels = GetPathLevels()) < 0)
-                throw new ExceptionError("PATH_LEVELS variable not set properly, available level's:\n" + 
+                throw new Exception("PATH_LEVELS variable not set properly, available level's:\n" + 
                                         "minimum: \"0\"");
             
             if ((data.BaseUrl = GetBaseURL()) == null)
-                throw new ExceptionError("BASE_URL variable not set properly, example on how to set:\n" + 
+                throw new Exception("BASE_URL variable not set properly, example on how to set:\n" + 
                                         "BASE_URL: \"yourbaseurl.com\"");
             
             if ((data.SwaggerPath = GetSwaggerPath()) == null)
-                throw new ExceptionError("SWAGGER_PATH variable not set properly, example on how to set:\n" + 
+                throw new Exception("SWAGGER_PATH variable not set properly, example on how to set:\n" + 
                                         "SWAGGER_PATH: \"yourswaggerpath.com\"");
 
             return true;
@@ -143,13 +142,10 @@ namespace App.Services
         }
 
         public string GetSwaggerPath() {
-            try
-            {
+            try {
                 string value = Environment.GetEnvironmentVariable("SWAGGER_PATH");
                 return value;
-            }
-            catch (ArgumentNullException)
-            {
+            } catch (ArgumentNullException) {
                 return null;
             }
         }

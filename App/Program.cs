@@ -1,7 +1,6 @@
 ﻿using System;
 using App.Entities;
 using App.Services;
-using App.Services.Exceptions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,7 +11,9 @@ namespace App
     {
         static int Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider(); 
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
+            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            
             ILogger logger = serviceProvider.GetService<ILogger<Program>>();
 
             StructuralData data = new StructuralData();
@@ -20,8 +21,8 @@ namespace App
 
             try {
                 getEnvironmentVariables.Validate(data);
-            } catch(ExceptionError ex) {
-                logger.LogWarning(ex.errorMsg);
+            } catch(Exception ex) {
+                logger.LogWarning(ex.Message);
                 return 1;
             }
 
@@ -32,7 +33,9 @@ namespace App
 
         public static void ShowData(StructuralData data) 
         {
-            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole()).Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
+            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            
             ILogger logger = serviceProvider.GetService<ILogger<Program>>(); 
             
             logger.LogInformation("Language: " + data.Language + 
