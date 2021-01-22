@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Text.Json;
 using App.Entities.Swagger;
@@ -13,6 +14,12 @@ namespace App.Services
                 var json = wc.DownloadString(url);
                 return Deserialize(json);
             }
+        }
+
+        public Documentation GetFromFile(string path)
+        {
+            string json = File.ReadAllText(path);
+            return Deserialize(json);
         }
 
         private Documentation Deserialize(string json)
