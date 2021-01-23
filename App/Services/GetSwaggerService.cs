@@ -5,7 +5,7 @@ using App.Entities.Swagger;
 
 namespace App.Services
 {
-    public class SwaggerJsonDeserializer
+    public class GetSwaggerService
     {
         public Documentation GetByUrl(string url)
         {
@@ -16,13 +16,7 @@ namespace App.Services
             }
         }
 
-        public Documentation GetFromFile(string path)
-        {
-            string json = File.ReadAllText(path);
-            return Deserialize(json);
-        }
-
-        private Documentation Deserialize(string json)
+        public Documentation Deserialize(string json)
         {
             var options = new JsonSerializerOptions();
             options.PropertyNameCaseInsensitive = true;
