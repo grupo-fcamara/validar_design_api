@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Text.Json;
@@ -20,7 +21,12 @@ namespace App.Services
         {
             var options = new JsonSerializerOptions();
             options.PropertyNameCaseInsensitive = true;
-            return JsonSerializer.Deserialize<Documentation>(json, options);
+
+            var doc = JsonSerializer.Deserialize<Documentation>(json, options);
+            if (!doc.IsValid)
+                throw new ApplicationException("Invalid documentation.");
+
+            return doc;
         }
     }
 }

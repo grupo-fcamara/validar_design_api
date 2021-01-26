@@ -1,9 +1,28 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace App.Entities.Swagger
 {
-    public class Documentation : IDocumentation
+    public interface ISwaggerProperty
     {
+        bool IsValid { get; }
+    }
+
+    public class Documentation : IDocumentation, ISwaggerProperty
+    {
+        public bool IsValid => 
+            //Required
+            !string.IsNullOrWhiteSpace(Swagger) &&
+            Info != null && Info.IsValid &&
+            Paths != null && Paths.Values.All(p => p.IsValid) &&
+            //Optional
+            (Definitions == null || Definitions.Values.All(d => d.IsValid)) &&
+            (Parameters == null || Parameters.Values.All(p => p.IsValid)) &&
+            (Responses == null || Responses.Values.All(r => r.IsValid)) &&
+            (SecurityDefinitions == null || SecurityDefinitions.Values.All(d => d.IsValid)) &&
+            (ExternalDocs == null || ExternalDocs.IsValid);
+
+        // Structure
         public string Swagger { get; set; }
         public SwaggerInfo Info { get; set; }
 
@@ -25,8 +44,17 @@ namespace App.Entities.Swagger
     }
 
     #region Info
-    public class SwaggerInfo
+    public class SwaggerInfo : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Required
+            !string.IsNullOrWhiteSpace(Title) &&
+            !string.IsNullOrWhiteSpace(Version) &&
+            //Optional
+            (Contact == null || Contact.IsValid) &&
+            (License == null || License.IsValid);
+
+        // Structure
         public string Title { get; set; }
         public string Description { get; set; }
         public SwaggerContact Contact { get; set; }
@@ -34,23 +62,41 @@ namespace App.Entities.Swagger
         public string Version { get; set; }
     }
 
-    public class SwaggerContact
+    public class SwaggerContact : ISwaggerProperty
     {
+        public bool IsValid => true;
+
+        // Structure
         public string Name { get; set; }
         public string Url { get; set; }
         public string Email { get; set; }
     }
 
-    public class SwaggerLicense
+    public class SwaggerLicense : ISwaggerProperty
     {
+        public bool IsValid => !string.IsNullOrWhiteSpace(Name);
+
+        // Structure
         public string Name { get; set; }
         public string Url { get; set; }
     }
     #endregion
 
     #region Path
-    public class SwaggerPathItem
+    public class SwaggerPathItem : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Optional
+            (Get == null || Get.IsValid) &&
+            (Put == null || Put.IsValid) &&
+            (Post == null || Post.IsValid) &&
+            (Delete == null || Delete.IsValid) &&
+            (Options == null || Options.IsValid) &&
+            (Head == null || Head.IsValid) &&
+            (Patch == null || Patch.IsValid) &&
+            (Parameters == null || Parameters.All(p => p.IsValid));
+
+        // Structure
         public SwaggerOperation Get { get; set; }
         public SwaggerOperation Put { get; set; }
         public SwaggerOperation Post { get; set; }
@@ -62,8 +108,16 @@ namespace App.Entities.Swagger
         public SwaggerParameter[] Parameters { get; set; }
     }
 
-    public class SwaggerOperation
+    public class SwaggerOperation : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Required
+            Responses != null && Responses.Values.All(r => r.IsValid) &&
+            //Optional
+            (ExternalDocs == null || ExternalDocs.IsValid) &&
+            (Parameters == null || Parameters.All(p => p.IsValid));
+
+        // Structure
         public string[] Tags { get; set; }
         public string Summary { get; set; }
         public SwaggerExternalDocs ExternalDocs { get; set; }
@@ -80,8 +134,14 @@ namespace App.Entities.Swagger
     #endregion
 
     #region Schema
-    public class SwaggerSchema
+    public class SwaggerSchema : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Optional
+            (Xml == null || Xml.IsValid) &&
+            (ExternalDocs == null || ExternalDocs.IsValid);
+
+        // Structure
         public string Discriminator { get; set; }
         public bool ReadOnly { get; set; }
         public SwaggerXML Xml { get; set; }
@@ -89,8 +149,11 @@ namespace App.Entities.Swagger
         public dynamic Example { get; set; }
     }
 
-    public class SwaggerXML
+    public class SwaggerXML : ISwaggerProperty
     {
+        public bool IsValid => true;
+
+        // Structure
         public string Name { get; set; }
         public string Namespace { get; set; }
         public string Prefix { get; set; }
@@ -99,34 +162,53 @@ namespace App.Entities.Swagger
     }
     #endregion
 
-    public class SwaggerParameter : SwaggerItems
+    public class SwaggerParameter : SwaggerItems, ISwaggerProperty
     {
+        public override bool IsValid =>
+            !string.IsNullOrWhiteSpace(Name) &&
+            !string.IsNullOrWhiteSpace(In) &&
+            In.Equals("body") ? (Schema != null && Schema.IsValid) : base.IsValid;
+
+        // Structure
         public string Name { get; set; }
         public string In { get; set; }
         public string Description { get; set; }
         public bool Required { get; set; }
 
-        //if In == "body"
         public SwaggerSchema Schema { get; set; }
+        public bool AllowEmptyValues { get; set; }
     }
     
     #region Response
-    public class SwaggerResponse
+    public class SwaggerResponse : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Required
+            !string.IsNullOrWhiteSpace(Description) &&
+            //Optional
+            (Schema == null || Schema.IsValid) &&
+            (Headers == null || Headers.Values.All(h => h.IsValid));
+
+        // Structure
         public string Description { get; set; }
         public SwaggerSchema Schema { get; set; }
         public Dictionary<string, SwaggerHeader> Headers { get; set; }
         public Dictionary<string, Dictionary<string, string>> Example { get; set; }
     }
 
-    public class SwaggerHeader : SwaggerItems
+    public class SwaggerHeader : SwaggerItems, ISwaggerProperty
     {
         public string Description { get; set; }
     }
     #endregion
 
-    public class SwaggerItems
+    public class SwaggerItems : ISwaggerProperty
     {
+        public virtual bool IsValid =>
+            !string.IsNullOrWhiteSpace(Type) &&
+            (!Type.Equals("array") || Items != null);
+
+        // Structure
         public string Type { get; set; }
         public string Format { get; set; }
         public bool AllowEmptyValue { get; set; }
@@ -147,21 +229,42 @@ namespace App.Entities.Swagger
         public float MultipleOf { get; set; }
     }
 
-    public class Tag
+    public class SwaggerTag : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Required
+            !string.IsNullOrWhiteSpace(Name) &&
+            //Optional
+            (ExternalDocs == null || ExternalDocs.IsValid);
+
+        // Structure
         public string Name { get; set; }
         public string Description { get; set; }
         public SwaggerExternalDocs ExternalDocs { get; set; }
     }
 
-    public class SwaggerExternalDocs
+    public class SwaggerExternalDocs : ISwaggerProperty
     {
-        public string Url { get; set; }
+        public bool IsValid => !string.IsNullOrEmpty(Url);  
+
+        // Structure
         public string Description { get; set; }
+        public string Url { get; set; }
     }
 
-    public class SwaggerSecurityScheme
+    public class SwaggerSecurityScheme : ISwaggerProperty
     {
+        public bool IsValid =>
+            //Required
+            !string.IsNullOrWhiteSpace(Type) &&
+            !string.IsNullOrWhiteSpace(Description) &&
+            !string.IsNullOrWhiteSpace(Name) &&
+            !string.IsNullOrWhiteSpace(In) &&
+            !string.IsNullOrWhiteSpace(Flow) &&
+            !string.IsNullOrWhiteSpace(AuthorizationUrl) &&
+            !string.IsNullOrWhiteSpace(TokenUrl);
+
+        // Structure
         public string Type { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
