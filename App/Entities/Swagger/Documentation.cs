@@ -256,13 +256,18 @@ namespace App.Entities.Swagger
     {
         public bool IsValid =>
             //Required
-            !string.IsNullOrWhiteSpace(Type) &&
-            !string.IsNullOrWhiteSpace(Description) &&
-            !string.IsNullOrWhiteSpace(Name) &&
-            !string.IsNullOrWhiteSpace(In) &&
-            !string.IsNullOrWhiteSpace(Flow) &&
-            !string.IsNullOrWhiteSpace(AuthorizationUrl) &&
-            !string.IsNullOrWhiteSpace(TokenUrl);
+            !string.IsNullOrWhiteSpace(Type) && (
+                Type.Equals("basic") || 
+                (
+                    Type.Equals("apiKey") &&
+                    !string.IsNullOrWhiteSpace(Name) && 
+                    !string.IsNullOrWhiteSpace(In)
+                ) || (
+                    Type.Equals("oauth2") &&
+                    !string.IsNullOrWhiteSpace(Flow) &&
+                    !string.IsNullOrWhiteSpace(AuthorizationUrl)
+                )
+            );
 
         // Structure
         public string Type { get; set; }
