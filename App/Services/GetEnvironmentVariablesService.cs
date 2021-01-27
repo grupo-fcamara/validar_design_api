@@ -10,29 +10,28 @@ namespace App.Services
         public bool Validate(StructuralData data) {
             
             if ((int) (data.Language = GetLanguage()) <= 0)
-                throw new Exception("LANGUAGE variable not set properly, available languages:\n" + 
-                                    LANG.ENGLISH + " OR " + LANG.PORTUGUESE);
+                throw new Exception(string.Format("LANGUAGE variable not set properly, available languages:\n" +
+                                        "\"{0}\" OR \"{1}\"", LANG.ENGLISH , LANG.PORTUGUESE));
 
             if ((int) (data.RoutePattern = GetRoutePattern()) <= 0)
-                throw new Exception("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
-                                       CASE.SINGULAR + ", " + CASE.PLURAL + ", " + CASE.CAMEL + ", " + 
-                                       CASE.SNAKE + ", " + CASE.SPINAL + ".");
+                throw new Exception(string.Format("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
+                                        "\"{0}\", \"{1}\", \"{2}\", \"{3}\" OR \"{4}\"",
+                                        CASE.SINGULAR, CASE.PLURAL, CASE.SNAKE, CASE.SPINAL, CASE.CAMEL));
             
             if (!(data.Versioned = GetVersioned()))
                 throw new Exception("VERSIONED_PATH variable not set properly, available versioned's:\n" + 
                                         "\"true\" OR \"false\"");
             
             if ((data.HttpVerbs = GetHttpVerbs()) == null)
-                throw new Exception("HTTP_VERBS variable not set properly, available http verbs:\n" + 
-                                    HTTPVERBS.GET + ", " + HTTPVERBS.POST + ", " +  HTTPVERBS.PUT + ", " +
-                                    HTTPVERBS.DELETE + ", " +  HTTPVERBS.PATCH + ", " + HTTPVERBS.OPTIONS + ", " +
-                                    HTTPVERBS.HEAD + ".");
+                throw new Exception(string.Format("HTTP_VERBS variable not set properly, available http verbs:\n" + 
+                                        "\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\"", HTTPVERBS.GET, HTTPVERBS.POST,
+                                        HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.PATCH, HTTPVERBS.OPTIONS, HTTPVERBS.HEAD));
             
             if ((data.StatusCode = GetStatusCode()) == null)
-                throw new Exception("STATUS_CODE variable not set properly, example on how to set:\n" + 
-                                    "{" + HTTPVERBS.GET  + ": [200, 500], "+ HTTPVERBS.POST + ": [200, 500]," + 
-                                     HTTPVERBS.PUT + ": [200, 500], "+ HTTPVERBS.DELETE + ": [200, 500] }");
-            
+                throw new Exception(string.Format("STATUS_CODE variable not set properly, example on how to set:\n" + 
+                                        "\"{{ \"{0}\": [200, 500], \"{1}\": [200, 500], \"{2}\": [200, 500], \"{3}\": [200, 500] }}\"",
+                                        HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE));
+
             if ((data.PathLevels = GetPathLevels()) < 0)
                 throw new Exception("PATH_LEVELS variable not set properly, available level's:\n" + 
                                         "minimum: \"0\"");
