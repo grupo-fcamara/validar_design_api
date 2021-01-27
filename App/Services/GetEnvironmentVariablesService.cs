@@ -8,13 +8,15 @@ namespace App.Services
     public class GetEnvironmentVariables : IGetEnvironmentVariables
     {
         public bool Validate(StructuralData data) {
+            
             if ((int) (data.Language = GetLanguage()) <= 0)
                 throw new Exception("LANGUAGE variable not set properly, available languages:\n" + 
-                                        "\"ENGLISH\" OR \"PORTUGUESE\"");
+                                    LANG.ENGLISH + " OR " + LANG.PORTUGUESE);
 
             if ((int) (data.RoutePattern = GetRoutePattern()) <= 0)
                 throw new Exception("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
-                                        "\"SINGULAR\", \"PLURAL\", \"SNAKE\", \"SPINAL\" OR \"CAMEL\"");
+                                       CASE.SINGULAR + ", " + CASE.PLURAL + ", " + CASE.CAMEL + ", " + 
+                                       CASE.SNAKE + ", " + CASE.SPINAL + ".");
             
             if (!(data.Versioned = GetVersioned()))
                 throw new Exception("VERSIONED_PATH variable not set properly, available versioned's:\n" + 
@@ -22,11 +24,14 @@ namespace App.Services
             
             if ((data.HttpVerbs = GetHttpVerbs()) == null)
                 throw new Exception("HTTP_VERBS variable not set properly, available http verbs:\n" + 
-                                        "\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"OPTIONS\", \"HEAD\"");
+                                    HTTPVERBS.GET + ", " + HTTPVERBS.POST + ", " +  HTTPVERBS.PUT + ", " +
+                                    HTTPVERBS.DELETE + ", " +  HTTPVERBS.PATCH + ", " + HTTPVERBS.OPTIONS + ", " +
+                                    HTTPVERBS.HEAD + ".");
             
             if ((data.StatusCode = GetStatusCode()) == null)
                 throw new Exception("STATUS_CODE variable not set properly, example on how to set:\n" + 
-                                        "\"{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }\"");
+                                    "{" + HTTPVERBS.GET  + ": [200, 500], "+ HTTPVERBS.POST + ": [200, 500]," + 
+                                     HTTPVERBS.PUT + ": [200, 500], "+ HTTPVERBS.DELETE + ": [200, 500] }");
             
             if ((data.PathLevels = GetPathLevels()) < 0)
                 throw new Exception("PATH_LEVELS variable not set properly, available level's:\n" + 
