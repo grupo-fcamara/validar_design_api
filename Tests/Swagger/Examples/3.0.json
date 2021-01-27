@@ -1,0 +1,1700 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CRUD de veículos",
+    "description": "Serviço criado para processos com os veículos",
+    "version": "v1"
+  },
+  "paths": {
+    "/veiculos/consolidacao/status": {
+      "get": {
+        "tags": [
+          "Consolidacao"
+        ],
+        "parameters": [
+          {
+            "name": "transportadora",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorStatusRetorno"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorStatusRetorno"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorStatusRetorno"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorStatusRetorno"
+                  }
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorStatusRetorno"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/veiculos/consolidacao/disponibilidade": {
+      "get": {
+        "tags": [
+          "Consolidacao"
+        ],
+        "parameters": [
+          {
+            "name": "statusVeiculo",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EnumStatusVeiculo"
+            }
+          },
+          {
+            "name": "transportadora",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorDisponibilidadeRetorno"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorDisponibilidadeRetorno"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorDisponibilidadeRetorno"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorDisponibilidadeRetorno"
+                  }
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConsolidadoPorDisponibilidadeRetorno"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/emails-ivepar/{codigo}": {
+      "put": {
+        "tags": [
+          "EmailIvepar"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailIveparAlteracao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/emails-ivepar": {
+      "get": {
+        "tags": [
+          "EmailIvepar"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailIveparConsultaRetorno"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/veiculos": {
+      "post": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "bloqueado",
+            "in": "header",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoInclusao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "placaVeiculo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "transportadora",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "prefixo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "statusVeiculo",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EnumStatusVeiculo"
+            }
+          },
+          {
+            "name": "statusDisponibilidade",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EnumStatusDisponibilidade"
+            }
+          },
+          {
+            "name": "motivoIndisponibilidade",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": true
+            }
+          },
+          {
+            "name": "iveparInicial",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "iveparFinal",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "crescente",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "decrescente",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "inicio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1,
+              "nullable": true
+            }
+          },
+          {
+            "name": "limite",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10,
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoMetadadoConsultaRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoMetadadoConsultaRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoMetadadoConsultaRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoMetadadoConsultaRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoMetadadoConsultaRetorno"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/veiculos/{codigo}": {
+      "put": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "bloqueado",
+            "in": "header",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            },
+            "text/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            },
+            "application/*+xml": {
+              "schema": {
+                "$ref": "#/components/schemas/VeiculoAlteracaoParcial"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Veiculo"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              },
+              "text/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErroRetorno"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EnumStatusVeiculo": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ConsolidadoPorStatusRetorno": {
+        "type": "object",
+        "properties": {
+          "statusVeiculo": {
+            "$ref": "#/components/schemas/EnumStatusVeiculo"
+          },
+          "quantidade": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErroRetorno": {
+        "type": "object",
+        "properties": {
+          "mensagem": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnumStatusDisponibilidade": {
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ConsolidadoPorDisponibilidadeRetorno": {
+        "type": "object",
+        "properties": {
+          "statusDisponibilidade": {
+            "$ref": "#/components/schemas/EnumStatusDisponibilidade"
+          },
+          "quantidade": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailIveparAlteracao": {
+        "required": [
+          "assunto",
+          "diasVencimento",
+          "mensagem"
+        ],
+        "type": "object",
+        "properties": {
+          "assunto": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string"
+          },
+          "mensagem": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string"
+          },
+          "diasVencimento": {
+            "maximum": 15,
+            "minimum": 3,
+            "type": "integer",
+            "format": "int32"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailIveparConsultaRetorno": {
+        "type": "object",
+        "properties": {
+          "codigo": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "assunto": {
+            "type": "string",
+            "nullable": true
+          },
+          "mensagem": {
+            "type": "string",
+            "nullable": true
+          },
+          "diasVencimento": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnumTaraMedia": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "VeiculoInclusao": {
+        "required": [
+          "balanca",
+          "estado",
+          "ivePar",
+          "localRecepcao",
+          "municipio",
+          "pais",
+          "pesoTeorico",
+          "placaVeiculo",
+          "prefixo",
+          "taraAfericao",
+          "taraMedia",
+          "tipoVeiculo",
+          "transportadora"
+        ],
+        "type": "object",
+        "properties": {
+          "tipoVeiculo": {
+            "type": "string"
+          },
+          "placaVeiculo": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string"
+          },
+          "placaCarretaUm": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaDois": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaTres": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "transportadora": {
+            "type": "string"
+          },
+          "prefixo": {
+            "pattern": "(([a-zA-Z]{3}-[0-9]{3})|([a-zA-Z]{4}-[0-9]{2}))",
+            "type": "string"
+          },
+          "ivePar": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "municipio": {
+            "type": "string"
+          },
+          "pesoTeorico": {
+            "type": "number",
+            "format": "float"
+          },
+          "taraMedia": {
+            "$ref": "#/components/schemas/EnumTaraMedia"
+          },
+          "localRecepcao": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "balanca": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taraAfericao": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VeiculoConsultaRetorno": {
+        "type": "object",
+        "properties": {
+          "idVeiculos": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tipoVeiculo": {
+            "type": "string",
+            "nullable": true
+          },
+          "placaVeiculo": {
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaUm": {
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaDois": {
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaTres": {
+            "type": "string",
+            "nullable": true
+          },
+          "transportadora": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefixo": {
+            "type": "string",
+            "nullable": true
+          },
+          "ivePar": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EnumStatusVeiculo"
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipio": {
+            "type": "string",
+            "nullable": true
+          },
+          "pesoTeorico": {
+            "type": "number",
+            "format": "float"
+          },
+          "taraMedia": {
+            "$ref": "#/components/schemas/EnumTaraMedia"
+          },
+          "localRecepcao": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "balanca": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taraAfericao": {
+            "type": "number",
+            "format": "float"
+          },
+          "dataTaraAfericao": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusDisponibilidade": {
+            "$ref": "#/components/schemas/EnumStatusDisponibilidade"
+          },
+          "motivoIndisponibilidade": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "inicioIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finalIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetadadoPaginacaoRetorno": {
+        "type": "object",
+        "properties": {
+          "limite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paginaAnterior": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "proximaPagina": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paginaAtual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPaginas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItens": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetadadoRetorno": {
+        "type": "object",
+        "properties": {
+          "paginacao": {
+            "$ref": "#/components/schemas/MetadadoPaginacaoRetorno"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VeiculoMetadadoConsultaRetorno": {
+        "type": "object",
+        "properties": {
+          "resultado": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VeiculoConsultaRetorno"
+            },
+            "nullable": true
+          },
+          "metadado": {
+            "$ref": "#/components/schemas/MetadadoRetorno"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VeiculoAlteracao": {
+        "required": [
+          "balanca",
+          "estado",
+          "ivePar",
+          "localRecepcao",
+          "municipio",
+          "pais",
+          "pesoTeorico",
+          "placaVeiculo",
+          "prefixo",
+          "taraAfericao",
+          "taraMedia",
+          "tipoVeiculo",
+          "transportadora"
+        ],
+        "type": "object",
+        "properties": {
+          "tipoVeiculo": {
+            "type": "string"
+          },
+          "placaVeiculo": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string"
+          },
+          "placaCarretaUm": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaDois": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "placaCarretaTres": {
+            "pattern": "(([a-zA-Z]{3}[-][0-9]{4})|([a-zA-Z]{3}[-][0-9]{1}[a-zA-Z]{1}[0-9]{2}))",
+            "type": "string",
+            "nullable": true
+          },
+          "transportadora": {
+            "type": "string"
+          },
+          "prefixo": {
+            "pattern": "(([a-zA-Z]{3}-[0-9]{3})|([a-zA-Z]{4}-[0-9]{2}))",
+            "type": "string"
+          },
+          "ivePar": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "pais": {
+            "type": "string"
+          },
+          "estado": {
+            "type": "string"
+          },
+          "municipio": {
+            "type": "string"
+          },
+          "pesoTeorico": {
+            "type": "number",
+            "format": "float"
+          },
+          "taraMedia": {
+            "$ref": "#/components/schemas/EnumTaraMedia"
+          },
+          "localRecepcao": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "balanca": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taraAfericao": {
+            "type": "number",
+            "format": "float"
+          },
+          "statusDisponibilidade": {
+            "$ref": "#/components/schemas/EnumStatusDisponibilidade"
+          },
+          "motivoIndisponibilidade": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "inicioIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finalIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VeiculoAlteracaoParcial": {
+        "type": "object",
+        "properties": {
+          "motivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "balanca": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taraAfericao": {
+            "type": "number",
+            "format": "float"
+          },
+          "statusDisponibilidade": {
+            "$ref": "#/components/schemas/EnumStatusDisponibilidade"
+          },
+          "motivoIndisponibilidade": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "inicioIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "finalIndisponibilidade": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

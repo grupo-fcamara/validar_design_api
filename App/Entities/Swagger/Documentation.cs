@@ -38,7 +38,7 @@ namespace App.Entities.Swagger
         public Dictionary<string, SwaggerParameter> Parameters { get; set; }
         public Dictionary<string, SwaggerResponse> Responses { get; set; }
         public Dictionary<string, SwaggerSecurityScheme> SecurityDefinitions { get; set; }
-        public Dictionary<string, string[]> Security { get; set; }
+        public Dictionary<string, string[]>[] Security { get; set; }
 
         public SwaggerExternalDocs ExternalDocs { get; set; }
     }
@@ -129,7 +129,7 @@ namespace App.Entities.Swagger
         public Dictionary<string, SwaggerResponse> Responses { get; set; }
         public string[] Schemes { get; set; }
         public bool Deprecated { get; set; }
-        public Dictionary<string,string[]> Security { get; set; }
+        public Dictionary<string,string[]>[] Security { get; set; }
     }
     #endregion
 

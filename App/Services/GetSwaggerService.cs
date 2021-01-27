@@ -23,8 +23,9 @@ namespace App.Services
             options.PropertyNameCaseInsensitive = true;
 
             var doc = JsonSerializer.Deserialize<Documentation>(json, options);
+
             if (!doc.IsValid)
-                throw new ApplicationException("Invalid documentation.");
+                throw new Exception("Invalid documentation.");
 
             return doc;
         }
