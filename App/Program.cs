@@ -13,8 +13,9 @@ namespace App
         {
             var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
             .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
-            
+
             ILogger logger = serviceProvider.GetService<ILogger<Program>>();
+            logger.LogInformation("Executing...");
 
             StructuralData data = new StructuralData();
             IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
@@ -22,7 +23,7 @@ namespace App
             try {
                 getEnvironmentVariables.Validate(data);
             } catch(Exception ex) {
-                logger.LogWarning(ex.Message);
+                logger.LogInformation(ex.Message);
                 return 1;
             }
 
