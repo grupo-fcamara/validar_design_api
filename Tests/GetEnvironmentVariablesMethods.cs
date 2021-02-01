@@ -10,8 +10,10 @@ namespace Tests
 {
     public class GetEnvironmentVariablesMethods
     {
-        [Theory]
-        [InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)]
+        [ 
+            Theory, 
+            InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)
+        ]
         public void ReturnLanguageFromEnvironment(string env, string value, LANG expected)
         {
             Environment.SetEnvironmentVariable(env, value);
@@ -50,7 +52,6 @@ namespace Tests
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
             Assert.True(Object.Equals(getEnvironmentVariables.GetRoutePattern(), expected));
-
         }
 
         [
@@ -81,8 +82,7 @@ namespace Tests
             Dictionary<string, int[]> expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
             data.StatusCode = getEnvironmentVariables.GetStatusCode();
 
-            foreach (var verb in data.StatusCode)
-            {
+            foreach (var verb in data.StatusCode) {
                 Assert.Equal(data.StatusCode[verb.Key], expected[verb.Key]);
             }
         }
