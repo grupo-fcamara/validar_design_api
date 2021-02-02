@@ -1,7 +1,7 @@
 using App.Entities;
 using App.Entities.Swagger;
 
-namespace App.Services.Level1
+namespace App.Services.Validations.Level1
 {
     public interface IReadSwaggerService
     {
