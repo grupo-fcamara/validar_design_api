@@ -6,7 +6,7 @@ using App.Services.Validations.Level1;
 
 namespace Tests
 {
-    public class ValidateIdentifier
+    public class IdentifiersValidate
     {
         [Theory]
         [InlineData(1, "pets/{id}", "pets/{name}", "pets/{id}/users/{id}")]
