@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using App.Entities;
 using App.Services;
+using App.Services.Validations.Level1;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -8,12 +10,12 @@ namespace App
 {
     class Program
     {
+        static ILogger logger;
+
         static int Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
-            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
-
-            ILogger logger = serviceProvider.GetService<ILogger<Program>>();
+            ConfigureLogging();
+            logger.LogInformation("Executing...");
 
             StructuralData data = new StructuralData();
             IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
@@ -21,16 +23,31 @@ namespace App
             try {
                 getEnvironmentVariables.Validate(data);
             } catch(Exception ex) {
-                logger.LogInformation(ex.Message);
+                logger.LogInformation("Error: " + ex.Message);
                 return 1;
             }
 
             ShowData(data);
 
+            var output = new ValidationOutput();
+            var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
+
+            //Level 1
+            output.Concat(new ValidateIdentifiers().Validate(documentation));
+            output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
+
             return 0;
         }
 
-        public static void ShowData(StructuralData data) 
+        static void ConfigureLogging()
+        {
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
+            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+
+            logger = serviceProvider.GetService<ILogger<Program>>();
+        }
+
+        static void ShowData(StructuralData data) 
         {
             var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
             .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
