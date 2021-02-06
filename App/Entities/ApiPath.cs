@@ -55,29 +55,33 @@ namespace App.Entities
             Index = index;
         }
 
+        #region Properties
         public ApiPath Path { get; set; }
         public ApiPathPart Parent { get; set; }
         public int Index { get; set; }
 
         public bool IsIdentifier => text.StartsWith('{') && text.EndsWith('}');
 
-        public CASE Case 
+        public bool IsRespectingCase(CASE casePattern)
         {
-            get 
+            text = text.Replace("{", "").Replace("}", "");
+
+            if (text.All(char.IsLower))
+                return true;
+
+            switch (casePattern)
             {
-                if (text.All(char.IsLower))
-                {
-                    if (text.Contains('-'))
-                        return CASE.SPINAL;
-                    else if (text.Contains('_'))
-                        return CASE.SNAKE;
-                }                    
-                else if (!text.Contains('-') && !text.Contains('_'))
-                    return CASE.CAMEL;
-                
-                return CASE.NOT_SET;
+                case CASE.CAMEL:
+                    return text.All(c => char.IsLetter(c) || char.IsNumber(c));
+                case CASE.SNAKE:
+                    return text.Contains('_') && !text.Contains('-') && !text.Any(c => char.IsUpper(c));
+                case CASE.SPINAL:
+                    return text.Contains('-') && !text.Contains('_') && !text.Any(c => char.IsUpper(c));
+                default:
+                    return true;
             }
         }
+        #endregion
 
         public override string ToString() => text;
     }

@@ -3,6 +3,7 @@ using System.Linq;
 using App.Entities;
 using App.Services;
 using App.Services.Validations.Level1;
+using App.Services.Validations.Level2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -32,8 +33,8 @@ namespace App
             var output = new ValidationOutput();
             var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
 
-            //Level 1
-            output.Concat(new ValidateIdentifiers().Validate(documentation));
+            //Level 2
+            output.Concat(new ValidateRoutesPattern(CASE.CAMEL, true).Validate(documentation));
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
             return 0;
