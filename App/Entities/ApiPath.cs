@@ -8,25 +8,6 @@ namespace App.Entities
     {
         string raw;
 
-        public string[] Pieces => raw.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-        public Dictionary<int, string> Identifiers
-        {
-            get
-            {
-                var dic = new Dictionary<int, string>();
-                for (int i = 0; i < Pieces.Length; i++)
-                {
-                    if (IsIdentifier(Pieces[i]))
-                        dic[i] = Pieces[i];
-                }
-
-                return dic;
-            }
-        }
-
-        public int Levels => Pieces.Count(p => !IsIdentifier(p));
-        public int IdentifiersCount => Pieces.Count(IsIdentifier);
-
         public ApiPath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -35,11 +16,69 @@ namespace App.Entities
             raw = path; 
         }
 
-        public static bool IsIdentifier(string piece)
+        #region Properties
+        public ApiPathPart[] Parts
         {
-            return piece.StartsWith('{') && piece.EndsWith('}');
+            get
+            {
+                var rawParts = raw.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+                var parts = new List<ApiPathPart>();
+
+                for (int i = 0; i < rawParts.Length; i++)
+                {
+                    var parent = i > 0 ? parts[i - 1] : null;
+                    parts.Add(new ApiPathPart(rawParts[i], this, parent, i));
+                }
+
+                return parts.ToArray();
+            }
         }
 
+        public int Levels => Parts.Count(p => !p.IsIdentifier);
+
+        public ApiPathPart[] Identifiers => Parts.Where(p => p.IsIdentifier).ToArray();
+        #endregion
+
         public override string ToString() => raw;
+    }
+
+    public class ApiPathPart
+    {
+        string text;
+
+        public ApiPathPart(string text, ApiPath path, ApiPathPart parent, int index)
+        { 
+            this.text = text;
+
+            Path = path;
+            Parent = parent;
+            Index = index;
+        }
+
+        public ApiPath Path { get; set; }
+        public ApiPathPart Parent { get; set; }
+        public int Index { get; set; }
+
+        public bool IsIdentifier => text.StartsWith('{') && text.EndsWith('}');
+
+        public CASE Case 
+        {
+            get 
+            {
+                if (text.All(char.IsLower))
+                {
+                    if (text.Contains('-'))
+                        return CASE.SPINAL;
+                    else if (text.Contains('_'))
+                        return CASE.SNAKE;
+                }                    
+                else if (!text.Contains('-') && !text.Contains('_'))
+                    return CASE.CAMEL;
+                
+                return CASE.NOT_SET;
+            }
+        }
+
+        public override string ToString() => text;
     }
 }
