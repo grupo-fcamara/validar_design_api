@@ -8,20 +8,6 @@ namespace App.Services.Validations.Level1
 {
     public class ValidateIdentifiers : IValidateIdentifiers
     {
-        struct Identifier
-        {
-            public string Parent { get; set; }
-            public string Name { get; set; }
-            public string Path { get; set; }
-
-            public Identifier(string parent, string name, string path)
-            {
-                Parent = parent;
-                Name = name;
-                Path = path;
-            }
-        }
-
         public ValidationOutput Validate(Documentation documentation)
         {
             var output = new ValidationOutput();
@@ -31,19 +17,14 @@ namespace App.Services.Validations.Level1
             var paths = rawPaths.Select(s => new ApiPath(s));
 
             //Getting all identifiers
-            var identifiers = new List<Identifier>();
-            foreach (var path in paths)
-            {
-                path.Identifiers.ToList().ForEach(
-                    i => identifiers.Add(new Identifier(path.Pieces[i.Key - 1], i.Value, path.ToString())
-                ));  
-            }
+            var identifiers = new List<ApiPathPart>();
+            paths.ToList().ForEach(path => identifiers.AddRange(path.Identifiers));
 
-            //Checking if there are multiple identifiers
-            var groupedIdentifiers = identifiers.GroupBy(i => i.Parent);
+            //Checking if there are different identifiers with the same parent
+            var groupedIdentifiers = identifiers.GroupBy(i => i.Parent.ToString());
             foreach (var group in groupedIdentifiers)
             {
-                var names = group.Select(i => i.Name).Distinct();
+                var names = group.Select(i => i.ToString()).Distinct();
                 if (names.Count() > 1)
                 {
                     string ids = "";
