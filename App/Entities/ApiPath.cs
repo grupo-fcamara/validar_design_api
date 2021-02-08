@@ -34,9 +34,11 @@ namespace App.Entities
             }
         }
 
-        public int Levels => Parts.Count(p => !p.IsIdentifier);
-
         public ApiPathPart[] Identifiers => Parts.Where(p => p.IsIdentifier).ToArray();
+        public ApiPathPart[] Resources => Parts.Where(p => p.IsResource).ToArray();
+        public ApiPathPart[] Operations => Parts.Where(p => p.IsOperation).ToArray();
+
+        public int Levels => Identifiers.Count();
         #endregion
 
         public override string ToString() => raw;

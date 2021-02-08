@@ -21,7 +21,10 @@ namespace App.Entities
         public ApiPathPart Parent { get; set; }
         public int Index { get; set; }
 
+        //Need to implement differentiation between resource and operation
         public bool IsIdentifier => text.StartsWith('{') && text.EndsWith('}');
+        public bool IsResource => !IsIdentifier;
+        public bool IsOperation => !IsIdentifier;
 
         public bool IsPlural => text.Equals(text.Pluralize(false));
         public bool IsSingular => text.Equals(text.Singularize(false));
