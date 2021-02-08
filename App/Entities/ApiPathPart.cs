@@ -23,10 +23,11 @@ namespace App.Entities
 
         public bool IsIdentifier => text.StartsWith('{') && text.EndsWith('}');
 
+        public bool IsPlural => text.Equals(text.Pluralize(false));
+        public bool IsSingular => text.Equals(text.Singularize(false));
+
         public bool IsRespectingCase(CASE casePattern)
         {
-            text = text.Replace("{", "").Replace("}", "");
-
             switch (casePattern)
             {
                 case CASE.CAMEL:
