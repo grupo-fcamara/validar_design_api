@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using Humanizer;
 
 namespace App.Entities
 {
@@ -28,17 +27,15 @@ namespace App.Entities
         {
             text = text.Replace("{", "").Replace("}", "");
 
-            if (text.All(char.IsLower))
-                return true;
-
             switch (casePattern)
             {
                 case CASE.CAMEL:
-                    return text.All(c => char.IsLetter(c) || char.IsNumber(c));
+                    string aux = text.Replace("-", "").Replace("_", "");
+                    return text.Equals(aux.Camelize()) || text.Equals(aux.Pascalize());
                 case CASE.SNAKE:
-                    return text.Contains('_') && !text.Contains('-') && !text.Any(char.IsUpper);
+                    return text.Equals(text.Underscore());
                 case CASE.SPINAL:
-                    return text.Contains('-') && !text.Contains('_') && !text.Any(char.IsUpper);
+                    return text.Equals(text.Kebaberize());
                 default:
                     return true;
             }
