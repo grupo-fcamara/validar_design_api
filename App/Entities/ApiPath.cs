@@ -38,7 +38,7 @@ namespace App.Entities
         public ApiPathPart[] Resources => Parts.Where(p => p.IsResource).ToArray();
         public ApiPathPart[] Operations => Parts.Where(p => p.IsOperation).ToArray();
 
-        public int Levels => Identifiers.Count();
+        public int Levels => Resources.Count();
         #endregion
 
         public override string ToString() => raw;

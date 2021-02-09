@@ -29,7 +29,7 @@ namespace App.Services.Validations.Level2
                 if (path.Parts.Count(p => !p.IsRespectingCase(casePattern)) > 0)
                     output.AddProblem($"Path {path.ToString()} is not respecting the {casePattern.ToString().ToLower()} case pattern.");
 
-                if (path.Resources.Count(r => (plural && !r.IsPlural) || (!plural && !r.IsSingular)) < 0)
+                if (path.Resources.Count(r => (plural && !r.IsPlural) || (!plural && !r.IsSingular)) > 0)
                     output.AddProblem($"Path {path.ToString()} is not fully in the {pluralTxt}.");
             }
 
