@@ -37,7 +37,7 @@ namespace App
             var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
 
             //Level 2
-            output.Concat(new ValidateRoutesPattern(CASE.CAMEL, true).Validate(documentation));
+            output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
             return 0;
