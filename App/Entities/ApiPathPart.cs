@@ -1,4 +1,4 @@
-using System.Linq;
+using App.Services;
 using Humanizer;
 
 namespace App.Entities
@@ -23,8 +23,8 @@ namespace App.Entities
 
         //Need to implement differentiation between resource and operation
         public bool IsIdentifier => text.StartsWith('{') && text.EndsWith('}');
-        public bool IsResource => !IsIdentifier;
-        public bool IsOperation => !IsIdentifier;
+        public bool IsOperation => !IsIdentifier && OperationCheckerService.IsOperation(text);
+        public bool IsResource => !IsIdentifier && !IsOperation;
 
         public bool IsPlural => text.Equals(text.Pluralize(false));
         public bool IsSingular => text.Equals(text.Singularize(false));
