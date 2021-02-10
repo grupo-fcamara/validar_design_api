@@ -8,25 +8,6 @@ namespace App.Entities
     {
         string raw;
 
-        public string[] Pieces => raw.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-        public Dictionary<int, string> Identifiers
-        {
-            get
-            {
-                var dic = new Dictionary<int, string>();
-                for (int i = 0; i < Pieces.Length; i++)
-                {
-                    if (IsIdentifier(Pieces[i]))
-                        dic[i] = Pieces[i];
-                }
-
-                return dic;
-            }
-        }
-
-        public int Levels => Pieces.Count(p => !IsIdentifier(p));
-        public int IdentifiersCount => Pieces.Count(IsIdentifier);
-
         public ApiPath(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -35,10 +16,30 @@ namespace App.Entities
             raw = path; 
         }
 
-        public static bool IsIdentifier(string piece)
+        #region Properties
+        public ApiPathPart[] Parts
         {
-            return piece.StartsWith('{') && piece.EndsWith('}');
+            get
+            {
+                var rawParts = raw.Split('/').Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+                var parts = new List<ApiPathPart>();
+
+                for (int i = 0; i < rawParts.Length; i++)
+                {
+                    var parent = i > 0 ? parts[i - 1] : null;
+                    parts.Add(new ApiPathPart(rawParts[i], this, parent, i));
+                }
+
+                return parts.ToArray();
+            }
         }
+
+        public ApiPathPart[] Identifiers => Parts.Where(p => p.IsIdentifier).ToArray();
+        public ApiPathPart[] Resources => Parts.Where(p => p.IsResource).ToArray();
+        public ApiPathPart[] Operations => Parts.Where(p => p.IsOperation).ToArray();
+
+        public int Levels => Resources.Count();
+        #endregion
 
         public override string ToString() => raw;
     }

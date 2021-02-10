@@ -14,53 +14,54 @@ namespace Tests
             (
                 new string[] { "LANGUAGE" },
                 new string[] { "" },
-                "LANGUAGE variable not set properly, available languages:\n\"ENGLISH\" OR \"PORTUGUESE\""
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN" },
                 new string[] { "ENGLISH", "" },
-                "ROUTE_PATTERN variable not set properly, available route patterns:\n\"SINGULAR\", \"PLURAL\", \"SNAKE\", \"SPINAL\" OR \"CAMEL\""
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH" },
-                new string[] { "ENGLISH", "PLURAL", "" },
-                "VERSIONED_PATH variable not set properly, available versioned's:\n\"true\" OR \"false\""
+                new string[] { "ENGLISH", "CAMEL", "" },
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS" },
-                new string[] { "ENGLISH", "PLURAL", "false", "" },
-                "HTTP_VERBS variable not set properly, available http verbs:\n\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"OPTIONS\", \"HEAD\""
+                new string[] { "ENGLISH", "CAMEL", "false", "" },
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE" },
-                new string[] { "ENGLISH", "PLURAL", "false", "[\"GET\"]", "" },
-                "STATUS_CODE variable not set properly, example on how to set:\n\"{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }\""
+                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "" },
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS" },
-                new string[] { "ENGLISH", "PLURAL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "" },
-                "PATH_LEVELS variable not set properly, available level's:\nminimum: \"0\""
+                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "" },
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL" },
-                new string[] { "ENGLISH", "PLURAL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "" },
-                "BASE_URL variable not set properly, example on how to set:\nBASE_URL: \"yourbaseurl.com\""
+                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "" },
+                1
             ),
             InlineData
             (
                 new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL", "SWAGGER_PATH" },
-                new string[] { "ENGLISH", "PLURAL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "base_url.com", "" },
-                "SWAGGER_PATH variable not set properly, example on how to set:\nSWAGGER_PATH: \"yourswaggerpath.com\""
+                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "base_url.com", "" },
+                1
             )
         ]
-        public void IsVariableNull(String[] keys, String[] values, string error)
+        public void IsVariableNull(string[] keys, string[] values, int expectedErrors)
         {
+            SetDefaults();
             for(int i = 0; i < keys.Length; i++)
             {
                 Environment.SetEnvironmentVariable(keys[i], values[i]);
@@ -71,9 +72,21 @@ namespace Tests
 
             try {
                 getEnvironmentVariables.Validate(data);
-            } catch(Exception ex) {
-                Assert.Equal(ex.Message, error);
+            } catch(AggregateException ex) {
+                Assert.Equal(ex.InnerExceptions.Count, expectedErrors);
             }
+        }
+
+        private void SetDefaults()
+        {
+            Environment.SetEnvironmentVariable("LANGUAGE", "ENGLISH");
+            Environment.SetEnvironmentVariable("ROUTE_PATTERN", "PLURAL");
+            Environment.SetEnvironmentVariable("VERSIONED_PATH", "true");
+            Environment.SetEnvironmentVariable("HTTP_VERBS", "[\"GET\"]");
+            Environment.SetEnvironmentVariable("STATUS_CODE", "{ \"GET\": [200, 500] }");
+            Environment.SetEnvironmentVariable("PATH_LEVELS", "2");
+            Environment.SetEnvironmentVariable("BASE_URL", "http://squad5-fifo-api.herokuapp.com/api/");
+            Environment.SetEnvironmentVariable("SWAGGER_PATH", "http://squad5-fifo-api.herokuapp.com/api/v2/api-docs");
         }
     }
 }
