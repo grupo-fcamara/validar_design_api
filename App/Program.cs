@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using App.Entities;
 using App.Services;
+using App.Services.Validations.Level1;
+using App.Services.Validations.Level2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -29,6 +32,13 @@ namespace App
             }
 
             ShowData(data);
+
+            var output = new ValidationOutput();
+            var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
+
+            //Level 2
+            output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
+            output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
             return 0;
         }
