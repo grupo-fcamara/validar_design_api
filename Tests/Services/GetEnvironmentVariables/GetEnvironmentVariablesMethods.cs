@@ -10,26 +10,22 @@ namespace Tests
 {
     public class GetEnvironmentVariablesMethods
     {
-        [ 
-            Theory, 
-            InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)
-        ]
+        [Theory]
+        [InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)]
         public void ReturnLanguageFromEnvironment(string env, string value, LANG expected)
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetLanguage(), expected));
+            Assert.Equal(getEnvironmentVariables.GetLanguage(), expected);
         }
 
-        [
-            Theory,
-            InlineData(
-                "HTTP_VERBS",
-                "[\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"]", 
-                new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.OPTIONS }
-            )
-        ]
+        [Theory]
+        [InlineData(
+            "HTTP_VERBS",
+            "[\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"]", 
+            new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.OPTIONS }
+        )]
         public void ReturnHttpVerbFromEnvironment(string env, string value, HTTPVERBS[] expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
@@ -42,37 +38,31 @@ namespace Tests
             }
         }
 
-        [
-            Theory,
-            InlineData("ROUTE_PATTERN", "SNAKE", CASE.SNAKE)
-        ]
+        [Theory]
+        [InlineData("ROUTE_PATTERN", "SNAKE", CASE.SNAKE)]
         public void ReturnRoutePatternFromEnvironment(string env, string value, CASE expected)
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetRoutePattern(), expected));
+            Assert.Equal(getEnvironmentVariables.GetRoutePattern(), expected);
         }
 
-        [
-            Theory,
-            InlineData("VERSIONED_PATH", "true", true)
-        ]
+        [Theory]
+        [InlineData("VERSIONED_PATH", "true", true)]
         public void ReturnVersionedPathFromEnvironment(string env, string value, bool expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetVersioned(), expected));
+            Assert.Equal(getEnvironmentVariables.GetVersioned(), expected);
         }
 
-        [
-            Theory,
-            InlineData(
-                "STATUS_CODE",
-                "{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }"
-            )   
-        ]
+        [Theory]
+        [InlineData(
+            "STATUS_CODE",
+            "{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }"
+        )]
         public void ReturnStatusCodeFromEnvironment(string env, string value) 
         {
             Environment.SetEnvironmentVariable(env, value);
@@ -87,40 +77,34 @@ namespace Tests
             }
         }
 
-        [
-            Theory, 
-            InlineData("PATH_LEVELS", "4", 4)
-        ]
+        [Theory]
+        [InlineData("PATH_LEVELS", "4", 4)]
         public void ReturnPathLevelsFromEnvironment(string env, string value, int expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetPathLevels(), expected));
+            Assert.Equal(getEnvironmentVariables.GetPathLevels(), expected);
         }
 
-        [
-            Theory,
-            InlineData("BASE_URL", "www.fcamara.com.br", "www.fcamara.com.br")
-        ]
+        [Theory]
+        [InlineData("BASE_URL", "www.fcamara.com.br", "www.fcamara.com.br")]
         public void ReturnBaseUrlFromEnvironment(string env, string value, string expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetBaseURL(), expected));
+            Assert.Equal(getEnvironmentVariables.GetBaseURL(), expected);
         }
 
-        [
-            Theory, 
-            InlineData("SWAGGER_PATH", "swagger.com", "swagger.com")
-        ]
+        [Theory]
+        [InlineData("SWAGGER_PATH", "swagger.com", "swagger.com")]
         public void ReturnSwaggerPathFromEnvironment(string env, string value, string expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.True(Object.Equals(getEnvironmentVariables.GetSwaggerPath(), expected));
+            Assert.Equal(getEnvironmentVariables.GetSwaggerPath(), expected);
         }
     }
 }
