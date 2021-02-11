@@ -20,12 +20,13 @@ namespace App.Services.Validations.Level1
             var identifiers = new List<ApiPathPart>();
             paths.ToList().ForEach(path => identifiers.AddRange(path.Identifiers));
 
-            //Checking if there are multiple identifiers
+            //Checking if there are multiple identifiers at the same resource
             var groupedIdentifiers = identifiers.GroupBy(GetResourceFromIdentifier);
             foreach (var group in groupedIdentifiers)
             {
                 var distinct = group.Distinct(p => p.ToString());
                 var names = distinct.Select(i => i.ToString());
+
                 if (names.Count() > 1)
                 {
                     string ids = "";

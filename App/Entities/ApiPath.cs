@@ -13,7 +13,7 @@ namespace App.Entities
             if (string.IsNullOrWhiteSpace(path))
                 throw new Exception("Invalid path.");
             
-            raw = path; 
+            raw = path;
         }
 
         #region Properties
