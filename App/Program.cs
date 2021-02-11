@@ -3,6 +3,7 @@ using System.Linq;
 using App.Entities;
 using App.Services;
 using App.Services.Validations.Level1;
+using App.Services.Validations.Level2;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -22,8 +23,11 @@ namespace App
 
             try {
                 getEnvironmentVariables.Validate(data);
-            } catch(Exception ex) {
-                logger.LogInformation("Error: " + ex.Message);
+            } catch (AggregateException ex) {
+                foreach (var exception in ex.InnerExceptions)
+                {
+                    logger.LogInformation("Error: " + exception.Message);
+                }
                 return 1;
             }
 
@@ -34,6 +38,9 @@ namespace App
 
             //Level 1
             output.Concat(new ValidateIdentifiers().Validate(documentation));
+
+            //Level 2
+            //output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
             return 0;
@@ -41,46 +48,45 @@ namespace App
 
         static void ConfigureLogging()
         {
-            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
-            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
+            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
+            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
 
-            logger = serviceProvider.GetService<ILogger<Program>>();
+            logger = serviceProvider.GetService<ILogger<Program>>();
         }
 
         static void ShowData(StructuralData data) 
         {
-            var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
-            .Configure<LoggerFilterOptions>(cfg => cfg.MinLevel = LogLevel.Debug).BuildServiceProvider();
-            
-            ILogger logger = serviceProvider.GetService<ILogger<Program>>(); 
-            
-            logger.LogInformation("\nLanguage: " + data.Language + 
-            "\nRoutePattern: " + data.RoutePattern +
-            "\nVersioned: " + data.Versioned +
-            "\n\nHttpVerbs:");
-            
-            foreach (var value in data.HttpVerbs) {
-                logger.LogInformation(value + ", ");
+            string httpVerbs = "";
+            for (int i = 0; i < data.HttpVerbs.Length; i++) {
+                httpVerbs += data.HttpVerbs[i];
+                if (i < data.HttpVerbs.Length - 1)
+                    httpVerbs += ", ";
             }
 
-            logger.LogInformation("\n" +
-            "PathLevels: " + data.PathLevels +
-            "\nStatusCode: {");
+            string statusCode = "{\n";
+            foreach (var pair in data.StatusCode) {
+                statusCode += "\t" + pair.Key + ": ";
 
-            foreach (var value in data.StatusCode) {
-                logger.LogInformation("{0}: ", value.Key);
-
-                foreach (var item in value.Value) {
-                    
-                    logger.LogInformation(item + ", ");
+                for (int i = 0; i < pair.Value.Length; i++) {
+                    statusCode += pair.Value[i];
+                    if (i < pair.Value.Length - 1)
+                        statusCode += ", ";
                 }
 
-                logger.LogInformation("\n");
+                statusCode += "\n";
             }
+            statusCode += "}";
 
-            logger.LogInformation("}" + 
-            "\nBaseUrl: " + data.BaseUrl +
-            "\nSwaggerPath: " + data.SwaggerPath);
+            logger.LogInformation(
+                $"\nLanguage: {data.Language}" + 
+                $"\nRoutePattern: {data.RoutePattern}" +
+                $"\nVersioned: {data.Versioned}" + "\n" +
+                $"\nHttpVerbs: {httpVerbs}" +
+                $"\nPathLevels: {data.PathLevels}" +
+                $"\nStatusCode: {statusCode}" + "\n" +
+                $"\nBaseUrl: {data.BaseUrl}"+
+                $"\nSwaggerPath: {data.SwaggerPath}"
+            );
         }
     }
 }

@@ -8,41 +8,44 @@ namespace App.Services
     public class GetEnvironmentVariables : IGetEnvironmentVariables
     {
         public bool Validate(StructuralData data) {
+
+            var exceptions = new List<Exception>();
             
             if ((int) (data.Language = GetLanguage()) <= 0)
-                throw new Exception(string.Format("LANGUAGE variable not set properly, available languages:\n" +
-                                        "\"{0}\" OR \"{1}\"", LANG.ENGLISH , LANG.PORTUGUESE));
+                exceptions.Add(new Exception($"LANGUAGE variable not set properly, available languages: {LANG.ENGLISH}, {LANG.PORTUGUESE}"));
 
             if ((int) (data.RoutePattern = GetRoutePattern()) <= 0)
-                throw new Exception(string.Format("ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
-                                        "\"{0}\", \"{1}\", \"{2}\", \"{3}\" OR \"{4}\"",
-                                        CASE.SINGULAR, CASE.PLURAL, CASE.SNAKE, CASE.SPINAL, CASE.CAMEL));
+                exceptions.Add(new Exception($"ROUTE_PATTERN variable not set properly, available route patterns:\n" + 
+                    $"\"{CASE.SINGULAR}\", \"{CASE.PLURAL}\", \"{CASE.SNAKE}\", \"{CASE.SPINAL}\" OR \"{CASE.CAMEL}\""));
             
             if (!(data.Versioned = GetVersioned()))
-                throw new Exception("VERSIONED_PATH variable not set properly, available versioned's:\n" + 
-                                        "\"true\" OR \"false\"");
+                exceptions.Add(new Exception("VERSIONED_PATH variable not set properly, available values:\n" + 
+                    "\"true\" OR \"false\""));
             
             if ((data.HttpVerbs = GetHttpVerbs()) == null)
-                throw new Exception(string.Format("HTTP_VERBS variable not set properly, available http verbs:\n" + 
-                                        "\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", \"{6}\"", HTTPVERBS.GET, HTTPVERBS.POST,
-                                        HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.PATCH, HTTPVERBS.OPTIONS, HTTPVERBS.HEAD));
+                exceptions.Add(new Exception($"HTTP_VERBS variable not set properly, available HTTP verbs:\n" + 
+                    $"\"{HTTPVERBS.GET}\", \"{HTTPVERBS.POST}\", \"{HTTPVERBS.PUT}\", \"{HTTPVERBS.DELETE}\"," +
+                    $"\"{HTTPVERBS.PATCH}\", \"{HTTPVERBS.OPTIONS}\", \"{HTTPVERBS.HEAD}\""));
             
             if ((data.StatusCode = GetStatusCode()) == null)
-                throw new Exception(string.Format("STATUS_CODE variable not set properly, example on how to set:\n" + 
-                                        "\"{{ \"{0}\": [200, 500], \"{1}\": [200, 500], \"{2}\": [200, 500], \"{3}\": [200, 500] }}\"",
-                                        HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE));
+                exceptions.Add(new Exception($"STATUS_CODE variable not set properly, example on how to set:\n" + 
+                    $"\"{{ \"{HTTPVERBS.GET}\": [200, 500], \"{HTTPVERBS.POST}\": [200, 500], " +
+                    $"\"{HTTPVERBS.PUT}\": [200, 500], \"{HTTPVERBS.DELETE}\": [200, 500] }}\""));
 
             if ((data.PathLevels = GetPathLevels()) < 0)
-                throw new Exception("PATH_LEVELS variable not set properly, available level's:\n" + 
-                                        "minimum: \"0\"");
+                exceptions.Add(new Exception("PATH_LEVELS variable not set properly, available level's:\n" + 
+                    "minimum: \"0\""));
             
             if ((data.BaseUrl = GetBaseURL()) == null)
-                throw new Exception("BASE_URL variable not set properly, example on how to set:\n" + 
-                                        "BASE_URL: \"yourbaseurl.com\"");
+                exceptions.Add(new Exception("BASE_URL variable not set properly, example on how to set:\n" + 
+                    "BASE_URL: \"yourbaseurl.com\""));
             
             if ((data.SwaggerPath = GetSwaggerPath()) == null)
-                throw new Exception("SWAGGER_PATH variable not set properly, example on how to set:\n" + 
-                                        "SWAGGER_PATH: \"yourswaggerpath.com\"");
+                exceptions.Add(new Exception("SWAGGER_PATH variable not set properly, example on how to set:\n" + 
+                    "SWAGGER_PATH: \"yourswaggerpath.com\""));
+
+            if (exceptions.Count > 0)
+                throw new AggregateException(exceptions);
 
             return true;
         }

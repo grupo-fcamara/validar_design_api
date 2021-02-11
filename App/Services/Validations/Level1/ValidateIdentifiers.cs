@@ -8,20 +8,6 @@ namespace App.Services.Validations.Level1
 {
     public class ValidateIdentifiers : IValidateIdentifiers
     {
-        struct Identifier
-        {
-            public string Parent { get; set; }
-            public string Name { get; set; }
-            public string Path { get; set; }
-
-            public Identifier(string parent, string name, string path)
-            {
-                Parent = parent;
-                Name = name;
-                Path = path;
-            }
-        }
-
         public ValidationOutput Validate(Documentation documentation)
         {
             var output = new ValidationOutput();
@@ -31,19 +17,15 @@ namespace App.Services.Validations.Level1
             var paths = rawPaths.Select(s => new ApiPath(s));
 
             //Getting all identifiers
-            var identifiers = new List<Identifier>();
-            foreach (var path in paths)
-            {
-                path.Identifiers.ToList().ForEach(
-                    i => identifiers.Add(new Identifier(path.Pieces[i.Key - 1], i.Value, path.ToString())
-                ));  
-            }
+            var identifiers = new List<ApiPathPart>();
+            paths.ToList().ForEach(path => identifiers.AddRange(path.Identifiers));
 
             //Checking if there are multiple identifiers
-            var groupedIdentifiers = identifiers.GroupBy(i => i.Parent);
+            var groupedIdentifiers = identifiers.GroupBy(GetResourceFromIdentifier);
             foreach (var group in groupedIdentifiers)
             {
-                var names = group.Select(i => i.Name).Distinct();
+                var distinct = group.Distinct(p => p.ToString());
+                var names = distinct.Select(i => i.ToString());
                 if (names.Count() > 1)
                 {
                     string ids = "";
@@ -53,6 +35,16 @@ namespace App.Services.Validations.Level1
             }
 
             return output;
+        }
+
+        private string GetResourceFromIdentifier(ApiPathPart part)
+        {
+            if (part.Parent == null)
+                return null;
+            if (part.Parent.IsResource)
+                return part.Parent.ToString();
+            else
+                return GetResourceFromIdentifier(part.Parent);
         }
     }
 }
