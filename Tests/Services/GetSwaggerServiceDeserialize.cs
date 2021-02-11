@@ -12,7 +12,7 @@ namespace Tests
 {
     public class GetSwaggerServiceDeserialize
     {
-        public string ExamplesPath => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"\Swagger\Examples";
+        public string ExamplesPath => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName + @"\SwaggerExamples";
 
         [Fact]
         public void Deserialize()

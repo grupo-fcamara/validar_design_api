@@ -37,7 +37,6 @@ namespace App
             var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
 
             //Level 1
-            output.Concat(new ValidateIdentifiers().Validate(documentation));
             output.Concat(new ValidatePathLevels(2).Validate(documentation));
 
             //Level 2
