@@ -38,9 +38,12 @@ namespace App
 
             //Level 1
             output.Concat(new ValidateIdentifiers().Validate(documentation));
-
+            //output.Concat(new ValidatePathLevels(2).Validate(documentation));
+            
             //Level 2
             //output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
+            //output.Concat(new ValidatePathOperations().Validate(documentation));
+
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
             return 0;

@@ -16,6 +16,8 @@ namespace App.Entities
             raw = path;
         }
 
+        private ApiPath() { }
+
         #region Properties
         public ApiPathPart[] Parts
         {
@@ -32,6 +34,7 @@ namespace App.Entities
 
                 return parts.ToArray();
             }
+            private set { raw = string.Concat(value.Select(part => part.ToString() + "/")); }
         }
 
         public ApiPathPart[] Identifiers => Parts.Where(p => p.IsIdentifier).ToArray();
@@ -40,6 +43,19 @@ namespace App.Entities
 
         public int Levels => Resources.Count();
         #endregion
+
+        public ApiPath Subpath(int startIndex)
+        {
+            if (startIndex < 0)
+                throw new ArgumentOutOfRangeException("startIndex cannot be less than zero.");
+            if (startIndex >= Parts.Length)
+                throw new ArgumentOutOfRangeException("startIndex needs to be less than length of path parts.");
+
+            var path = new ApiPath();
+            path.Parts = Parts.Skip(startIndex).ToArray();
+
+            return path;
+        }
 
         public override string ToString() => raw;
     }

@@ -16,36 +16,30 @@ namespace App.Services.Validations.Level1
             var rawPaths = documentation.Paths.Keys;
             var paths = rawPaths.Select(s => new ApiPath(s));
 
-            //Getting all identifiers
-            var identifiers = new List<ApiPathPart>();
-            paths.ToList().ForEach(path => identifiers.AddRange(path.Identifiers));
-
-            //Checking if there are multiple identifiers at the same resource
-            var groupedIdentifiers = identifiers.GroupBy(GetResourceFromIdentifier);
-            foreach (var group in groupedIdentifiers)
-            {
-                var distinct = group.Distinct(p => p.ToString());
-                var names = distinct.Select(i => i.ToString());
-
-                if (names.Count() > 1)
-                {
-                    string ids = "";
-                    names.ToList().ForEach(id => ids += $"{id} ");
-                    output.AddProblem($"Multiple identifiers in {group.Key}: {ids}");
-                }                   
-            }
-
+            //Validating
+            output.Concat(ValidateLevel(paths, 0));
             return output;
         }
 
-        private string GetResourceFromIdentifier(ApiPathPart part)
+        private ValidationOutput ValidateLevel(IEnumerable<ApiPath> paths, int level, string parent = "")
         {
-            if (part.Parent == null)
-                return null;
-            if (part.Parent.IsResource)
-                return part.Parent.ToString();
-            else
-                return GetResourceFromIdentifier(part.Parent);
+            var output = new ValidationOutput();
+
+            paths = paths.Where(path => path.Parts.Length > level);
+            var grouped = paths.GroupBy(p => p.Parts[level].ToString());
+
+            var identifiers = paths.Select(path => path.Parts[level]).Where(part => part.IsIdentifier);
+            
+            var distinct = identifiers.Distinct(i => i.ToString());
+            if (distinct.Count() > 1)
+                output.AddProblem($"Multiple identifiers in {parent}: {string.Concat(distinct.Select(d => d + " "))}");
+
+            foreach (var group in grouped)
+            {
+                output.Concat(ValidateLevel(group, level + 1, group.Key));
+            }
+
+            return output;
         }
     }
 }
