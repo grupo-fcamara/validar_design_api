@@ -10,7 +10,7 @@ namespace Tests
         public void ReturnProperly(string rawPath, int expectedQuantity)
         {
             var path = new ApiPath(rawPath);
-            Assert.Equal(expectedQuantity, path.IdentifiersCount);
+            Assert.Equal(expectedQuantity, path.Identifiers.Length);
         }
     }
 }
