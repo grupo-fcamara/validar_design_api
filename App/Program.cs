@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using App.Entities;
+using App.Entities.Swagger;
 using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
@@ -37,7 +38,8 @@ namespace App
             var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
 
             //Level 1
-            output.Concat(new ValidatePathLevels(2).Validate(documentation));
+            output.Concat(new ValidatePathLevels(data.PathLevels).Validate(documentation));
+            output.Concat(new ValidateGetRoutesPerPath().Validate(documentation));
 
             //Level 2
             output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
