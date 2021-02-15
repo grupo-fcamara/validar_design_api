@@ -87,14 +87,33 @@ namespace App.Entities.Swagger
     {
         public bool IsValid =>
             //Optional
-            (Get == null || Get.IsValid) &&
-            (Put == null || Put.IsValid) &&
-            (Post == null || Post.IsValid) &&
-            (Delete == null || Delete.IsValid) &&
-            (Options == null || Options.IsValid) &&
-            (Head == null || Head.IsValid) &&
-            (Patch == null || Patch.IsValid) &&
+            Operations
+                .Where(pair => pair.Value != null)
+                .All(pair => pair.Value.IsValid) &&
             (Parameters == null || Parameters.All(p => p.IsValid));
+
+        public Dictionary<HTTPVERBS, SwaggerOperation> Operations
+        {
+            get
+            {
+                return new Dictionary<HTTPVERBS, SwaggerOperation>()
+                {
+                    { HTTPVERBS.GET, Get },
+                    { HTTPVERBS.POST, Post },
+                    { HTTPVERBS.PUT, Put },
+                    { HTTPVERBS.DELETE, Delete },
+                    { HTTPVERBS.HEAD, Head },
+                    { HTTPVERBS.PATCH, Patch },
+                    { HTTPVERBS.OPTIONS, Options }
+                };
+
+            }
+        }
+
+        public HTTPVERBS[] Verbs => Operations
+            .Where(pair => pair.Value != null)
+            .Select(pair => pair.Key)
+            .ToArray();
 
         // Structure
         public SwaggerOperation Get { get; set; }
