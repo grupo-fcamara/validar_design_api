@@ -46,9 +46,7 @@ namespace App
             }        
 
             //Level 1
-            output.Concat(new ValidateIdentifiers().Validate(documentation));
             output.Concat(new ValidatePathLevels(data.PathLevels).Validate(documentation));
-            output.Concat(new ValidateGetRoutesPerPath().Validate(documentation));
 
             //Level 2
             output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
