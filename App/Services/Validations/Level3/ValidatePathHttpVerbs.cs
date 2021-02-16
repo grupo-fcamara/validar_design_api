@@ -20,7 +20,7 @@ namespace App.Services.Validations.Level3
 
             foreach (var path in documentation.Paths)
             {
-                var verbsNotAllowed = _allowedVerbs.Except(path.Value.Verbs);
+                var verbsNotAllowed = path.Value.Verbs.Except(_allowedVerbs);
                 if (verbsNotAllowed.Count() > 0)
                     output.AddProblem($"Path {path.Key} has verbs that are not allowed: {string.Concat(verbsNotAllowed.Select(verb => verb + " "))}");
             }
