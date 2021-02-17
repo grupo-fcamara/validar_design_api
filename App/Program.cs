@@ -5,6 +5,7 @@ using App.Entities.Swagger;
 using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
+using App.Services.Validations.Level3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -34,8 +35,15 @@ namespace App
 
             ShowData(data);
 
+            Documentation documentation = new Documentation();
             var output = new ValidationOutput();
-            var documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
+
+            try {
+                documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
+            } catch (Exception e) {
+                logger.LogInformation("Error: " + e.Message);
+                return 1;
+            }        
 
             //Level 1
             output.Concat(new ValidatePathLevels(data.PathLevels).Validate(documentation));
@@ -45,6 +53,9 @@ namespace App
             //Level 2
             output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
             output.Concat(new ValidatePathOperations().Validate(documentation));
+
+            //Level 3
+            output.Concat(new ValidatePathHttpVerbs(data.HttpVerbs).Validate(documentation));
 
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
