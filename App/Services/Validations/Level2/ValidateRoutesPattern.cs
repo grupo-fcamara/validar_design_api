@@ -15,12 +15,12 @@ namespace App.Services.Validations.Level2
             this.plural = plural;
         }
 
-        public ValidationOutput Validate(Documentation documentation)
+        public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.Paths.Keys;
+            var rawPaths = documentation.GetPaths().Keys;
             var paths = rawPaths.Select(s => new ApiPath(s));
 
             string pluralTxt = plural ? "plural" : "singular";

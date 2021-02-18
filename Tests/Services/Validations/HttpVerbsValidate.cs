@@ -2,7 +2,7 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level3;
 using App.Entities;
-using App.Entities.Swagger;
+using App.Entities.Swagger.Two;
 
 namespace Tests
 {

@@ -6,12 +6,12 @@ namespace App.Services.Validations.Level2
 {
     public class ValidatePathOperations : IValidatePathOperations
     {
-        public ValidationOutput Validate(Documentation documentation)
+        public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.Paths.Keys;
+            var rawPaths = documentation.GetPaths().Keys;
             var paths = rawPaths.Select(s => new ApiPath(s));
 
             paths.Where(p => p.Operations.Length > 0)

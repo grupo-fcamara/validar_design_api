@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
-using App.Entities.Swagger;
+using App.Entities.Swagger.Two;
 using App.Services.Validations.Generic;
 using App.Entities;
 
