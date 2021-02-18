@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace App.Entities.Swagger.Two
 {
     //Structure
     public partial class SwaggerPathItem : ISwaggerPathItem
     {
+        [JsonPropertyName("$ref")]
+        public string Ref { get; set; }
+        
         public SwaggerOperation Get { get; set; }
         public SwaggerOperation Put { get; set; }
         public SwaggerOperation Post { get; set; }
