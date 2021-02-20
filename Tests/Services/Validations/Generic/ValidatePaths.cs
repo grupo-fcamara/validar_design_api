@@ -12,8 +12,9 @@ namespace Tests
         {
             var doc = new Documentation();
             doc.Paths = new Dictionary<string, SwaggerPathItem>();
+            var pathItem = new SwaggerPathItem { Get = new SwaggerOperation() };
             
-            paths.ToList().ForEach(path => doc.Paths[path] = new SwaggerPathItem());
+            paths.ToList().ForEach(path => doc.Paths[path] = pathItem);
             return validator.Validate(doc);
         }
     }
