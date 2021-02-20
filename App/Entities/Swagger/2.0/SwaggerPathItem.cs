@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace App.Entities.Swagger.Two
 {
     //Structure
-    public partial class SwaggerPathItem : ISwaggerPathItem
+    public partial class SwaggerPathItem
     {
         [JsonPropertyName("$ref")]
         public string Ref { get; set; }
@@ -21,8 +21,8 @@ namespace App.Entities.Swagger.Two
         public SwaggerParameter[] Parameters { get; set; }
     }
 
-    //Interface Implementation
-    public partial class SwaggerPathItem : ISwaggerPathItem
+    //Interface Implementation and Auxiliary Methods
+    public partial class SwaggerPathItem
     {
         public bool IsValid =>
             //Optional
@@ -39,7 +39,7 @@ namespace App.Entities.Swagger.Two
                 .ToArray();
         }          
 
-        public Dictionary<HTTPVERBS, ISwaggerOperation> GetOperations()
+        public Dictionary<HTTPVERBS, SwaggerOperation> GetOperations()
         {
             return new Dictionary<HTTPVERBS, SwaggerOperation>()
             {
@@ -50,8 +50,7 @@ namespace App.Entities.Swagger.Two
                 { HTTPVERBS.HEAD, Head },
                 { HTTPVERBS.PATCH, Patch },
                 { HTTPVERBS.OPTIONS, Options }
-            }
-            .ToDictionary(pair => pair.Key, pair => pair.Value as ISwaggerOperation);
+            };
         }
     }
 }

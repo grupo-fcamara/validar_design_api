@@ -18,11 +18,11 @@ namespace App.Services.Validations.Level3
         {
             var output = new ValidationOutput();
 
-            foreach (var path in documentation.GetPaths())
+            foreach (var group in documentation.EndPoints.GroupBy(e => e.Path.ToString()))
             {
-                var verbsNotAllowed = path.Value.GetVerbs().Except(_allowedVerbs);
+                var verbsNotAllowed = group.Select(e => e.Verb).Except(_allowedVerbs);
                 if (verbsNotAllowed.Count() > 0)
-                    output.AddProblem($"Path {path.Key} has verbs that are not allowed: {string.Concat(verbsNotAllowed.Select(verb => verb + " "))}");
+                    output.AddProblem($"Path {group.Key} has verbs that are not allowed: {string.Concat(verbsNotAllowed.Select(verb => verb + " "))}");
             }
 
             return output;

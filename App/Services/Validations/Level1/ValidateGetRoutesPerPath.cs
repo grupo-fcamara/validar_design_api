@@ -10,13 +10,13 @@ namespace App.Services.Validations.Level1
         {
             var output = new ValidationOutput();
 
-            var groupedByFirstWord = documentation.GetPaths()
-                .GroupBy(path => new ApiPath(path.Key).Parts[0].ToString())
-                .OrderBy(paths => paths.Count(path => path.Value.GetOperations()[HTTPVERBS.GET] != null));
+            var groupedByFirstWord = documentation.EndPoints
+                .GroupBy(endPoint => endPoint.Path.Parts[0].ToString())
+                .OrderBy(group => group.Count(endPoint => endPoint.Verb == HTTPVERBS.GET));
 
             foreach (var group in groupedByFirstWord)
             {
-                int getsQuantity = group.Count(path => path.Value.GetOperations()[HTTPVERBS.GET] != null);  
+                int getsQuantity = group.Count(endPoint => endPoint.Verb == HTTPVERBS.GET);  
 
                 if (getsQuantity > 2)
                     output.AddProblem($"{group.Key} has {getsQuantity} GET routes, the maximum is 2.");

@@ -20,8 +20,7 @@ namespace App.Services.Validations.Level2
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.GetPaths().Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
+            var paths = documentation.Paths;
 
             string pluralTxt = plural ? "plural" : "singular";
             foreach (var path in paths)

@@ -18,8 +18,7 @@ namespace App.Services.Validations.Level1
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.GetPaths().Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
+            var paths = documentation.EndPoints.Select(e => e.Path);
 
             //Validating
             paths.Where(p => p.Levels > limit)

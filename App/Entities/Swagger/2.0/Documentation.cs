@@ -41,7 +41,36 @@ namespace App.Entities.Swagger.Two
             (SecurityDefinitions == null || SecurityDefinitions.Values.All(d => d.IsValid)) &&
             (ExternalDocs == null || ExternalDocs.IsValid);
 
-        public Dictionary<string, ISwaggerPathItem> GetPaths() => 
-            Paths.ToDictionary(pair => pair.Key, pair => pair.Value as ISwaggerPathItem);
+        public string SwaggerVersion => Swagger;
+
+        public EndPoint[] EndPoints
+        {
+            get
+            {
+                var list = new List<EndPoint>();
+                foreach (var pair in Paths)
+                {
+                    var operations = pair.Value.GetOperations();
+                    foreach (var operation in operations)
+                    {
+                        list.Add(
+                            new EndPoint
+                            {
+                                Path = new ApiPath(pair.Key),
+                                Verb = operation.Key
+                            }
+                        );
+                    }
+                }
+
+                return list.ToArray();
+            }
+        }
+
+        ApiPath[] IDocumentation.Paths => 
+            EndPoints
+            .Select(e => e.Path)
+            .Distinct(p => p.ToString())
+            .ToArray();
     }
 }

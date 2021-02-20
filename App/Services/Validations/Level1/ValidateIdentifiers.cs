@@ -13,8 +13,8 @@ namespace App.Services.Validations.Level1
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.GetPaths().Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
+            var endPoints = documentation.EndPoints;
+            var paths = endPoints.Select(e => e.Path);
 
             //Validating
             output.Concat(ValidateLevel(paths, 0));

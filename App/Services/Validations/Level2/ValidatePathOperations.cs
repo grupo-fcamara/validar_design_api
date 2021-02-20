@@ -11,8 +11,7 @@ namespace App.Services.Validations.Level2
             var output = new ValidationOutput();
 
             //Getting paths from document
-            var rawPaths = documentation.GetPaths().Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
+            var paths = documentation.Paths;
 
             paths.Where(p => p.Operations.Length > 0)
                 .ToList().ForEach(p => output.AddProblem($"Path {p.ToString()} has operations."));
