@@ -16,16 +16,14 @@ namespace App.Services.Validations.Level1
         public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
+            var paths = documentation.Paths;
 
-            //Getting paths from document
-            var paths = documentation.EndPoints.Select(e => e.Path);
-
-            //Validating
-            paths.Where(p => p.Levels > limit)
-                .ToList().ForEach(p => output.AddProblem(
-                    $"Path {p.ToString()} has {p.Levels} levels, the maximum is {limit}."
-                )
-            );
+            foreach (var path in paths.Where(p => p.Levels > limit))
+            {
+                output.AddProblem(
+                    $"Path {path.ToString()} has {path.Levels} levels, the maximum is {limit}."
+                );
+            }
 
             return output;
         }

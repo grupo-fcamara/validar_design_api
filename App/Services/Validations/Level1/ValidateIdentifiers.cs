@@ -11,12 +11,8 @@ namespace App.Services.Validations.Level1
         public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
+            var paths = documentation.Paths;
 
-            //Getting paths from document
-            var endPoints = documentation.EndPoints;
-            var paths = endPoints.Select(e => e.Path);
-
-            //Validating
             output.Concat(ValidateLevel(paths, 0));
             return output;
         }

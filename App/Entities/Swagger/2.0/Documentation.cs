@@ -51,7 +51,7 @@ namespace App.Entities.Swagger.Two
                 foreach (var pair in Paths)
                 {
                     var operations = pair.Value.GetOperations();
-                    foreach (var operation in operations)
+                    foreach (var operation in operations.Where(pair => pair.Value != null))
                     {
                         list.Add(
                             new EndPoint

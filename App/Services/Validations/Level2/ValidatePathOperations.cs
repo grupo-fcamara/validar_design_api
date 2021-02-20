@@ -9,8 +9,6 @@ namespace App.Services.Validations.Level2
         public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
-
-            //Getting paths from document
             var paths = documentation.Paths;
 
             paths.Where(p => p.Operations.Length > 0)
