@@ -2,7 +2,7 @@ using System.Linq;
 using App.Entities;
 using Xunit;
 
-namespace Tests
+namespace Tests.Entities
 {
     public class ApiPathParts
     {

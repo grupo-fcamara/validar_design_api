@@ -6,7 +6,7 @@ using System.Text.Json;
 using App.Entities;
 using App.Services;
 
-namespace Tests
+namespace Tests.Services
 {
     public class GetEnvironmentVariablesMethods
     {

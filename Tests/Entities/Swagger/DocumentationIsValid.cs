@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using App.Entities.Swagger.Two;
 using Xunit;
 
-namespace Tests
+namespace Tests.Entities
 {
     public class DocumentationIsValid
     {

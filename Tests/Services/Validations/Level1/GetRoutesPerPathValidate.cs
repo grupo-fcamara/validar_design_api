@@ -3,7 +3,7 @@ using System.Linq;
 using App.Services.Validations.Level1;
 using App.Entities.Swagger.Two;
 
-namespace Tests
+namespace Tests.Services.Validations.Level1
 {
     public class GetRoutesPerPathValidate : ValidatePaths
     {

@@ -1,7 +1,7 @@
 using App.Entities;
 using Xunit;
 
-namespace Tests
+namespace Tests.Entities
 {
     public class ApiPathLevels
     {

@@ -1,14 +1,10 @@
 using System;
 using Xunit;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Net;
-
-using App.Entities;
 using App.Services;
 using System.IO;
 
-namespace Tests
+namespace Tests.Services
 {
     public class GetSwaggerServiceDeserialize
     {

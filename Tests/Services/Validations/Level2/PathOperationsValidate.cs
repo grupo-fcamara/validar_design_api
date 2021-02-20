@@ -2,7 +2,7 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level2;
 
-namespace Tests
+namespace Tests.Services.Validations.Level2
 {
     public class PathOperationsValidate : ValidatePaths
     {

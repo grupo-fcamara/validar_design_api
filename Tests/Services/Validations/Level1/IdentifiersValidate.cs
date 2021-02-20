@@ -2,7 +2,7 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level1;
 
-namespace Tests
+namespace Tests.Services.Validations.Level1
 {
     public class ValidateIdentifier : ValidatePaths
     {
