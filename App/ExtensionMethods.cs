@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using App.Entities;
 
 namespace System.Linq
 {

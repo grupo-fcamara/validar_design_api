@@ -57,7 +57,8 @@ namespace App.Entities.Swagger.Two
                             new EndPoint
                             {
                                 Path = new ApiPath(pair.Key),
-                                Verb = operation.Key
+                                Verb = operation.Key,
+                                Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray()
                             }
                         );
                     }

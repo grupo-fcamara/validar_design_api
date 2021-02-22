@@ -7,6 +7,7 @@ using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
 using App.Services.Validations.Level3;
+using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -57,6 +58,7 @@ namespace App
 
             //Level 3
             output.Concat(new ValidatePathHttpVerbs(data.HttpVerbs).Validate(documentation));
+            output.Concat(new ValidateStatusCode(data.StatusCode).Validate(documentation));
 
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
