@@ -4,7 +4,7 @@ using App.Entities.Swagger.Two;
 using App.Services.Validations.Generic;
 using App.Entities;
 
-namespace Tests
+namespace Tests.Services.Validations
 {
     public abstract class ValidatePaths
     {

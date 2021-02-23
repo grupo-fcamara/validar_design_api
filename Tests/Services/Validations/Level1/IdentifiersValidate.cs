@@ -2,9 +2,9 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level1;
 
-namespace Tests
+namespace Tests.Services.Validations.Level1
 {
-    public class ValidateIdentifier : ValidatePaths
+    public class IdentifiersValidate : ValidatePaths
     {
         [Theory]
         [InlineData(1, "pets/{id}", "pets/{name}", "pets/{id}/users/{id}")]
