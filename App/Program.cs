@@ -2,6 +2,7 @@
 using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
+using App.Entities.Swagger.Two;
 using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
@@ -35,7 +36,7 @@ namespace App
 
             ShowData(data);
 
-            Documentation documentation = new Documentation();
+            IDocumentation documentation = new Documentation();
             var output = new ValidationOutput();
 
             try {

@@ -5,6 +5,6 @@ namespace App.Services.Validations.Generic
 {
     public interface IValidator
     {
-        ValidationOutput Validate(Documentation documentation);
+        ValidationOutput Validate(IDocumentation documentation);
     }
 }

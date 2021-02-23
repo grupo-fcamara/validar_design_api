@@ -8,15 +8,11 @@ namespace App.Services.Validations.Level1
 {
     public class ValidateIdentifiers : IValidateIdentifiers
     {
-        public ValidationOutput Validate(Documentation documentation)
+        public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
+            var paths = documentation.Paths;
 
-            //Getting paths from document
-            var rawPaths = documentation.Paths.Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
-
-            //Validating
             output.Concat(ValidateLevel(paths, 0));
             return output;
         }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text.Json;
 using App.Entities.Swagger;
+using App.Entities.Swagger.Two;
 
 namespace App.Services
 {

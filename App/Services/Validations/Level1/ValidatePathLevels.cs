@@ -13,20 +13,17 @@ namespace App.Services.Validations.Level1
         //Default = 2
         public ValidatePathLevels(int limit) { this.limit = limit; }
 
-        public ValidationOutput Validate(Documentation documentation)
+        public ValidationOutput Validate(IDocumentation documentation)
         {
             var output = new ValidationOutput();
+            var paths = documentation.Paths;
 
-            //Getting paths from document
-            var rawPaths = documentation.Paths.Keys;
-            var paths = rawPaths.Select(s => new ApiPath(s));
-
-            //Validating
-            paths.Where(p => p.Levels > limit)
-                .ToList().ForEach(p => output.AddProblem(
-                    $"Path {p.ToString()} has {p.Levels} levels, the maximum is {limit}."
-                )
-            );
+            foreach (var path in paths.Where(p => p.Levels > limit))
+            {
+                output.AddProblem(
+                    $"Path {path.ToString()} has {path.Levels} levels, the maximum is {limit}."
+                );
+            }
 
             return output;
         }
