@@ -7,7 +7,6 @@ using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
 using App.Services.Validations.Level3;
-using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
