@@ -4,7 +4,7 @@ using App.Services.Validations.Level1;
 
 namespace Tests.Services.Validations.Level1
 {
-    public class PathLevelsValidate : ValidatePaths
+    public class PathLevelsValidate : Validation
     {
         [Theory]
         [InlineData(2, 2, "users/{id}/pets/{id}", "countries/{id}/teams/{id}/players", "countries/{id}/teams/{id}/players/{id}")]

@@ -19,5 +19,19 @@ namespace System.Linq
             }
             return collection;
         }
+
+        public static bool AllEqual<T>(this IEnumerable<T> collection, IEnumerable<T> other)
+        {
+            if (collection.Count() != other.Count())
+                return false;
+
+            for (int i = 0; i < other.Count(); i++)
+            {
+                if (!collection.ElementAt(i).Equals(other.ElementAt(i)))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

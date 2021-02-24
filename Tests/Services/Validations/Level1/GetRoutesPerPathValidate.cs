@@ -5,7 +5,7 @@ using App.Entities.Swagger.Two;
 
 namespace Tests.Services.Validations.Level1
 {
-    public class GetRoutesPerPathValidate : ValidatePaths
+    public class GetRoutesPerPathValidate : Validation
     {
         [Fact]
         public void ReturnProperly()
