@@ -1,31 +1,26 @@
 using Xunit;
 using System.Linq;
 using App.Services.Validations.Level1;
-using App.Entities.Swagger.Two;
+using App.Entities;
+using App.Entities.Swagger;
+using System.Collections.Generic;
 
 namespace Tests.Services.Validations.Level1
 {
-    public class GetRoutesPerPathValidate : ValidatePaths
+    public class GetRoutesPerPathValidate : Validation
     {
         [Fact]
         public void ReturnProperly()
         {
-            var pathWithGet = new SwaggerPathItem() { Get = new SwaggerOperation() };
-            var emptyPath = new SwaggerPathItem();
+            var documentation = new DocumentationForTests();
+            var endPoints = new List<EndPoint>();
 
-            var documentation = new Documentation();
-            documentation.Paths = new System.Collections.Generic.Dictionary<string, SwaggerPathItem>()
-            {
-                {"users/", pathWithGet },
-                {"users/{id}", pathWithGet },
-                {"users/online", pathWithGet },
-                {"cars/", pathWithGet },
-                {"cars/{id}", pathWithGet },
-                {"cars/broken", emptyPath },
-                {"pets/", pathWithGet },
-                {"pets/{id}", pathWithGet }
-            };
-
+            endPoints.AddRange(GetMultipleEndPoints(HTTPVERBS.GET,
+                "users/", "users/{id}", "users/online", "cars/", "cars/{id}", "pets/", "pets/{id}"
+            ));
+            endPoints.Add(new EndPoint() { Path = new ApiPath("cars/broken"), Verb = HTTPVERBS.POST });
+            
+            documentation.EndPoints = endPoints.ToArray();
             var output = new ValidateGetRoutesPerPath().Validate(documentation);
             Assert.Equal(1, output.Problems.Count());
         }

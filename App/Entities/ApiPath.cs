@@ -42,5 +42,14 @@ namespace App.Entities
         #endregion
 
         public override string ToString() => raw;
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ApiPath))
+                return false;
+
+            var other = (ApiPath)obj;   
+            return Parts.Select(p => p.ToString()).Equal(other.Parts.Select(p => p.ToString()));
+        }
     }
 }
