@@ -5,7 +5,7 @@ using App.Entities;
 
 namespace Tests.Services.Validations.Level2
 {
-    public class RoutesPatternValidate : ValidatePaths
+    public class RoutesPatternValidate : Validation
     {
         [Theory]
         [InlineData(2, CASE.CAMEL, true,
