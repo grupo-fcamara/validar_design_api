@@ -17,10 +17,10 @@ namespace Tests.Services.Validations.Level3
         [InlineData(new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST }, new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT }, 1)]
         public void ReturnProperly(HTTPVERBS[] allowedVerbs, HTTPVERBS[] verbs, int expectedProblems)
         {
-            var documentation = new DocumentationForTests();
-            documentation.EndPoints = EndPoint.Create("path/", verbs);
+            var validator = new ValidatePathHttpVerbs(allowedVerbs);
+            var endPoints = EndPoint.Create("path/", verbs);
 
-            var output = new ValidatePathHttpVerbs(allowedVerbs).Validate(documentation);
+            var output = ReturnProblems(validator, endPoints);
             Assert.Equal(expectedProblems, output.Problems.Count());
         }
     }

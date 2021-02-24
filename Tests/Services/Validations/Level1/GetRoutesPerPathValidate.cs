@@ -3,7 +3,6 @@ using System.Linq;
 using App.Services.Validations.Level1;
 using App.Entities;
 using App.Entities.Swagger;
-using System.Collections.Generic;
 
 namespace Tests.Services.Validations.Level1
 {
@@ -12,16 +11,12 @@ namespace Tests.Services.Validations.Level1
         [Fact]
         public void ReturnProperly()
         {
-            var documentation = new DocumentationForTests();
-            var endPoints = new List<EndPoint>();
-
-            endPoints.AddRange(EndPoint.Create(HTTPVERBS.GET,
+            var endPoints = EndPoint.Create(HTTPVERBS.GET,
                 "users/", "users/{id}", "users/online", "cars/", "cars/{id}", "pets/", "pets/{id}"
-            ));
-            endPoints.Add(new EndPoint(new ApiPath("cars/broken"), HTTPVERBS.POST));
-            
-            documentation.EndPoints = endPoints.ToArray();
-            var output = new ValidateGetRoutesPerPath().Validate(documentation);
+            ).ToList();
+            endPoints.Add(new EndPoint(new ApiPath("cars/broken"), HTTPVERBS.POST));     
+
+            var output = ReturnProblems(new ValidateGetRoutesPerPath(), endPoints.ToArray());
             Assert.Equal(1, output.Problems.Count());
         }
     }

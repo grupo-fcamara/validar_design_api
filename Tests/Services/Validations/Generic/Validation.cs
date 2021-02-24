@@ -14,5 +14,13 @@ namespace Tests.Services.Validations
 
             return validator.Validate(doc);
         }
+
+        protected ValidationOutput ReturnProblems(IValidator validator, params EndPoint[] endPoints)
+        {
+            var doc = new DocumentationForTests();
+            doc.EndPoints = endPoints;
+
+            return validator.Validate(doc);
+        }
     }
 }
