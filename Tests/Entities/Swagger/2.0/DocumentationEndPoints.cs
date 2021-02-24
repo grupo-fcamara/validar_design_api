@@ -27,20 +27,11 @@ namespace Tests.Entities.Swagger.Two
                 Head = new SwaggerOperation()
             };
 
-            var endPoints = new List<EndPoint>
-            {
-                new EndPoint() { Path = new ApiPath("path/"), Verb = HTTPVERBS.GET },
-                new EndPoint() { Path = new ApiPath("path/"), Verb = HTTPVERBS.POST },
-                new EndPoint() { Path = new ApiPath("path/"), Verb = HTTPVERBS.PUT },
-                new EndPoint() { Path = new ApiPath("path/other"), Verb = HTTPVERBS.HEAD },
-            };
+            var endPoints = new List<EndPoint>();
+            endPoints.AddRange(EndPoint.Create("path/", HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT));
+            endPoints.Add(new EndPoint(new ApiPath("path/other"), HTTPVERBS.HEAD));
 
-            IDocumentation doc = documentation;
-
-            var toString1 = documentation.EndPoints.Select(e => e.ToString());
-            var toString2 = endPoints.Select(e => e.ToString());
-
-            Assert.True(toString1.AllEqual(toString2));
+            Assert.True(endPoints.AllEqual(documentation.EndPoints));
         }
     }
 }

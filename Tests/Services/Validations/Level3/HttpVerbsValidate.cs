@@ -2,9 +2,7 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level3;
 using App.Entities;
-using App.Entities.Swagger.Two;
 using App.Entities.Swagger;
-using System.Collections.Generic;
 
 namespace Tests.Services.Validations.Level3
 {
@@ -20,7 +18,7 @@ namespace Tests.Services.Validations.Level3
         public void ReturnProperly(HTTPVERBS[] allowedVerbs, HTTPVERBS[] verbs, int expectedProblems)
         {
             var documentation = new DocumentationForTests();
-            documentation.EndPoints = GetMultipleEndPoints("path/", verbs);
+            documentation.EndPoints = EndPoint.Create("path/", verbs);
 
             var output = new ValidatePathHttpVerbs(allowedVerbs).Validate(documentation);
             Assert.Equal(expectedProblems, output.Problems.Count());

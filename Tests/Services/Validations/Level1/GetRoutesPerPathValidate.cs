@@ -15,10 +15,10 @@ namespace Tests.Services.Validations.Level1
             var documentation = new DocumentationForTests();
             var endPoints = new List<EndPoint>();
 
-            endPoints.AddRange(GetMultipleEndPoints(HTTPVERBS.GET,
+            endPoints.AddRange(EndPoint.Create(HTTPVERBS.GET,
                 "users/", "users/{id}", "users/online", "cars/", "cars/{id}", "pets/", "pets/{id}"
             ));
-            endPoints.Add(new EndPoint() { Path = new ApiPath("cars/broken"), Verb = HTTPVERBS.POST });
+            endPoints.Add(new EndPoint(new ApiPath("cars/broken"), HTTPVERBS.POST));
             
             documentation.EndPoints = endPoints.ToArray();
             var output = new ValidateGetRoutesPerPath().Validate(documentation);
