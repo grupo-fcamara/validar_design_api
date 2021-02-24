@@ -32,7 +32,7 @@ namespace Tests.Entities.Swagger.Two
             var paths = (new string[] { "path", "path/other" }).Select(s => new ApiPath(s));
             var docPaths = documentation.Paths.Select(pair => new ApiPath(pair.Key));
 
-            Assert.True(paths.Equal(docPaths));
+            Assert.True(paths.AllEqual(docPaths));
         }
     }
 }

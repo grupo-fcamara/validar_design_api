@@ -45,11 +45,16 @@ namespace App.Entities
 
         public override bool Equals(object obj)
         {
-            if (!(obj is ApiPath))
+            if (obj == null || !(obj is ApiPath))
                 return false;
 
             var other = (ApiPath)obj;   
-            return Parts.Select(p => p.ToString()).Equal(other.Parts.Select(p => p.ToString()));
+            return Parts.AllEqual(other.Parts);
+        }
+
+        public override int GetHashCode()
+        {
+            return Parts.Sum(p => p.GetHashCode());
         }
     }
 }

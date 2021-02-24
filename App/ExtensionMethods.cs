@@ -18,7 +18,7 @@ namespace System.Linq
             return collection;
         }
 
-        public static bool Equal<T>(this IEnumerable<T> collection, IEnumerable<T> other)
+        public static bool AllEqual<T>(this IEnumerable<T> collection, IEnumerable<T> other)
         {
             if (collection.Count() != other.Count())
                 return false;

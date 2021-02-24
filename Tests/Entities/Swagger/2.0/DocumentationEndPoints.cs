@@ -40,7 +40,7 @@ namespace Tests.Entities.Swagger.Two
             var toString1 = documentation.EndPoints.Select(e => e.ToString());
             var toString2 = endPoints.Select(e => e.ToString());
 
-            Assert.True(toString1.Equal(toString2));
+            Assert.True(toString1.AllEqual(toString2));
         }
     }
 }
