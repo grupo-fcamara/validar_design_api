@@ -4,7 +4,7 @@ using App.Services.Validations.Level2;
 
 namespace Tests.Services.Validations.Level2
 {
-    public class PathOperationsValidate : ValidatePaths
+    public class PathOperationsValidate : Validation
     {
         [Theory]
         [InlineData(2, 

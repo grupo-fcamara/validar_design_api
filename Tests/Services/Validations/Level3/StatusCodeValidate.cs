@@ -2,34 +2,40 @@ using Xunit;
 using System.Linq;
 using App.Services.Validations.Level3;
 using App.Entities;
-using App.Entities.Swagger.Two;
 using System.Collections.Generic;
-using App.Entities.Swagger;
 
 namespace Tests.Services.Validations.Level3
 {
-    public class StatusCodeValidate
+    public class StatusCodeValidate : Validation
     {
         [Fact]
         public void ReturnProperly()
-        {            
-            var documentation = new DocumentationForTests();
+        {
             var endPoints = new List<EndPoint>();
 
-            endPoints.Add(new EndPoint() { Verb = HttpVerbs.GET, Responses = new int[] { 200, 404 } });
-            endPoints.Add(new EndPoint() { Verb = HttpVerbs.GET, Responses = new int[] { 200, 500 } });
-            endPoints.Add(new EndPoint() { Verb = HttpVerbs.POST, Responses = new int[] { 200 } });
-            endPoints.Add(new EndPoint() { Verb = HttpVerbs.POST, Responses = new int[] { 200, 500, 404 } });
-            endPoints.Add(new EndPoint() { Verb = HttpVerbs.PUT, Responses = new int[] { } });
-            documentation.EndPoints = endPoints.ToArray();
+            endPoints.Add(CreateEndPoint("1", HttpVerbs.GET, 200, 404));
+            endPoints.Add(CreateEndPoint("2", HttpVerbs.GET, 200, 500));
+            endPoints.Add(CreateEndPoint("3", HttpVerbs.POST, 200));
+            endPoints.Add(CreateEndPoint("4", HttpVerbs.POST, 200, 500, 404));
+            endPoints.Add(CreateEndPoint("5", HttpVerbs.PUT));
 
             var allowedCodes = StatusCodePerVerb.Empty;
             allowedCodes[HttpVerbs.GET] = new int[] {200, 404};
             allowedCodes[HttpVerbs.POST] = new int[] {200, 500};
             allowedCodes[HttpVerbs.PUT] = new int[] {300, 504};
 
-            var output = new ValidateStatusCode(StatusCodePerVerb.Empty).Validate(documentation);
+            var output = ReturnProblems(new ValidateStatusCode(allowedCodes), endPoints.ToArray());
             Assert.Equal(2, output.Problems.Count());
+        }
+
+        private EndPoint CreateEndPoint(string path, HttpVerbs verb, params int[] responses)
+        {
+            return new EndPoint()
+            {
+                Path = new ApiPath(path),
+                Verb = verb,
+                Responses = responses
+            };
         }
     }
 }

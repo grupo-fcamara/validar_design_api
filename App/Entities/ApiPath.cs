@@ -42,5 +42,19 @@ namespace App.Entities
         #endregion
 
         public override string ToString() => raw;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ApiPath))
+                return false;
+
+            var other = (ApiPath)obj;   
+            return Parts.AllEqual(other.Parts);
+        }
+
+        public override int GetHashCode()
+        {
+            return Parts.Sum(p => p.GetHashCode());
+        }
     }
 }

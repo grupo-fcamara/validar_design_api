@@ -1,3 +1,4 @@
+using System;
 using App.Services;
 using Humanizer;
 
@@ -47,5 +48,19 @@ namespace App.Entities
         #endregion
 
         public override string ToString() => text;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is ApiPathPart))
+                return false;
+
+            var other = (ApiPathPart)obj;   
+            return text.Equals(other.text);
+        }
+
+        public override int GetHashCode()
+        {
+            return text.GetHashCode();
+        }
     }
 }

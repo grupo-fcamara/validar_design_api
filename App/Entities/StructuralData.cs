@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace App.Entities
 {
     public enum Language { ENGLISH, PORTUGUESE }

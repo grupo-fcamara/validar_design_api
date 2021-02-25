@@ -53,14 +53,11 @@ namespace App.Entities.Swagger.Two
                     var operations = pair.Value.GetOperations();
                     foreach (var operation in operations.Where(pair => pair.Value != null))
                     {
-                        list.Add(
-                            new EndPoint
-                            {
-                                Path = new ApiPath(pair.Key),
-                                Verb = operation.Key,
-                                Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray()
-                            }
-                        );
+                        var endPoint = new EndPoint(new ApiPath(pair.Key), operation.Key);
+                        if (operation.Value.Responses != null)
+                            endPoint.Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray();
+                        
+                        list.Add(endPoint);
                     }
                 }
 
