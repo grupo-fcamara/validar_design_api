@@ -29,16 +29,16 @@ namespace App.Entities
         public bool IsPlural => text.Equals(text.Pluralize(false));
         public bool IsSingular => text.Equals(text.Singularize(false));
 
-        public bool IsRespectingCase(CASE casePattern)
+        public bool IsRespectingCase(CasePattern casePattern)
         {
             switch (casePattern)
             {
-                case CASE.CAMEL:
+                case CasePattern.CAMEL:
                     string aux = text.Replace("-", "").Replace("_", "");
                     return text.Equals(aux.Camelize()) || text.Equals(aux.Pascalize());
-                case CASE.SNAKE:
+                case CasePattern.SNAKE:
                     return text.Equals(text.Underscore());
-                case CASE.SPINAL:
+                case CasePattern.SPINAL:
                     return text.Equals(text.Kebaberize());
                 default:
                     return true;

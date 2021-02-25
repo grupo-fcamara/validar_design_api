@@ -16,17 +16,17 @@ namespace Tests.Services.Validations.Level3
             var documentation = new DocumentationForTests();
             var endPoints = new List<EndPoint>();
 
-            endPoints.Add(new EndPoint() { Verb = HTTPVERBS.GET, Responses = new int[] { 200, 404 } });
-            endPoints.Add(new EndPoint() { Verb = HTTPVERBS.GET, Responses = new int[] { 200, 500 } });
-            endPoints.Add(new EndPoint() { Verb = HTTPVERBS.POST, Responses = new int[] { 200 } });
-            endPoints.Add(new EndPoint() { Verb = HTTPVERBS.POST, Responses = new int[] { 200, 500, 404 } });
-            endPoints.Add(new EndPoint() { Verb = HTTPVERBS.PUT, Responses = new int[] { } });
+            endPoints.Add(new EndPoint() { Verb = HttpVerbs.GET, Responses = new int[] { 200, 404 } });
+            endPoints.Add(new EndPoint() { Verb = HttpVerbs.GET, Responses = new int[] { 200, 500 } });
+            endPoints.Add(new EndPoint() { Verb = HttpVerbs.POST, Responses = new int[] { 200 } });
+            endPoints.Add(new EndPoint() { Verb = HttpVerbs.POST, Responses = new int[] { 200, 500, 404 } });
+            endPoints.Add(new EndPoint() { Verb = HttpVerbs.PUT, Responses = new int[] { } });
             documentation.EndPoints = endPoints.ToArray();
 
             var allowedCodes = StatusCodePerVerb.Empty;
-            allowedCodes[HTTPVERBS.GET] = new int[] {200, 404};
-            allowedCodes[HTTPVERBS.POST] = new int[] {200, 500};
-            allowedCodes[HTTPVERBS.PUT] = new int[] {300, 504};
+            allowedCodes[HttpVerbs.GET] = new int[] {200, 404};
+            allowedCodes[HttpVerbs.POST] = new int[] {200, 500};
+            allowedCodes[HttpVerbs.PUT] = new int[] {300, 504};
 
             var output = new ValidateStatusCode(StatusCodePerVerb.Empty).Validate(documentation);
             Assert.Equal(2, output.Problems.Count());

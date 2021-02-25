@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
-using App.Util;
 using Humanizer;
 
 namespace App.Services.Validations.Level3
@@ -25,7 +23,7 @@ namespace App.Services.Validations.Level3
             foreach (var pathGroup in endPoints.GroupBy(e => e.Path.ToString()))
             {
                 var path = pathGroup.Key;
-                Dictionary<HTTPVERBS, int[]> notAllowed = StatusCodePerVerb.Empty;
+                Dictionary<HttpVerbs, int[]> notAllowed = StatusCodePerVerb.Empty;
 
                 foreach (var endPoint in pathGroup)
                 {

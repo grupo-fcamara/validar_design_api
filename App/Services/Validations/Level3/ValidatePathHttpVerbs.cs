@@ -1,15 +1,14 @@
 using App.Entities;
 using App.Entities.Swagger;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace App.Services.Validations.Level3
 {
     public class ValidatePathHttpVerbs : Generic.IValidator
     {
-        private HTTPVERBS[] _allowedVerbs;
+        private HttpVerbs[] _allowedVerbs;
 
-        public ValidatePathHttpVerbs(HTTPVERBS[] allowedVerbs)
+        public ValidatePathHttpVerbs(HttpVerbs[] allowedVerbs)
         {
             _allowedVerbs = allowedVerbs;
         }

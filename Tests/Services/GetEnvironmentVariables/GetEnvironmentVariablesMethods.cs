@@ -1,7 +1,8 @@
 using System;
-using Xunit;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
+using Xunit;
 
 using App.Entities;
 using App.Services;
@@ -11,8 +12,8 @@ namespace Tests.Services
     public class GetEnvironmentVariablesMethods
     {
         [Theory]
-        [InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)]
-        public void ReturnLanguageFromEnvironment(string env, string value, LANG expected)
+        [InlineData("LANGUAGE", "ENGLISH", Language.ENGLISH)]
+        public void ReturnLanguageFromEnvironment(string env, string value, Language expected)
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
@@ -24,13 +25,13 @@ namespace Tests.Services
         [InlineData(
             "HTTP_VERBS",
             "[\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"]", 
-            new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.OPTIONS }
+            new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST, HttpVerbs.PUT, HttpVerbs.DELETE, HttpVerbs.OPTIONS }
         )]
-        public void ReturnHttpVerbFromEnvironment(string env, string value, HTTPVERBS[] expected) 
+        public void ReturnHttpVerbFromEnvironment(string env, string value, HttpVerbs[] expected) 
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-            HTTPVERBS[] data = getEnvironmentVariables.GetHttpVerbs();
+            HttpVerbs[] data = getEnvironmentVariables.GetHttpVerbs();
 
             for(int i = 0; i < data.Length; i++)
             {
@@ -39,8 +40,8 @@ namespace Tests.Services
         }
 
         [Theory]
-        [InlineData("ROUTE_PATTERN", "SNAKE", CASE.SNAKE)]
-        public void ReturnRoutePatternFromEnvironment(string env, string value, CASE expected)
+        [InlineData("ROUTE_PATTERN", "SNAKE", CasePattern.SNAKE)]
+        public void ReturnRoutePatternFromEnvironment(string env, string value, CasePattern expected)
         {
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
@@ -55,7 +56,7 @@ namespace Tests.Services
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.Equal(getEnvironmentVariables.GetVersioned(), expected);
+            Assert.Equal(getEnvironmentVariables.IsVersioned(), expected);
         }
 
         [Theory]
@@ -66,15 +67,13 @@ namespace Tests.Services
         public void ReturnStatusCodeFromEnvironment(string env, string value) 
         {
             Environment.SetEnvironmentVariable(env, value);
-            StructuralData data = new StructuralData();
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Dictionary<string, int[]> expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
-            data.StatusCode = getEnvironmentVariables.GetStatusCode();
+            StatusCodePerVerb expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
+            var actual = getEnvironmentVariables.GetStatusCodePerVerb();
+            //actual.ToDictionary(pair => pair.Key.ToString(), pair => pair.Value))
 
-            foreach (var verb in data.StatusCode) {
-                Assert.Equal(data.StatusCode[verb.Key], expected[verb.Key]);
-            }
+            Assert.True(expected.AllEqual(actual));
         }
 
         [Theory]
@@ -94,7 +93,7 @@ namespace Tests.Services
             Environment.SetEnvironmentVariable(env, value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.Equal(getEnvironmentVariables.GetBaseURL(), expected);
+            Assert.Equal(getEnvironmentVariables.GetBaseUrl(), expected);
         }
 
         [Theory]

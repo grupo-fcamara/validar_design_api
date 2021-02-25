@@ -12,11 +12,11 @@ namespace App.Services.Validations.Level1
 
             var groupedByRoot = documentation.EndPoints
                 .GroupBy(endPoint => endPoint.Path.Parts[0].ToString())
-                .OrderBy(group => group.Count(endPoint => endPoint.Verb == HTTPVERBS.GET));
+                .OrderBy(group => group.Count(endPoint => endPoint.Verb == HttpVerbs.GET));
 
             foreach (var group in groupedByRoot)
             {
-                int getsQuantity = group.Count(endPoint => endPoint.Verb == HTTPVERBS.GET);  
+                int getsQuantity = group.Count(endPoint => endPoint.Verb == HttpVerbs.GET);  
 
                 if (getsQuantity > 2)
                     output.AddProblem($"{group.Key} has {getsQuantity} GET routes, the maximum is 2.");

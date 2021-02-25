@@ -6,10 +6,10 @@ namespace App.Services.Validations.Level2
 {
     public class ValidateRoutesPattern :  IValidateRoutesPattern
     {
-        CASE casePattern;
+        CasePattern casePattern;
         bool plural;
 
-        public ValidateRoutesPattern(CASE casePattern, bool plural)
+        public ValidateRoutesPattern(CasePattern casePattern, bool plural)
         {
             this.casePattern = casePattern;
             this.plural = plural;

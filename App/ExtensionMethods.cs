@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using App.Entities;
 
 namespace System.Linq
 {
@@ -18,6 +16,28 @@ namespace System.Linq
                 collection = collection.GroupBy(selector).Select(group => group.First());
             }
             return collection;
+        }
+        
+        public static bool AllEqual<T>(this IEnumerable<T> collection, IEnumerable<T> other)
+        {
+            if (collection.Count() != other.Count())
+                return false;
+
+            for (int i = 0; i < other.Count(); i++)
+            {
+                if (!collection.ElementAt(i).Equals(other.ElementAt(i)))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static void AddRange<T>(this List<T> collection, params T[] values)
+        {
+            foreach (var value in values)
+            {
+                collection.Add(value);
+            }
         }
     }
 }

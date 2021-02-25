@@ -66,12 +66,11 @@ namespace Tests.Services
             {
                 Environment.SetEnvironmentVariable(keys[i], values[i]);
             }
-            
-            IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-            StructuralData data = new StructuralData();
+
+            StructuralData data;
 
             try {
-                getEnvironmentVariables.Validate(data);
+                data = new GetEnvironmentVariables().GetData();
             } catch(AggregateException ex) {
                 Assert.Equal(ex.InnerExceptions.Count, expectedErrors);
             }
