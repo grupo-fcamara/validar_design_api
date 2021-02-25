@@ -47,7 +47,7 @@ namespace Tests.Entities
         public void Check(string text, bool expected)
         {
             var part = new ApiPathPart(text, null, null, 0);
-            Assert.Equal(part.IsPlural, expected);
+            Assert.Equal(expected, part.IsPlural);
         }
     }
 }
