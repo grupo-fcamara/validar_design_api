@@ -7,7 +7,6 @@ using App.Services;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
 using App.Services.Validations.Level3;
-using Humanizer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -75,7 +74,7 @@ namespace App
         {
             string statusCode = "{\n";
             foreach (var pair in data.StatusCode.Where(pair => pair.Value.Any())) {
-                statusCode += $"\t{pair.Key}: {pair.Value.Humanize("and")}\n";
+                statusCode += $"\t{pair.Key}: [{string.Join(", ", pair.Value)}]\n";
             }
             statusCode += "}";
 
@@ -83,7 +82,7 @@ namespace App
                 $"\nLanguage: {data.Language}" + 
                 $"\nRoutePattern: {data.RoutePattern}" +
                 $"\nVersioned: {data.Versioned}" + "\n" +
-                $"\nHttpVerbs: {data.HttpVerbs.Humanize("and")}" +
+                $"\nHttpVerbs: {string.Join(", ", data.HttpVerbs)}" +
                 $"\nPathLevels: {data.PathLevels}" +
                 $"\nStatusCode: {statusCode}" + "\n" +
                 $"\nBaseUrl: {data.BaseUrl}"+

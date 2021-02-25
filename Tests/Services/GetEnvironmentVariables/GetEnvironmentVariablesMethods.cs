@@ -71,7 +71,6 @@ namespace Tests.Services
 
             StatusCodePerVerb expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
             var actual = getEnvironmentVariables.GetStatusCodePerVerb();
-            //actual.ToDictionary(pair => pair.Key.ToString(), pair => pair.Value))
 
             Assert.True(expected.AllEqual(actual));
         }
