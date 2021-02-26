@@ -1,13 +1,14 @@
 namespace App.Entities
 {
     public enum Language { ENGLISH, PORTUGUESE }
-    public enum CasePattern { PLURAL, SINGULAR, CAMEL, SNAKE, SPINAL }
+    public enum CasePattern { CAMEL, SNAKE, SPINAL }
     public enum HttpVerbs { GET = 1, POST = 2, PUT = 4, DELETE = 8, HEAD = 16, PATCH = 32, OPTIONS = 64 }
 
     public class StructuralData
     {
         public Language Language { get; set; }
         public CasePattern RoutePattern { get; set; }
+        public bool Plural { get; set; }
         public bool Versioned { get; set; }
         public HttpVerbs[] HttpVerbs { get; set; }
         public StatusCodePerVerb StatusCode { get; set; }

@@ -50,7 +50,7 @@ namespace App
             output.Concat(new ValidateIdentifiers().Validate(documentation));
 
             //Level 2
-            output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
+            output.Concat(new ValidateRoutesPattern(data.RoutePattern, data.Plural).Validate(documentation));
             output.Concat(new ValidatePathOperations().Validate(documentation));
 
             //Level 3
@@ -81,6 +81,7 @@ namespace App
             logger.LogInformation(
                 $"\nLanguage: {data.Language}" + 
                 $"\nRoutePattern: {data.RoutePattern}" +
+                $"\nPlural: {data.Plural}" + "\n" +
                 $"\nVersioned: {data.Versioned}" + "\n" +
                 $"\nHttpVerbs: {string.Join(", ", data.HttpVerbs)}" +
                 $"\nPathLevels: {data.PathLevels}" +

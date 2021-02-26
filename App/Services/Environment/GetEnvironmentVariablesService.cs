@@ -16,8 +16,8 @@ namespace App.Services
             LoadErrorMessages();         
         }
 
-        public StructuralData GetData() {
-
+        public StructuralData GetData()
+        {
             StructuralData data = new StructuralData();
             var exceptions = new List<Exception>();
             var actions = new List<Action>();
@@ -25,6 +25,7 @@ namespace App.Services
             actions.AddRange(
                 () => data.Language = GetLanguage(),
                 () => data.RoutePattern = GetRoutePattern(),
+                () => data.Plural = IsPlural(),
                 () => data.Versioned = IsVersioned(),
                 () => data.HttpVerbs = GetHttpVerbs(),
                 () => data.StatusCode = GetStatusCodePerVerb(),
@@ -51,6 +52,9 @@ namespace App.Services
 
         public CasePattern GetRoutePattern() => 
             GetVariable<CasePattern>("ROUTE_PATTERN", value => Enum.Parse<CasePattern>(value));
+
+        public bool IsPlural() => 
+            GetVariable<bool>("PLURAL", bool.Parse);
 
         public bool IsVersioned() => 
             GetVariable<bool>("VERSIONED_PATH", bool.Parse);
@@ -122,6 +126,9 @@ namespace App.Services
 
             _errorMessages["ROUTE_PATTERN"] = "ROUTE_PATTERN variable not set properly, available route patterns:\n"
                 + $"{Enum.GetNames(typeof(CasePattern)).Humanize("or")}";
+
+            _errorMessages["PLURAL"] = "PLURAL variable not set properly, available values:\n"
+                + "\"true\" OR \"false\"";
             
             _errorMessages["VERSIONED_PATH"] = "VERSIONED_PATH variable not set properly, available values:\n"
                 + "\"true\" OR \"false\"";
