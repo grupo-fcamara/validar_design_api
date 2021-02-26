@@ -1,85 +1,52 @@
 using System;
 using Xunit;
-
-using App.Entities;
 using App.Services;
 
 namespace Tests.Services
 {
     public class GetEnvironmentVariablesValidate
     {
-        [
-            Theory,
-            InlineData
-            (
-                new string[] { "LANGUAGE" },
-                new string[] { "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN" },
-                new string[] { "ENGLISH", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH" },
-                new string[] { "ENGLISH", "CAMEL", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS" },
-                new string[] { "ENGLISH", "CAMEL", "false", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "" },
-                1
-            ),
-            InlineData
-            (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL", "SWAGGER_PATH" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "base_url.com", "" },
-                1
-            )
-        ]
-        public void IsVariableNull(string[] keys, string[] values, int expectedErrors)
+        [Theory]
+        [InlineData
+        (
+            "LANGUAGE", "ROUTE_PATTERN", "PLURAL",
+            "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE",
+            "PATH_LEVELS", "BASE_URL", "SWAGGER_PATH"
+        )]
+        public void ThrowErrorIfNullOrEmpty(params string[] variables)
         {
-            SetDefaults();
-            for(int i = 0; i < keys.Length; i++)
+            foreach (var variable in variables)
             {
-                Environment.SetEnvironmentVariable(keys[i], values[i]);
-            }
+                SetDefaults();
+                Environment.SetEnvironmentVariable(variable, "");
+                Assert.ThrowsAny<Exception>(() => new GetEnvironmentVariables().GetData());
 
-            StructuralData data;
+                Environment.SetEnvironmentVariable(variable, null);
+                Assert.ThrowsAny<Exception>(() => new GetEnvironmentVariables().GetData());
+            }         
+        }
 
-            try {
-                data = new GetEnvironmentVariables().GetData();
-            } catch(AggregateException ex) {
-                Assert.Equal(ex.InnerExceptions.Count, expectedErrors);
-            }
+        [Theory]
+        [InlineData("LANGUAGE", "NOT_A_LANGUAGE")]
+        [InlineData("ROUTE_PATTERN", "NOT_A_PATTERN")]
+        [InlineData("PLURAL", "NOT_A_BOOLEAN")]
+        [InlineData("VERSIONED_PATH", "NOT_A_BOOLEAN")]
+        [InlineData("HTTP_VERBS", "NOT_A_VERB")]
+        [InlineData("STATUS_CODE", "INVALID")]
+        [InlineData("PATH_LEVELS", "STRING")]
+        [InlineData("PATH_LEVELS", "1.5")]
+        [InlineData("PATH_LEVELS", "-1")]
+        public void ThrowErrorIfInvalid(string variable, string value)
+        {
+            Environment.SetEnvironmentVariable(variable, value);
+            Assert.ThrowsAny<Exception>(() => new GetEnvironmentVariables().GetData());
         }
 
         private void SetDefaults()
         {
             Environment.SetEnvironmentVariable("LANGUAGE", "ENGLISH");
             Environment.SetEnvironmentVariable("ROUTE_PATTERN", "PLURAL");
+            Environment.SetEnvironmentVariable("PLURAL", "true");
             Environment.SetEnvironmentVariable("VERSIONED_PATH", "true");
             Environment.SetEnvironmentVariable("HTTP_VERBS", "[\"GET\"]");
             Environment.SetEnvironmentVariable("STATUS_CODE", "{ \"GET\": [200, 500] }");
