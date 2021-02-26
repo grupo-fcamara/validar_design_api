@@ -84,19 +84,19 @@ namespace Tests.Services
         }
 
         [Theory]
-        [InlineData("www.fcamara.com.br", "www.fcamara.com.br")]
-        public void ReturnBaseUrlFromEnvironment(string value, string expected) 
+        [InlineData("www.fcamara.com.br")]
+        public void ReturnBaseUrlFromEnvironment(string value) 
         {
             Environment.SetEnvironmentVariable("BASE_URL", value);
-            Assert.Equal(expected, new GetEnvironmentVariables().GetBaseUrl());
+            Assert.Equal(value, new GetEnvironmentVariables().GetBaseUrl());
         }
 
         [Theory]
-        [InlineData("swagger.com", "swagger.com")]
-        public void ReturnSwaggerPathFromEnvironment(string value, string expected) 
+        [InlineData("swagger.com")]
+        public void ReturnSwaggerPathFromEnvironment(string value) 
         {
             Environment.SetEnvironmentVariable("SWAGGER_PATH", value);
-            Assert.Equal(expected, new GetEnvironmentVariables().GetSwaggerPath());
+            Assert.Equal(value, new GetEnvironmentVariables().GetSwaggerPath());
         }
     }
 }

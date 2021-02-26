@@ -18,44 +18,44 @@ namespace Tests.Services
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN" },
-                new string[] { "ENGLISH", "" },
+                new string[] { "ROUTE_PATTERN" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH" },
-                new string[] { "ENGLISH", "CAMEL", "" },
+                new string[] { "VERSIONED_PATH" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS" },
-                new string[] { "ENGLISH", "CAMEL", "false", "" },
+                new string[] { "HTTP_VERBS" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "" },
+                new string[] { "STATUS_CODE" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "" },
+                new string[] { "PATH_LEVELS" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "" },
+                new string[] { "BASE_URL" },
+                new string[] { "" },
                 1
             ),
             InlineData
             (
-                new string[] { "LANGUAGE", "ROUTE_PATTERN", "VERSIONED_PATH", "HTTP_VERBS", "STATUS_CODE", "PATH_LEVELS", "BASE_URL", "SWAGGER_PATH" },
-                new string[] { "ENGLISH", "CAMEL", "false", "[\"GET\"]", "{ \"GET\": [200, 500] }", "2", "base_url.com", "" },
+                new string[] { "SWAGGER_PATH" },
+                new string[] { "" },
                 1
             )
         ]
@@ -72,20 +72,21 @@ namespace Tests.Services
             try {
                 data = new GetEnvironmentVariables().GetData();
             } catch(AggregateException ex) {
-                Assert.Equal(ex.InnerExceptions.Count, expectedErrors);
+                Assert.Equal(expectedErrors, ex.InnerExceptions.Count);
             }
         }
 
         private void SetDefaults()
         {
             Environment.SetEnvironmentVariable("LANGUAGE", "ENGLISH");
-            Environment.SetEnvironmentVariable("ROUTE_PATTERN", "PLURAL");
+            Environment.SetEnvironmentVariable("ROUTE_PATTERN", "CAMEL");
+            Environment.SetEnvironmentVariable("PLURAL", "true");
             Environment.SetEnvironmentVariable("VERSIONED_PATH", "true");
             Environment.SetEnvironmentVariable("HTTP_VERBS", "[\"GET\"]");
             Environment.SetEnvironmentVariable("STATUS_CODE", "{ \"GET\": [200, 500] }");
             Environment.SetEnvironmentVariable("PATH_LEVELS", "2");
-            Environment.SetEnvironmentVariable("BASE_URL", "http://squad5-fifo-api.herokuapp.com/api/");
-            Environment.SetEnvironmentVariable("SWAGGER_PATH", "http://squad5-fifo-api.herokuapp.com/api/v2/api-docs");
+            Environment.SetEnvironmentVariable("BASE_URL", "http://5de67ce5-kmad-veiculobacke-48f3-305261353.us-east-1.elb.amazonaws.com");
+            Environment.SetEnvironmentVariable("SWAGGER_PATH", "http://5de67ce5-torre-veiculorota-0aa0-481195426.us-east-1.elb.amazonaws.com/v2/api-docs");
         }
     }
 }
