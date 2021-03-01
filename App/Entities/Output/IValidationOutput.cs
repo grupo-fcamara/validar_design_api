@@ -1,14 +1,16 @@
 using System.Collections.Generic;
+using App.Entities.Output;
 
 namespace App.Entities
 {
     public interface IValidationOutput
     {
-        IEnumerable<string> Messages { get; }
-        IEnumerable<string> Problems { get; }
+        IEnumerable<Message> Messages { get; }
+        IEnumerable<Message> Problems { get; }
         bool Ok { get; }
 
         void AddProblem(string message);
+        void Concat(params IValidationOutput[] outputs);
     }
 
     public interface IValidationOutput<T> : IValidationOutput

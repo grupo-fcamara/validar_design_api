@@ -1,0 +1,36 @@
+using System.Collections.Generic;
+using System.Linq;
+using App.Entities.Output;
+
+namespace App.Entities
+{
+    public class ValidationOutput : IValidationOutput
+    {
+        private List<Message> messages = new List<Message>();
+
+        public IEnumerable<Message> Messages => messages;
+        public IEnumerable<Message> Problems => messages.Where(p => p.IsProblem);
+        public bool Ok => !Problems.Any();
+
+        public void AddMessage(string text) => messages.Add(new Message(text, false));
+        public void AddProblem(string text) => messages.Add(new Message(text, true));
+
+        public void Concat(params ValidationOutput[] outputs)
+        {
+            foreach (var output in outputs)
+            {
+                messages.AddRange(output.messages);
+            }           
+        }
+
+        public void Concat(params IValidationOutput[] outputs)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    public class ValidationOutput<T> : ValidationOutput, IValidationOutput<T>
+    {
+        public T Value { get; set; }
+    }
+}

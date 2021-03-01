@@ -3,6 +3,7 @@ using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
 using App.Services.Validations.Generic;
+using Humanizer;
 
 namespace App.Services.Validations
 {
@@ -18,11 +19,22 @@ namespace App.Services.Validations
             _validations = validations;
         }
 
-        public ValidationOutput[] Validate(IDocumentation documentation)
+        public ValidationOutput Validate(IDocumentation documentation)
         {
-            return _validations
-                .Select(v => v.Validate(documentation))
-                .ToArray();
+            var output = new ValidationOutput();
+            output.AddMessage($"Checking level {Level}...");
+            
+            foreach (var validation in _validations)
+            {
+                output.Concat(validation.Validate(documentation));
+            }
+
+            if (output.Ok)
+                output.AddMessage($"No problems found in level {Level}.");
+            else
+                output.AddMessage($"Found {"problem".ToQuantity(output.Problems.Count())} in level {Level}.");
+
+            return output;
         }
     }
 }

@@ -5,10 +5,6 @@ using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
 using App.Services;
 using App.Services.Validations;
-using App.Services.Validations.Generic;
-using App.Services.Validations.Level1;
-using App.Services.Validations.Level2;
-using App.Services.Validations.Level3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -45,56 +41,26 @@ namespace App
                 return 1;
             }        
 
-            var output = ValidateApi(documentation, data);
+            ValidateApi(documentation, data);
+            return 0;
+        }
 
-            foreach (var problem in output.Problems)
+        private static void ValidateApi(IDocumentation documentation, StructuralData data)
+        {
+            var output = new ApiValidator(data).Validate(documentation);
+
+            foreach (var message in output.Messages)
             {
-                logger.LogInformation("Problem: " + problem);
+                if (message.IsProblem)
+                    logger.LogInformation("Problem: " + message.Text);
+                else
+                    logger.LogInformation(message.Text);
             }
 
             if (output.Value > 0)
                 logger.LogInformation($"Your API reached level {output.Value}.");
             else
                 logger.LogInformation("Your API hasn't reached any level.");
-
-            return 0;
-        }
-
-        private static ValidationOutput<int> ValidateApi(IDocumentation documentation, StructuralData data)
-        {
-            ILevel[] levels = new ILevel[]
-            {
-                new ValidationLevel(1,
-                    new ValidatePathLevels(data.PathLevels),
-                    new ValidateGetRoutesPerPath(),
-                    new ValidateIdentifiers()
-                ),
-
-                new ValidationLevel(2,
-                    new ValidateRoutesPattern(data.RoutePattern, data.Plural),
-                    new ValidatePathOperations()
-                ),
-
-                new ValidationLevel(3,
-                    new ValidatePathHttpVerbs(data.HttpVerbs),
-                    new ValidateStatusCode(data.StatusCode)
-                )
-            };
-
-            var output = new ValidationOutput<int>();
-            int apiLevel = levels.Max(l => l.Level);
-
-            foreach (var level in levels.OrderBy(l => l.Level))
-            {
-                var levelOutput = level.Validate(documentation);
-                if (!levelOutput.All(o => o.Ok))
-                    apiLevel = level.Level - 1;
-
-                output.Concat(levelOutput);
-            }
-
-            output.Value = apiLevel;
-            return output;
         }
 
         static void ConfigureLogging()
