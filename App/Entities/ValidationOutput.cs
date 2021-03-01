@@ -5,29 +5,46 @@ namespace App.Entities
 {
     public class ValidationOutput : IValidationOutput
     {
-        private List<string> problems = new List<string>();
+        private List<Message> messages = new List<Message>();
 
-        public IEnumerable<string> Problems => problems;
-        public bool Ok => problems.Count < 1;
+        public IEnumerable<string> Messages => messages.Select(m => m.Text);
+        public IEnumerable<string> Problems => messages.Where(p => p.IsProblem).Select(m => m.Text);
+        public bool Ok => !Problems.Any();
 
-        public static IValidationOutput Join(params IValidationOutput[] outputs)
-        {
-            var output = new ValidationOutput();
-            outputs.ToList().ForEach(o => output.Concat(o));
-            return output;
-        }
+        public void AddMessage(string text) => messages.Add(Message.CreateMessage(text));
+        public void AddProblem(string text) => messages.Add(Message.CreateProblem(text));
 
-        public void AddProblem(string message)
-        {
-            problems.Add(message);
-        }
-
-        public void Concat(params IValidationOutput[] outputs)
+        public void Concat(params ValidationOutput[] outputs)
         {
             foreach (var output in outputs)
             {
-                problems.AddRange(output.Problems);
+                messages.AddRange(output.messages);
             }           
         }
+
+        private struct Message
+        {
+            public string Text { get; set; }
+            public MessageType Type { get; set; }
+
+            private Message(string text, MessageType type)
+            {
+                Text = text;
+                Type = type;
+            }
+
+            public bool IsMessage => Type == MessageType.MESSAGE;
+            public bool IsProblem => Type == MessageType.PROBLEM;
+
+            public static Message CreateMessage(string text) => new Message(text, MessageType.MESSAGE);
+            public static Message CreateProblem(string text) => new Message(text, MessageType.PROBLEM);
+
+            public enum MessageType { MESSAGE, PROBLEM }
+        }
+    }
+
+    public class ValidationOutput<T> : ValidationOutput, IValidationOutput<T>
+    {
+        public T Value { get; set; }
     }
 }

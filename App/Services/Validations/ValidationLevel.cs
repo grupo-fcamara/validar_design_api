@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
 using App.Services.Validations.Generic;
@@ -16,16 +18,11 @@ namespace App.Services.Validations
             _validations = validations;
         }
 
-        public ValidationOutput Validate(IDocumentation documentation)
+        public ValidationOutput[] Validate(IDocumentation documentation)
         {
-            var output = new ValidationOutput();
-
-            foreach (var validation in _validations)
-            {
-                output.Concat(validation.Validate(documentation));
-            }
-            
-            return output;
+            return _validations
+                .Select(v => v.Validate(documentation))
+                .ToArray();
         }
     }
 }

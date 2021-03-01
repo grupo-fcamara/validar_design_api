@@ -52,28 +52,49 @@ namespace App
                 logger.LogInformation("Problem: " + problem);
             }
 
+            if (output.Value > 0)
+                logger.LogInformation($"Your API reached level {output.Value}.");
+            else
+                logger.LogInformation("Your API hasn't reached any level.");
+
             return 0;
         }
 
-        private static ValidationOutput ValidateApi(IDocumentation documentation, StructuralData data)
+        private static ValidationOutput<int> ValidateApi(IDocumentation documentation, StructuralData data)
         {
-            IValidator validation = new ValidationLevel(1,
-                new ValidatePathLevels(data.PathLevels),
-                new ValidateGetRoutesPerPath(),
-                new ValidateIdentifiers(),
+            ILevel[] levels = new ILevel[]
+            {
+                new ValidationLevel(1,
+                    new ValidatePathLevels(data.PathLevels),
+                    new ValidateGetRoutesPerPath(),
+                    new ValidateIdentifiers()
+                ),
 
                 new ValidationLevel(2,
                     new ValidateRoutesPattern(data.RoutePattern, data.Plural),
-                    new ValidatePathOperations(),
+                    new ValidatePathOperations()
+                ),
 
-                    new ValidationLevel(3,
-                        new ValidatePathHttpVerbs(data.HttpVerbs),
-                        new ValidateStatusCode(data.StatusCode)
-                    )
+                new ValidationLevel(3,
+                    new ValidatePathHttpVerbs(data.HttpVerbs),
+                    new ValidateStatusCode(data.StatusCode)
                 )
-            );
+            };
 
-            return validation.Validate(documentation);
+            var output = new ValidationOutput<int>();
+            int apiLevel = levels.Max(l => l.Level);
+
+            foreach (var level in levels.OrderBy(l => l.Level))
+            {
+                var levelOutput = level.Validate(documentation);
+                if (!levelOutput.All(o => o.Ok))
+                    apiLevel = level.Level - 1;
+
+                output.Concat(levelOutput);
+            }
+
+            output.Value = apiLevel;
+            return output;
         }
 
         static void ConfigureLogging()
