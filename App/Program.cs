@@ -4,6 +4,8 @@ using App.Entities;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
 using App.Services;
+using App.Services.Validations;
+using App.Services.Validations.Generic;
 using App.Services.Validations.Level1;
 using App.Services.Validations.Level2;
 using App.Services.Validations.Level3;
@@ -35,7 +37,6 @@ namespace App
             ShowData(data);
 
             IDocumentation documentation = new Documentation();
-            var output = new ValidationOutput();
 
             try {
                 documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
@@ -44,22 +45,35 @@ namespace App
                 return 1;
             }        
 
-            //Level 1
-            output.Concat(new ValidatePathLevels(data.PathLevels).Validate(documentation));
-            output.Concat(new ValidateGetRoutesPerPath().Validate(documentation));
-            output.Concat(new ValidateIdentifiers().Validate(documentation));
+            var output = ValidateApi(documentation, data);
 
-            //Level 2
-            output.Concat(new ValidateRoutesPattern(data.RoutePattern, data.Plural).Validate(documentation));
-            output.Concat(new ValidatePathOperations().Validate(documentation));
-
-            //Level 3
-            output.Concat(new ValidatePathHttpVerbs(data.HttpVerbs).Validate(documentation));
-            output.Concat(new ValidateStatusCode(data.StatusCode).Validate(documentation));
-
-            output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
+            foreach (var problem in output.Problems)
+            {
+                logger.LogInformation("Problem: " + problem);
+            }
 
             return 0;
+        }
+
+        private static ValidationOutput ValidateApi(IDocumentation documentation, StructuralData data)
+        {
+            IValidator validation = new ValidationLevel(1,
+                new ValidatePathLevels(data.PathLevels),
+                new ValidateGetRoutesPerPath(),
+                new ValidateIdentifiers(),
+
+                new ValidationLevel(2,
+                    new ValidateRoutesPattern(data.RoutePattern, data.Plural),
+                    new ValidatePathOperations(),
+
+                    new ValidationLevel(3,
+                        new ValidatePathHttpVerbs(data.HttpVerbs),
+                        new ValidateStatusCode(data.StatusCode)
+                    )
+                )
+            );
+
+            return validation.Validate(documentation);
         }
 
         static void ConfigureLogging()

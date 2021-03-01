@@ -9,16 +9,12 @@ namespace App.Services.Validations
         private IValidator[] _validations;
 
         public int Level { get; private set; }
-        public ILevel Next { get; set; }
 
-        public ValidationLevel(int level, IValidator[] validations, ILevel next)
+        public ValidationLevel(int level, params IValidator[] validations)
         {
             Level = level;
-            Next = next;
             _validations = validations;
         }
-
-        public ValidationLevel(int level, IValidator[] validations) : this(level, validations, null) { }
 
         public ValidationOutput Validate(IDocumentation documentation)
         {
@@ -28,9 +24,6 @@ namespace App.Services.Validations
             {
                 output.Concat(validation.Validate(documentation));
             }
-
-            if (Next != null)
-                output.Concat(Next.Validate(documentation));
             
             return output;
         }
