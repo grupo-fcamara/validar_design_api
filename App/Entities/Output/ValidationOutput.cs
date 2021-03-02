@@ -15,17 +15,12 @@ namespace App.Entities
         public void AddMessage(string text) => messages.Add(new Message(text, false));
         public void AddProblem(string text) => messages.Add(new Message(text, true));
 
-        public void Concat(params ValidationOutput[] outputs)
+        public void Concat(params IValidationOutput[] outputs)
         {
             foreach (var output in outputs)
             {
-                messages.AddRange(output.messages);
+                messages.AddRange(output.Messages);
             }           
-        }
-
-        public void Concat(params IValidationOutput[] outputs)
-        {
-            throw new System.NotImplementedException();
         }
     }
 
