@@ -45,14 +45,14 @@ namespace Tests.Services
         private void SetDefaults()
         {
             Environment.SetEnvironmentVariable("LANGUAGE", "ENGLISH");
-            Environment.SetEnvironmentVariable("ROUTE_PATTERN", "PLURAL");
+            Environment.SetEnvironmentVariable("ROUTE_PATTERN", "CAMEL");
             Environment.SetEnvironmentVariable("PLURAL", "true");
             Environment.SetEnvironmentVariable("VERSIONED_PATH", "true");
             Environment.SetEnvironmentVariable("HTTP_VERBS", "[\"GET\"]");
             Environment.SetEnvironmentVariable("STATUS_CODE", "{ \"GET\": [200, 500] }");
             Environment.SetEnvironmentVariable("PATH_LEVELS", "2");
-            Environment.SetEnvironmentVariable("BASE_URL", "http://squad5-fifo-api.herokuapp.com/api/");
-            Environment.SetEnvironmentVariable("SWAGGER_PATH", "http://squad5-fifo-api.herokuapp.com/api/v2/api-docs");
+            Environment.SetEnvironmentVariable("BASE_URL", "http://5de67ce5-kmad-veiculobacke-48f3-305261353.us-east-1.elb.amazonaws.com");
+            Environment.SetEnvironmentVariable("SWAGGER_PATH", "http://5de67ce5-torre-veiculorota-0aa0-481195426.us-east-1.elb.amazonaws.com/v2/api-docs");
         }
     }
 }

@@ -4,9 +4,7 @@ using App.Entities;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
 using App.Services;
-using App.Services.Validations.Level1;
-using App.Services.Validations.Level2;
-using App.Services.Validations.Level3;
+using App.Services.Validations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +33,6 @@ namespace App
             ShowData(data);
 
             IDocumentation documentation = new Documentation();
-            var output = new ValidationOutput();
 
             try {
                 documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
@@ -44,22 +41,26 @@ namespace App
                 return 1;
             }        
 
-            //Level 1
-            output.Concat(new ValidatePathLevels(data.PathLevels).Validate(documentation));
-            output.Concat(new ValidateGetRoutesPerPath().Validate(documentation));
-            output.Concat(new ValidateIdentifiers().Validate(documentation));
-
-            //Level 2
-            output.Concat(new ValidateRoutesPattern(data.RoutePattern, data.Plural).Validate(documentation));
-            output.Concat(new ValidatePathOperations().Validate(documentation));
-
-            //Level 3
-            output.Concat(new ValidatePathHttpVerbs(data.HttpVerbs).Validate(documentation));
-            output.Concat(new ValidateStatusCode(data.StatusCode).Validate(documentation));
-
-            output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
-
+            ValidateApi(documentation, data);
             return 0;
+        }
+
+        private static void ValidateApi(IDocumentation documentation, StructuralData data)
+        {
+            var output = new ApiValidator(data).Validate(documentation);
+
+            foreach (var message in output.Messages)
+            {
+                if (message.IsProblem)
+                    logger.LogInformation("Problem: " + message.Text);
+                else
+                    logger.LogInformation(message.Text);
+            }
+
+            if (output.Value > 0)
+                logger.LogInformation($"Your API reached level {output.Value}.");
+            else
+                logger.LogInformation("Your API hasn't reached any level.");
         }
 
         static void ConfigureLogging()
