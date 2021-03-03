@@ -7,6 +7,7 @@ namespace App.Entities.Swagger
     {
         public ApiPath Path { get; set; }
         public HTTPVERBS Verb { get; set; }
+        public int[] Responses { get; set; }
 
         #region Constructors
         public EndPoint() { }

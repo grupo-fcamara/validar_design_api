@@ -57,6 +57,7 @@ namespace App
 
             //Level 3
             output.Concat(new ValidatePathHttpVerbs(data.HttpVerbs).Validate(documentation));
+            output.Concat(new ValidateStatusCode(data.StatusCode).Validate(documentation));
 
             output.Problems.ToList().ForEach(p => logger.LogInformation("Problem: {0}", p));
 
