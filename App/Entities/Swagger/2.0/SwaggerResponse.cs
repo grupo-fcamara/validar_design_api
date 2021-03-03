@@ -10,6 +10,12 @@ namespace App.Entities.Swagger.Two
         public SwaggerSchema Schema { get; set; }
         public Dictionary<string, SwaggerHeader> Headers { get; set; }
         public Dictionary<string, Dictionary<string, string>> Example { get; set; }
+
+        public SwaggerResponse()
+        {
+            Headers = new Dictionary<string, SwaggerHeader>();
+            Example = new Dictionary<string, Dictionary<string, string>>() { };
+        }
     }
 
     public partial class SwaggerResponse : ISwaggerProperty
@@ -19,6 +25,6 @@ namespace App.Entities.Swagger.Two
             !string.IsNullOrWhiteSpace(Description) &&
             //Optional
             (Schema == null || Schema.IsValid) &&
-            (Headers == null || Headers.Values.All(h => h.IsValid));
+            Headers.Values.All(h => h.IsValid);
     }
 }

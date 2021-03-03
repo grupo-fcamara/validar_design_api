@@ -19,7 +19,7 @@ namespace App.Entities.Swagger.Two
         public int MaxItems { get; set; }
         public int MinItems { get; set; }
         public bool UniqueItems { get; set; }
-        public dynamic[] Enum { get; set; }
+        public dynamic[] Enum { get; set; } = new dynamic[] { };
         public float MultipleOf { get; set; }
     }
 
