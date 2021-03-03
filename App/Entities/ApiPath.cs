@@ -38,6 +38,9 @@ namespace App.Entities
         public ApiPathPart[] Resources => Parts.Where(p => p.IsResource).ToArray();
         public ApiPathPart[] Operations => Parts.Where(p => p.IsOperation).ToArray();
 
+        public ApiPathPart Root => Parts.First();
+        public ApiPathPart Last => Parts.Last();
+
         public int Levels => Resources.Count();
         #endregion
 

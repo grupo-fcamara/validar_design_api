@@ -17,7 +17,7 @@ namespace App.Services.Validations.Level3
             var output = new ValidationOutput();
             var endPoints = documentation.EndPoints
                 .Where(e => e.Verb == HttpVerbs.GET)
-                .Where(e => !e.Path.Identifiers.Any());
+                .Where(e => !e.Path.Last.IsIdentifier);
 
             foreach (var endPoint in endPoints)
             {
