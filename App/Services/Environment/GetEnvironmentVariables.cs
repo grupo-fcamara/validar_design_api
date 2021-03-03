@@ -48,25 +48,25 @@ namespace App.Services
 
         #region Getters
         public Language GetLanguage() => 
-            GetVariable<Language>("LANGUAGE", value => Enum.Parse<Language>(value));
+            GetVariable("LANGUAGE", value => Enum.Parse<Language>(value));
 
         public CasePattern GetRoutePattern() => 
-            GetVariable<CasePattern>("ROUTE_PATTERN", value => Enum.Parse<CasePattern>(value));
+            GetVariable("ROUTE_PATTERN", value => Enum.Parse<CasePattern>(value));
 
         public bool IsPlural() => 
-            GetVariable<bool>("PLURAL", bool.Parse);
+            GetVariable("PLURAL", bool.Parse);
 
         public bool IsVersioned() => 
-            GetVariable<bool>("VERSIONED_PATH", bool.Parse);
+            GetVariable("VERSIONED_PATH", bool.Parse);
 
         public HttpVerbs[] GetHttpVerbs() => 
-            GetVariable<HttpVerbs[]>("HTTP_VERBS", ParseHttpVerbs);
+            GetVariable("HTTP_VERBS", ParseHttpVerbs);
 
         public StatusCodePerVerb GetStatusCodePerVerb() => 
-            GetVariable<StatusCodePerVerb>("STATUS_CODE", ParseStatusCodePerVerb);
+            GetVariable("STATUS_CODE", ParseStatusCodePerVerb);
 
         public int GetPathLevels() => 
-            GetVariable<int>("PATH_LEVELS", int.Parse);
+            GetVariable("PATH_LEVELS", int.Parse);
 
         public string GetBaseUrl() =>
             Environment.GetEnvironmentVariable("BASE_URL");
