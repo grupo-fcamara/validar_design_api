@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using App.Entities.Swagger;
 
 namespace App.Entities
 {
@@ -7,7 +8,8 @@ namespace App.Entities
     {
         public ApiPath Path { get; set; }
         public HttpVerbs Verb { get; set; }
-        public int[] Responses { get; set; }
+        public ISwaggerParameter[] Parameters { get; set; } = new ISwaggerParameter[] { };
+        public int[] Responses { get; set; } = new int[] { };
 
         #region Constructors
         public EndPoint() { }

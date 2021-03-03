@@ -18,6 +18,17 @@ namespace App.Entities.Swagger.Two
         public string[] Schemes { get; set; }
         public bool Deprecated { get; set; }
         public Dictionary<string,string[]>[] Security { get; set; }
+
+        public SwaggerOperation()
+        {
+            Tags = new string[] { };
+            Consumes = new string[] { };
+            Produces = new string[] { };
+            Parameters = new SwaggerParameter[] { };
+            Responses = new Dictionary<string, SwaggerResponse>();
+            Schemes = new string[] { };
+            Security = new Dictionary<string, string[]>[] { };
+        }
     }
 
     //Interface Implementation
@@ -25,9 +36,9 @@ namespace App.Entities.Swagger.Two
     {
         public bool IsValid =>
             //Required
-            Responses != null && Responses.Values.All(r => r.IsValid) &&
+            Responses.Values.All(r => r.IsValid) &&
             //Optional
             (ExternalDocs == null || ExternalDocs.IsValid) &&
-            (Parameters == null || Parameters.All(p => p.IsValid));
+            Parameters.All(p => p.IsValid);
     }
 }

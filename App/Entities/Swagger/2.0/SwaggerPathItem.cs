@@ -18,7 +18,7 @@ namespace App.Entities.Swagger.Two
         public SwaggerOperation Head { get; set; }
         public SwaggerOperation Patch { get; set; }
 
-        public SwaggerParameter[] Parameters { get; set; }
+        public SwaggerParameter[] Parameters { get; set; } = new SwaggerParameter[] { };
     }
 
     //Interface Implementation and Auxiliary Methods
@@ -29,7 +29,7 @@ namespace App.Entities.Swagger.Two
             GetOperations()
                 .Where(pair => pair.Value != null)
                 .All(pair => pair.Value.IsValid) &&
-            (Parameters == null || Parameters.All(p => p.IsValid));
+            Parameters.All(p => p.IsValid);
 
         public HttpVerbs[] GetVerbs()
         {

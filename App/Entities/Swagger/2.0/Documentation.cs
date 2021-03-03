@@ -24,6 +24,16 @@ namespace App.Entities.Swagger.Two
         public Dictionary<string, string[]>[] Security { get; set; }
 
         public SwaggerExternalDocs ExternalDocs { get; set; }
+
+        public Documentation()
+        {
+            Paths = new Dictionary<string, SwaggerPathItem>();
+            Definitions = new Dictionary<string, SwaggerSchema>();
+            Parameters = new Dictionary<string, SwaggerParameter>();
+            Responses = new Dictionary<string, SwaggerResponse>();
+            SecurityDefinitions = new Dictionary<string, SwaggerSecurityScheme>();
+            Security = new Dictionary<string, string[]>[] { };
+        }
     }
 
     // Interface implementation
@@ -35,10 +45,10 @@ namespace App.Entities.Swagger.Two
             Info != null && Info.IsValid &&
             Paths != null && Paths.Values.All(p => p.IsValid) &&
             //Optional
-            (Definitions == null || Definitions.Values.All(d => d.IsValid)) &&
-            (Parameters == null || Parameters.Values.All(p => p.IsValid)) &&
-            (Responses == null || Responses.Values.All(r => r.IsValid)) &&
-            (SecurityDefinitions == null || SecurityDefinitions.Values.All(d => d.IsValid)) &&
+            Definitions.Values.All(d => d.IsValid) &&
+            Parameters.Values.All(p => p.IsValid) &&
+            Responses.Values.All(r => r.IsValid) &&
+            SecurityDefinitions.Values.All(d => d.IsValid) &&
             (ExternalDocs == null || ExternalDocs.IsValid);
 
         public string SwaggerVersion => Swagger;
@@ -54,8 +64,8 @@ namespace App.Entities.Swagger.Two
                     foreach (var operation in operations.Where(pair => pair.Value != null))
                     {
                         var endPoint = new EndPoint(new ApiPath(pair.Key), operation.Key);
-                        if (operation.Value.Responses != null)
-                            endPoint.Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray();
+                        endPoint.Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray();
+                        endPoint.Parameters = operation.Value.Parameters.Cast<ISwaggerParameter>().ToArray();
                         
                         list.Add(endPoint);
                     }

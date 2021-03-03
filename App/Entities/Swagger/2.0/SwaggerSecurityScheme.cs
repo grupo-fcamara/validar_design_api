@@ -12,7 +12,7 @@ namespace App.Entities.Swagger.Two
         public string Flow { get; set; }
         public string AuthorizationUrl { get; set; }
         public string TokenUrl { get; set; }
-        public Dictionary<string,string> Scopes { get; set; }
+        public Dictionary<string,string> Scopes { get; set; } = new Dictionary<string, string>();
     }
 
     public partial class SwaggerSecurityScheme : ISwaggerProperty
