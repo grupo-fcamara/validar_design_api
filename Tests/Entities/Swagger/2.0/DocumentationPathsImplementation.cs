@@ -3,6 +3,7 @@ using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
+using Tests.Util;
 using Xunit;
 
 namespace Tests.Entities.Swagger.Two
@@ -29,10 +30,10 @@ namespace Tests.Entities.Swagger.Two
 
             IDocumentation doc = documentation;
 
-            var paths = (new string[] { "path", "path/other" }).Select(s => new ApiPath(s));
-            var docPaths = documentation.Paths.Select(pair => new ApiPath(pair.Key));
+            var expected = (new string[] { "path", "path/other" }).Select(s => new ApiPath(s));
+            var actual = documentation.Paths.Select(pair => new ApiPath(pair.Key));
 
-            Assert.True(paths.AllEqual(docPaths));
+            AssertUtil.AllEqual(expected, actual);
         }
     }
 }

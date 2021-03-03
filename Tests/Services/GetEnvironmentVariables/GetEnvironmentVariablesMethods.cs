@@ -1,110 +1,102 @@
 using System;
-using Xunit;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
+using Xunit;
 
 using App.Entities;
 using App.Services;
+using Tests.Util;
 
 namespace Tests.Services
 {
     public class GetEnvironmentVariablesMethods
     {
         [Theory]
-        [InlineData("LANGUAGE", "ENGLISH", LANG.ENGLISH)]
-        public void ReturnLanguageFromEnvironment(string env, string value, LANG expected)
+        [InlineData("ENGLISH", Language.ENGLISH)]
+        public void ReturnLanguageFromEnvironment(string value, Language expected)
         {
-            Environment.SetEnvironmentVariable(env, value);
+            Environment.SetEnvironmentVariable("LANGUAGE", value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Assert.Equal(getEnvironmentVariables.GetLanguage(), expected);
+            Assert.Equal(expected, getEnvironmentVariables.GetLanguage());
         }
 
         [Theory]
         [InlineData(
-            "HTTP_VERBS",
             "[\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"]", 
-            new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT, HTTPVERBS.DELETE, HTTPVERBS.OPTIONS }
+            HttpVerbs.GET, HttpVerbs.POST, HttpVerbs.PUT, HttpVerbs.DELETE, HttpVerbs.OPTIONS
         )]
-        public void ReturnHttpVerbFromEnvironment(string env, string value, HTTPVERBS[] expected) 
+        public void ReturnHttpVerbFromEnvironment(string value, params HttpVerbs[] expected) 
         {
-            Environment.SetEnvironmentVariable(env, value);
+            Environment.SetEnvironmentVariable("HTTP_VERBS", value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-            HTTPVERBS[] data = getEnvironmentVariables.GetHttpVerbs();
+            HttpVerbs[] data = getEnvironmentVariables.GetHttpVerbs();
 
             for(int i = 0; i < data.Length; i++)
             {
-                Assert.Equal(data[i], expected[i]);
+                Assert.Equal(expected[i], data[i]);
             }
         }
 
         [Theory]
-        [InlineData("ROUTE_PATTERN", "SNAKE", CASE.SNAKE)]
-        public void ReturnRoutePatternFromEnvironment(string env, string value, CASE expected)
+        [InlineData("SNAKE", CasePattern.SNAKE)]
+        public void ReturnRoutePatternFromEnvironment(string value, CasePattern expected)
         {
-            Environment.SetEnvironmentVariable(env, value);
-            GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-
-            Assert.Equal(getEnvironmentVariables.GetRoutePattern(), expected);
+            Environment.SetEnvironmentVariable("ROUTE_PATTERN", value);
+            Assert.Equal(expected, new GetEnvironmentVariables().GetRoutePattern());
         }
 
         [Theory]
-        [InlineData("VERSIONED_PATH", "true", true)]
-        public void ReturnVersionedPathFromEnvironment(string env, string value, bool expected) 
+        [InlineData("true", true)]
+        public void ReturnVersionedPathFromEnvironment(string value, bool expected) 
         {
-            Environment.SetEnvironmentVariable(env, value);
-            GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-
-            Assert.Equal(getEnvironmentVariables.GetVersioned(), expected);
+            Environment.SetEnvironmentVariable("VERSIONED_PATH", value);
+            Assert.Equal(expected, new GetEnvironmentVariables().IsVersioned());
         }
 
         [Theory]
         [InlineData(
-            "STATUS_CODE",
             "{ \"GET\": [200, 500], \"POST\": [200, 500], \"PUT\": [200, 500], \"DELETE\": [200, 500] }"
         )]
-        public void ReturnStatusCodeFromEnvironment(string env, string value) 
+        public void ReturnStatusCodeFromEnvironment(string value) 
         {
-            Environment.SetEnvironmentVariable(env, value);
-            StructuralData data = new StructuralData();
+            Environment.SetEnvironmentVariable("STATUS_CODE", value);
             GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
 
-            Dictionary<string, int[]> expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
-            data.StatusCode = getEnvironmentVariables.GetStatusCode();
+            StatusCodePerVerb expected = JsonSerializer.Deserialize<Dictionary<string, int[]>>(value);
+            var actual = getEnvironmentVariables.GetStatusCodePerVerb();
 
-            foreach (var verb in data.StatusCode) {
-                Assert.Equal(data.StatusCode[verb.Key], expected[verb.Key]);
+            Assert.Equal(expected.Count, actual.Count);
+            for (int i = 0; i < actual.Count; i++)
+            {
+                Assert.Equal(expected.ElementAt(i).Key, actual.ElementAt(i).Key);
+                AssertUtil.AllEqual(expected.ElementAt(i).Value, actual.ElementAt(i).Value);
             }
         }
 
         [Theory]
-        [InlineData("PATH_LEVELS", "4", 4)]
-        public void ReturnPathLevelsFromEnvironment(string env, string value, int expected) 
+        [InlineData("4", 4)]
+        public void ReturnPathLevelsFromEnvironment(string value, int expected) 
         {
-            Environment.SetEnvironmentVariable(env, value);
-            GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-
-            Assert.Equal(getEnvironmentVariables.GetPathLevels(), expected);
+            Environment.SetEnvironmentVariable("PATH_LEVELS", value);
+            Assert.Equal(expected, new GetEnvironmentVariables().GetPathLevels());
         }
 
         [Theory]
-        [InlineData("BASE_URL", "www.fcamara.com.br", "www.fcamara.com.br")]
-        public void ReturnBaseUrlFromEnvironment(string env, string value, string expected) 
+        [InlineData("www.fcamara.com.br")]
+        public void ReturnBaseUrlFromEnvironment(string value) 
         {
-            Environment.SetEnvironmentVariable(env, value);
-            GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-
-            Assert.Equal(getEnvironmentVariables.GetBaseURL(), expected);
+            Environment.SetEnvironmentVariable("BASE_URL", value);
+            Assert.Equal(value, new GetEnvironmentVariables().GetBaseUrl());
         }
 
         [Theory]
-        [InlineData("SWAGGER_PATH", "swagger.com", "swagger.com")]
-        public void ReturnSwaggerPathFromEnvironment(string env, string value, string expected) 
+        [InlineData("swagger.com")]
+        public void ReturnSwaggerPathFromEnvironment(string value) 
         {
-            Environment.SetEnvironmentVariable(env, value);
-            GetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
-
-            Assert.Equal(getEnvironmentVariables.GetSwaggerPath(), expected);
+            Environment.SetEnvironmentVariable("SWAGGER_PATH", value);
+            Assert.Equal(value, new GetEnvironmentVariables().GetSwaggerPath());
         }
     }
 }

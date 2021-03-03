@@ -31,5 +31,13 @@ namespace System.Linq
 
             return true;
         }
+
+        public static void AddRange<T>(this List<T> collection, params T[] values)
+        {
+            foreach (var value in values)
+            {
+                collection.Add(value);
+            }
+        }
     }
 }

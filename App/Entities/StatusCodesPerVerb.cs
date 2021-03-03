@@ -5,7 +5,7 @@ using App.Util;
 
 namespace App.Entities
 {
-    public class StatusCodePerVerb : Dictionary<HTTPVERBS, int[]>
+    public class StatusCodePerVerb : Dictionary<HttpVerbs, int[]>
     {
         public static StatusCodePerVerb Empty
         {
@@ -13,14 +13,14 @@ namespace App.Entities
             {
                 var codesPerVerb = new StatusCodePerVerb();
 
-                foreach (var value in EnumUtil.GetValues<HTTPVERBS>())
+                foreach (var value in EnumUtil.GetValues<HttpVerbs>())
                     codesPerVerb[value] = new int[] { };
 
                 return codesPerVerb;
             }
         }
 
-        public static StatusCodePerVerb Parse(Dictionary<HTTPVERBS, int[]> dictionary)
+        public static StatusCodePerVerb Parse(Dictionary<HttpVerbs, int[]> dictionary)
         {
             var obj = Empty;
             var verbs = dictionary.Keys;
@@ -35,7 +35,7 @@ namespace App.Entities
         {
             return Parse(dictionary
                 .ToDictionary(
-                    pair => Enum.Parse<HTTPVERBS>(pair.Key), 
+                    pair => Enum.Parse<HttpVerbs>(pair.Key), 
                     pair => pair.Value
                 )
             );

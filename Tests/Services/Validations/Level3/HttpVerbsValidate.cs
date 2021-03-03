@@ -9,13 +9,13 @@ namespace Tests.Services.Validations.Level3
     public class HttpVerbsValidate : Validation
     {
         [Theory]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.GET }, new HTTPVERBS[] { HTTPVERBS.GET }, 0)]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.GET }, new HTTPVERBS[] { HTTPVERBS.POST }, 1)]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.POST }, new HTTPVERBS[] { HTTPVERBS.PUT }, 1)]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.GET }, new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST }, 1)]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST }, new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST }, 0)]
-        [InlineData(new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST }, new HTTPVERBS[] { HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT }, 1)]
-        public void ReturnProperly(HTTPVERBS[] allowedVerbs, HTTPVERBS[] verbs, int expectedProblems)
+        [InlineData(new HttpVerbs[] { HttpVerbs.GET }, new HttpVerbs[] { HttpVerbs.GET }, 0)]
+        [InlineData(new HttpVerbs[] { HttpVerbs.GET }, new HttpVerbs[] { HttpVerbs.POST }, 1)]
+        [InlineData(new HttpVerbs[] { HttpVerbs.POST }, new HttpVerbs[] { HttpVerbs.PUT }, 1)]
+        [InlineData(new HttpVerbs[] { HttpVerbs.GET }, new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST }, 1)]
+        [InlineData(new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST }, new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST }, 0)]
+        [InlineData(new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST }, new HttpVerbs[] { HttpVerbs.GET, HttpVerbs.POST, HttpVerbs.PUT }, 1)]
+        public void ReturnProperly(HttpVerbs[] allowedVerbs, HttpVerbs[] verbs, int expectedProblems)
         {
             var validator = new ValidatePathHttpVerbs(allowedVerbs);
             var endPoints = EndPoint.Create("path/", verbs);

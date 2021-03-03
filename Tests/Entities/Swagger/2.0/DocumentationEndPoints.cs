@@ -3,6 +3,7 @@ using System.Linq;
 using App.Entities;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
+using Tests.Util;
 using Xunit;
 
 namespace Tests.Entities.Swagger.Two
@@ -27,11 +28,12 @@ namespace Tests.Entities.Swagger.Two
                 Head = new SwaggerOperation()
             };
 
-            var endPoints = new List<EndPoint>();
-            endPoints.AddRange(EndPoint.Create("path/", HTTPVERBS.GET, HTTPVERBS.POST, HTTPVERBS.PUT));
-            endPoints.Add(new EndPoint(new ApiPath("path/other"), HTTPVERBS.HEAD));
+            var expected = new List<EndPoint>();
+            expected.AddRange(EndPoint.Create("path/", HttpVerbs.GET, HttpVerbs.POST, HttpVerbs.PUT));
+            expected.Add(new EndPoint(new ApiPath("path/other"), HttpVerbs.HEAD));
 
-            Assert.True(endPoints.AllEqual(documentation.EndPoints));
+            var actual = documentation.EndPoints;
+            AssertUtil.AllEqual(expected, actual);
         }
     }
 }

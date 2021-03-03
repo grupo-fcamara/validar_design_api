@@ -21,12 +21,10 @@ namespace App
             ConfigureLogging();
             logger.LogInformation("Executing...");
 
-            StructuralData data = new StructuralData();
-            IGetEnvironmentVariables getEnvironmentVariables = new GetEnvironmentVariables();
+            StructuralData data;
 
-            try {
-                getEnvironmentVariables.Validate(data);
-            } catch (AggregateException ex) {
+            try { data = new GetEnvironmentVariables().GetData(); } 
+            catch (AggregateException ex) {
                 foreach (var exception in ex.InnerExceptions)
                 {
                     logger.LogInformation("Error: " + exception.Message);
@@ -52,7 +50,7 @@ namespace App
             output.Concat(new ValidateIdentifiers().Validate(documentation));
 
             //Level 2
-            output.Concat(new ValidateRoutesPattern(data.RoutePattern, true).Validate(documentation));
+            output.Concat(new ValidateRoutesPattern(data.RoutePattern, data.Plural).Validate(documentation));
             output.Concat(new ValidatePathOperations().Validate(documentation));
 
             //Level 3
@@ -74,32 +72,18 @@ namespace App
 
         static void ShowData(StructuralData data) 
         {
-            string httpVerbs = "";
-            for (int i = 0; i < data.HttpVerbs.Length; i++) {
-                httpVerbs += data.HttpVerbs[i];
-                if (i < data.HttpVerbs.Length - 1)
-                    httpVerbs += ", ";
-            }
-
             string statusCode = "{\n";
-            foreach (var pair in data.StatusCode) {
-                statusCode += "\t" + pair.Key + ": ";
-
-                for (int i = 0; i < pair.Value.Length; i++) {
-                    statusCode += pair.Value[i];
-                    if (i < pair.Value.Length - 1)
-                        statusCode += ", ";
-                }
-
-                statusCode += "\n";
+            foreach (var pair in data.StatusCode.Where(pair => pair.Value.Any())) {
+                statusCode += $"\t{pair.Key}: [{string.Join(", ", pair.Value)}]\n";
             }
             statusCode += "}";
 
             logger.LogInformation(
                 $"\nLanguage: {data.Language}" + 
                 $"\nRoutePattern: {data.RoutePattern}" +
+                $"\nPlural: {data.Plural}" + "\n" +
                 $"\nVersioned: {data.Versioned}" + "\n" +
-                $"\nHttpVerbs: {httpVerbs}" +
+                $"\nHttpVerbs: {string.Join(", ", data.HttpVerbs)}" +
                 $"\nPathLevels: {data.PathLevels}" +
                 $"\nStatusCode: {statusCode}" + "\n" +
                 $"\nBaseUrl: {data.BaseUrl}"+

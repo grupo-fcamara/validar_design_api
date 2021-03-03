@@ -31,7 +31,7 @@ namespace App.Entities.Swagger.Two
                 .All(pair => pair.Value.IsValid) &&
             (Parameters == null || Parameters.All(p => p.IsValid));
 
-        public HTTPVERBS[] GetVerbs()
+        public HttpVerbs[] GetVerbs()
         {
             return GetOperations()
                 .Where(pair => pair.Value != null)
@@ -39,17 +39,17 @@ namespace App.Entities.Swagger.Two
                 .ToArray();
         }          
 
-        public Dictionary<HTTPVERBS, SwaggerOperation> GetOperations()
+        public Dictionary<HttpVerbs, SwaggerOperation> GetOperations()
         {
-            return new Dictionary<HTTPVERBS, SwaggerOperation>()
+            return new Dictionary<HttpVerbs, SwaggerOperation>()
             {
-                { HTTPVERBS.GET, Get },
-                { HTTPVERBS.POST, Post },
-                { HTTPVERBS.PUT, Put },
-                { HTTPVERBS.DELETE, Delete },
-                { HTTPVERBS.HEAD, Head },
-                { HTTPVERBS.PATCH, Patch },
-                { HTTPVERBS.OPTIONS, Options }
+                { HttpVerbs.GET, Get },
+                { HttpVerbs.POST, Post },
+                { HttpVerbs.PUT, Put },
+                { HttpVerbs.DELETE, Delete },
+                { HttpVerbs.HEAD, Head },
+                { HttpVerbs.PATCH, Patch },
+                { HttpVerbs.OPTIONS, Options }
             };
         }
     }

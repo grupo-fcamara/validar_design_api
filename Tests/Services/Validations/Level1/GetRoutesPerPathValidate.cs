@@ -11,10 +11,10 @@ namespace Tests.Services.Validations.Level1
         [Fact]
         public void ReturnProperly()
         {
-            var endPoints = EndPoint.Create(HTTPVERBS.GET,
+            var endPoints = EndPoint.Create(HttpVerbs.GET,
                 "users/", "users/{id}", "users/online", "cars/", "cars/{id}", "pets/", "pets/{id}"
             ).ToList();
-            endPoints.Add(new EndPoint(new ApiPath("cars/broken"), HTTPVERBS.POST));     
+            endPoints.Add(new EndPoint(new ApiPath("cars/broken"), HttpVerbs.POST));     
 
             var output = ReturnProblems(new ValidateGetRoutesPerPath(), endPoints.ToArray());
             Assert.Equal(1, output.Problems.Count());
