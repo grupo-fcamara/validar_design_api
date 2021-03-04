@@ -23,7 +23,6 @@ namespace App.Services.Validations.Level3
             foreach (var endPoint in endPoints)
             {
                 var parameters = endPoint.Parameters.Select(p => p.Name.Underscore());
-                parameters.ToList().ForEach(System.Console.WriteLine);
                 bool ordered = false;
 
                 foreach (var param in possibleParams)
