@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.Json;
+using App.Entities.Environment;
+using App.Services.Environment;
 using Xunit;
-
-using App.Entities;
-using App.Services;
 using Tests.Util;
 
 namespace Tests.Services

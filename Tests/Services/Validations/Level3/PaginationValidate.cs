@@ -1,9 +1,8 @@
 using Xunit;
 using System.Linq;
-using App.Entities;
+using App.Entities.Api;
+using App.Entities.Environment;
 using App.Services.Validations.Level3;
-using App.Entities.Swagger;
-using App.Entities.Swagger.Two;
 
 namespace Tests.Services.Validations.Level3
 {
@@ -29,7 +28,7 @@ namespace Tests.Services.Validations.Level3
         {
             var endPoint = new EndPoint() { Path = new ApiPath(path), Verb = HttpVerbs.GET };
             if (paginated)
-                endPoint.Parameters = new ISwaggerParameter[] { new SwaggerParameter() { Name = "page" } };
+                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("page", "body") };
 
             return endPoint;
         }

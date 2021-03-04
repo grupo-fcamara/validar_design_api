@@ -1,6 +1,3 @@
-using Humanizer;
-using static System.Enum;
-
 namespace App.Entities.Swagger.Two
 {
     // Structure
@@ -16,13 +13,13 @@ namespace App.Entities.Swagger.Two
     }
 
     //Interface implementation
-    public partial class SwaggerParameter : ISwaggerParameter, ISwaggerProperty
+    public partial class SwaggerParameter : ISwaggerProperty
     {
         public override bool IsValid =>
             !string.IsNullOrWhiteSpace(Name) &&
             !string.IsNullOrWhiteSpace(In) &&
             In.Equals("body") ? (Schema != null && Schema.IsValid) : base.IsValid;
 
-        ParameterLocalization ISwaggerParameter.In => Parse<ParameterLocalization>(In.Underscore(), true);
+        //ParameterLocalization ISwaggerParameter.In => Parse<ParameterLocalization>(In.Underscore(), true);
     }
 }

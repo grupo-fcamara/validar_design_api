@@ -1,7 +1,7 @@
-using App.Entities;
+using App.Entities.Api;
 using Xunit;
 
-namespace Tests.Entities
+namespace Tests.Entities.Api
 {
     public class ApiPathCtor
     {

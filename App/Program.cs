@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using App.Entities;
+using App.Entities.Environment;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
 using App.Services;
+using App.Services.Environment;
 using App.Services.Validations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,28 +21,14 @@ namespace App
             logger.LogInformation("Executing...");
 
             StructuralData data;
+            IDocumentation documentation;
 
-            try { data = new GetEnvironmentVariables().GetData(); } 
-            catch (AggregateException ex) {
-                foreach (var exception in ex.InnerExceptions)
-                {
-                    logger.LogInformation("Error: " + exception.Message);
-                }
+            if (!TryGetData(out data) || !TryGetDocumentation(out documentation, data))
                 return 1;
-            }
 
             ShowData(data);
-
-            IDocumentation documentation = new Documentation();
-
-            try {
-                documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
-            } catch (Exception e) {
-                logger.LogInformation("Error: " + e.Message);
-                return 1;
-            }        
-
             ValidateApi(documentation, data);
+
             return 0;
         }
 
@@ -63,6 +50,39 @@ namespace App
                 logger.LogInformation("Your API hasn't reached any level.");
         }
 
+        static bool TryGetData(out StructuralData data)
+        {
+            try
+            { 
+                data = new GetEnvironmentVariables().GetData();
+                return true;
+            } 
+            catch (AggregateException ex)
+            {
+                foreach (var exception in ex.InnerExceptions)
+                {
+                    logger.LogInformation("Error: " + exception.Message);
+                }
+                data = null;
+                return false;
+            }
+        }
+
+        static bool TryGetDocumentation(out IDocumentation documentation, StructuralData data)
+        {
+            try
+            {
+                documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
+                return true;
+            } 
+            catch (Exception e)
+            {
+                logger.LogInformation("Error: " + e.Message);
+                documentation = null;
+                return false;
+            }   
+        }
+
         static void ConfigureLogging()
         {
             var serviceProvider = new ServiceCollection().AddLogging(cfg => cfg.AddConsole())
@@ -82,7 +102,7 @@ namespace App
             logger.LogInformation(
                 $"\nLanguage: {data.Language}" + 
                 $"\nRoutePattern: {data.RoutePattern}" +
-                $"\nPlural: {data.Plural}" + "\n" +
+                $"\nPlural: {data.Plural}" +
                 $"\nVersioned: {data.Versioned}" + "\n" +
                 $"\nHttpVerbs: {string.Join(", ", data.HttpVerbs)}" +
                 $"\nPathLevels: {data.PathLevels}" +

@@ -1,4 +1,4 @@
-namespace App.Entities
+namespace App.Entities.Environment
 {
     public enum Language { ENGLISH, PORTUGUESE }
     public enum CasePattern { CAMEL, SNAKE, SPINAL }

@@ -1,7 +1,7 @@
 using Xunit;
 using System.Linq;
 using App.Services.Validations.Level2;
-using App.Entities;
+using App.Entities.Environment;
 
 namespace Tests.Services.Validations.Level2
 {

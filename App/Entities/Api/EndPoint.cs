@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using App.Entities.Swagger;
+using App.Entities.Environment;
 
-namespace App.Entities
+namespace App.Entities.Api
 {
     public class EndPoint
     {
         public ApiPath Path { get; set; }
         public HttpVerbs Verb { get; set; }
-        public ISwaggerParameter[] Parameters { get; set; } = new ISwaggerParameter[] { };
+        public EndPointParameter[] Parameters { get; set; } = new EndPointParameter[] { };
         public int[] Responses { get; set; } = new int[] { };
 
         #region Constructors

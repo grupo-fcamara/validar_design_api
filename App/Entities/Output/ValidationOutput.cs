@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using App.Entities.Output;
 
-namespace App.Entities
+namespace App.Entities.Output
 {
     public class ValidationOutput : IValidationOutput
     {

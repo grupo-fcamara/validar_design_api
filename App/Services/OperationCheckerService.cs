@@ -1,4 +1,5 @@
 using System.Linq;
+using Humanizer;
 
 namespace App.Services
 {
@@ -24,9 +25,15 @@ namespace App.Services
 
         public static bool IsOperation(string text)
         {
-            return english.Any(s => text.Equals(s))
-                || englishContains.Any(s => text.Contains(s))
-                || portugueseContains.Any(s => text.Contains(s));
+            return english.Any(s => Equal(text, s))
+                || englishContains.Any(s => Contains(text, s))
+                || portugueseContains.Any(s => Contains(text, s));
         }
+
+        private static bool Contains(string text, string content)
+            => text.Underscore().Contains(content.Underscore());
+
+        private static bool Equal(string text1, string text2)
+            => text1.Underscore().Equals(text2.Underscore());
     }
 }

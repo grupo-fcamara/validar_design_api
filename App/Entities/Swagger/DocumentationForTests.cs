@@ -1,3 +1,5 @@
+using App.Entities.Api;
+
 namespace App.Entities.Swagger
 {
     public class DocumentationForTests : IDocumentation

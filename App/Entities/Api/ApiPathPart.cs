@@ -1,8 +1,8 @@
-using System;
+using App.Entities.Environment;
 using App.Services;
 using Humanizer;
 
-namespace App.Entities
+namespace App.Entities.Api
 {
     public class ApiPathPart
     {

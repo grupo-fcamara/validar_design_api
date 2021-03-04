@@ -1,5 +1,5 @@
 using System.Linq;
-using App.Entities;
+using App.Entities.Output;
 using App.Entities.Swagger;
 
 namespace App.Services.Validations.Level2
