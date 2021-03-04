@@ -20,11 +20,11 @@ namespace App
             ConfigureLogging();
             logger.LogInformation("Executing...");
 
-            StructuralData data;
-            IDocumentation documentation;
+            StructuralData data = GetData();
+            if (data == null) { return 1; }
 
-            if (!TryGetData(out data) || !TryGetDocumentation(out documentation, data))
-                return 1;
+            IDocumentation documentation = GetDocumentation(data);
+            if (documentation == null) { return 1; }
 
             ShowData(data);
             ValidateApi(documentation, data);
@@ -50,36 +50,25 @@ namespace App
                 logger.LogInformation("Your API hasn't reached any level.");
         }
 
-        static bool TryGetData(out StructuralData data)
+        static StructuralData GetData()
         {
-            try
-            { 
-                data = new GetEnvironmentVariables().GetData();
-                return true;
-            } 
+            try { return new GetEnvironmentVariables().GetData(); }
             catch (AggregateException ex)
             {
                 foreach (var exception in ex.InnerExceptions)
-                {
                     logger.LogInformation("Error: " + exception.Message);
-                }
-                data = null;
-                return false;
             }
+            catch { }
+            return null;
         }
 
-        static bool TryGetDocumentation(out IDocumentation documentation, StructuralData data)
+        static IDocumentation GetDocumentation(StructuralData data)
         {
-            try
-            {
-                documentation = new GetSwaggerService().GetByUrl(data.SwaggerPath);
-                return true;
-            } 
+            try { return new GetSwaggerService().GetByUrl(data.SwaggerPath); }
             catch (Exception e)
             {
                 logger.LogInformation("Error: " + e.Message);
-                documentation = null;
-                return false;
+                return null;
             }   
         }
 

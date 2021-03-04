@@ -6,29 +6,29 @@ using App.Services.Validations.Level3;
 
 namespace Tests.Services.Validations.Level3
 {
-    public class PaginationValidate : Validation
+    public class OrdinationValidate : Validation
     {
         [Theory]
         [InlineData(2, 
             new string[] { "/home", "/home/jogos", "/home/jogos/{id}" },
             new string[] { "/users", "/users/{id}", "/users/{id}/jogos"}
         )]
-        public void ReturnProperly(int expectedProblems, string[] paginatedPaths, string[] notPaginatedPaths)
+        public void ReturnProperly(int expectedProblems, string[] orderedPaths, string[] notOrderedPaths)
         {
-            var validator = new ValidatePagination();
+            var validator = new ValidateOrdination();
             
-            var endPoints = paginatedPaths.Select(p => CreateEndPoint(p, true)).ToList();
-            endPoints.AddRange(notPaginatedPaths.Select(p => CreateEndPoint(p, false)));
+            var endPoints = orderedPaths.Select(p => CreateEndPoint(p, true)).ToList();
+            endPoints.AddRange(notOrderedPaths.Select(p => CreateEndPoint(p, false)));
 
             var output = ReturnProblems(validator, endPoints.ToArray());
             Assert.Equal(expectedProblems, output.Problems.Count());
         }
 
-        private EndPoint CreateEndPoint(string path, bool paginated)
+        private EndPoint CreateEndPoint(string path, bool ordered)
         {
             var endPoint = new EndPoint() { Path = new ApiPath(path), Verb = HttpVerbs.GET };
-            if (paginated)
-                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("page", "query") };
+            if (ordered)
+                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("ascending", "query") };
 
             return endPoint;
         }
