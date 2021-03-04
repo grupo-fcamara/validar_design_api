@@ -28,6 +28,7 @@ namespace App.Services.Validations
 
                 new ValidationLevel(2,
                     new ValidateRoutesPattern(_data.RoutePattern, _data.Plural),
+                    new ValidatePathLanguage(_data.Language),
                     new ValidatePathOperations()
                 ),
 
