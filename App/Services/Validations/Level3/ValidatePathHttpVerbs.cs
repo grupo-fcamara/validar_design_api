@@ -21,7 +21,7 @@ namespace App.Services.Validations.Level3
             foreach (var group in documentation.EndPoints.GroupBy(e => e.Path.ToString()))
             {
                 var verbsNotAllowed = group.Select(e => e.Verb).Except(_allowedVerbs);
-                if (verbsNotAllowed.Count() > 0)
+                if (verbsNotAllowed.Any())
                     output.AddProblem($"Path {group.Key} has verbs that are not allowed: {string.Concat(verbsNotAllowed.Select(verb => verb + " "))}");
             }
 

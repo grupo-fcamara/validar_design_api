@@ -40,7 +40,7 @@ namespace App.Services.Validations.Level3
                     .Where(pair => pair.Value.Length > 0)
                     .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-                if (notAllowed.Count() > 0)
+                if (notAllowed.Any())
                 {
                     var notAllowedToString = string.Concat(notAllowed.Select(pair => $"{pair.Key} [{pair.Value.Humanize()}] "));
                     output.AddProblem($"Path {path} can return status codes that are not allowed: {notAllowedToString}");

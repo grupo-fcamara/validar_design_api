@@ -12,7 +12,7 @@ namespace App.Services.Validations.Level1
             var output = new ValidationOutput();
 
             var groupedByRoot = documentation.EndPoints
-                .GroupBy(endPoint => endPoint.Path.Parts[0].ToString())
+                .GroupBy(endPoint => endPoint.Path.Root.ToString())
                 .OrderBy(group => group.Count(endPoint => endPoint.Verb == HttpVerbs.GET));
 
             foreach (var group in groupedByRoot)

@@ -24,10 +24,10 @@ namespace App.Services.Validations.Level2
             string pluralTxt = plural ? "plural" : "singular";
             foreach (var path in paths)
             {
-                if (path.Parts.Count(p => !p.IsRespectingCase(casePattern)) > 0)
+                if (path.Parts.Any(p => !p.IsRespectingCase(casePattern)))
                     output.AddProblem($"Path {path.ToString()} is not respecting the {casePattern.ToString().ToLower()} case pattern.");
 
-                if (path.Resources.Count(r => (plural && !r.IsPlural) || (!plural && !r.IsSingular)) > 0)
+                if (path.Resources.Any(r => (plural && !r.IsPlural) || (!plural && !r.IsSingular)))
                     output.AddProblem($"Path {path.ToString()} is not fully in the {pluralTxt}.");
             }
 
