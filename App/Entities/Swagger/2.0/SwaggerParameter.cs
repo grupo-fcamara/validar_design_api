@@ -19,7 +19,5 @@ namespace App.Entities.Swagger.Two
             !string.IsNullOrWhiteSpace(Name) &&
             !string.IsNullOrWhiteSpace(In) &&
             In.Equals("body") ? (Schema != null && Schema.IsValid) : base.IsValid;
-
-        //ParameterLocalization ISwaggerParameter.In => Parse<ParameterLocalization>(In.Underscore(), true);
     }
 }

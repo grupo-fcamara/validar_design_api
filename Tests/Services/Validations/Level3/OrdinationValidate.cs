@@ -20,7 +20,7 @@ namespace Tests.Services.Validations.Level3
             var endPoints = orderedPaths.Select(p => CreateEndPoint(p, true)).ToList();
             endPoints.AddRange(notOrderedPaths.Select(p => CreateEndPoint(p, false)));
 
-            Assert.Equal(3, notOrderedPaths.Count());
+            Assert.Equal(4, endPoints.Count(e => e.Parameters.Any()));
             var output = ReturnProblems(validator, endPoints.ToArray());
             Assert.Equal(expectedProblems, output.Problems.Count());
         }
