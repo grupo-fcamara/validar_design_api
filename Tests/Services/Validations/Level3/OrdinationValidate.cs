@@ -15,12 +15,11 @@ namespace Tests.Services.Validations.Level3
         )]
         public void ReturnProperly(int expectedProblems, string[] orderedPaths, string[] notOrderedPaths)
         {
-            var validator = new ValidatePagination();
+            var validator = new ValidateOrdination();
             
             var endPoints = orderedPaths.Select(p => CreateEndPoint(p, true)).ToList();
             endPoints.AddRange(notOrderedPaths.Select(p => CreateEndPoint(p, false)));
 
-            Assert.Equal(4, endPoints.Count(e => e.Parameters.Any()));
             var output = ReturnProblems(validator, endPoints.ToArray());
             Assert.Equal(expectedProblems, output.Problems.Count());
         }
@@ -29,7 +28,7 @@ namespace Tests.Services.Validations.Level3
         {
             var endPoint = new EndPoint() { Path = new ApiPath(path), Verb = HttpVerbs.GET };
             if (ordered)
-                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("ascending", "body") };
+                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("ascending", "query") };
 
             return endPoint;
         }

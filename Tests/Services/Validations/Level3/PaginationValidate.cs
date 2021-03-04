@@ -28,7 +28,7 @@ namespace Tests.Services.Validations.Level3
         {
             var endPoint = new EndPoint() { Path = new ApiPath(path), Verb = HttpVerbs.GET };
             if (paginated)
-                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("page", "body") };
+                endPoint.Parameters = new EndPointParameter[] { new EndPointParameter("page", "query") };
 
             return endPoint;
         }

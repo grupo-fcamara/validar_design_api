@@ -10,7 +10,7 @@ namespace App.Services.Validations.Level3
     {
         readonly string[] possibleParams = new string[] { 
             "ascending", "descending", "asc", "desc", "orderBy",
-            "crescente", "descrecente", "cres"
+            "crescente", "descrecente", "cres", "ordem", "ordemPor", "ordenarPor"
         };
 
         public ValidationOutput Validate(IDocumentation documentation)
@@ -23,6 +23,7 @@ namespace App.Services.Validations.Level3
             foreach (var endPoint in endPoints)
             {
                 var parameters = endPoint.Parameters.Select(p => p.Name.Underscore());
+                parameters.ToList().ForEach(System.Console.WriteLine);
                 bool ordered = false;
 
                 foreach (var param in possibleParams)
