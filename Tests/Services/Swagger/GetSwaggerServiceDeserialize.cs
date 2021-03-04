@@ -4,7 +4,7 @@ using System.Text.Json;
 using App.Services;
 using System.IO;
 
-namespace Tests.Services
+namespace Tests.Services.Swagger
 {
     public class GetSwaggerServiceDeserialize
     {

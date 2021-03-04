@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Linq;
-using App.Entities;
+using App.Entities.Output;
 using App.Entities.Swagger;
 using App.Services.Validations.Generic;
 using Humanizer;

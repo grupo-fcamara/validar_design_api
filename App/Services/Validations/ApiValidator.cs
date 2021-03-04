@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
-using App.Entities;
+using App.Entities.Environment;
+using App.Entities.Output;
 using App.Entities.Swagger;
 using App.Services.Validations.Generic;
 using App.Services.Validations.Level1;

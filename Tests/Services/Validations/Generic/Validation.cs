@@ -1,7 +1,8 @@
 using System.Linq;
 using App.Services.Validations.Generic;
-using App.Entities;
 using App.Entities.Swagger;
+using App.Entities.Output;
+using App.Entities.Api;
 
 namespace Tests.Services.Validations
 {

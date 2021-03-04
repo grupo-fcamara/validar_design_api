@@ -1,8 +1,8 @@
 using Xunit;
 using System.Linq;
 using App.Services.Validations.Level1;
-using App.Entities;
-using App.Entities.Swagger;
+using App.Entities.Environment;
+using App.Entities.Api;
 
 namespace Tests.Services.Validations.Level1
 {

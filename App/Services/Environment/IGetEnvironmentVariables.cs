@@ -1,6 +1,6 @@
-using App.Entities;
+using App.Entities.Environment;
 
-namespace App.Services
+namespace App.Services.Environment
 {
     public interface IGetEnvironmentVariables
     {

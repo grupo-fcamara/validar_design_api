@@ -1,11 +1,13 @@
+using static System.Environment;
+
 using System;
 using System.Linq;
 using System.Text.Json;
 using System.Collections.Generic;
-using App.Entities;
+using App.Entities.Environment;
 using Humanizer;
 
-namespace App.Services
+namespace App.Services.Environment
 {
     public class GetEnvironmentVariables : IGetEnvironmentVariables
     {
@@ -40,7 +42,7 @@ namespace App.Services
                 catch (Exception e) { exceptions.Add(e); }
             }
 
-            if (exceptions.Count > 0)
+            if (exceptions.Any())
                 throw new AggregateException(exceptions);
 
             return data;
@@ -48,10 +50,10 @@ namespace App.Services
 
         #region Getters
         public Language GetLanguage() => 
-            GetVariable("LANGUAGE", value => Enum.Parse<Language>(value));
+            GetVariable("LANGUAGE", value => Enum.Parse<Language>(value, true));
 
         public CasePattern GetRoutePattern() => 
-            GetVariable("ROUTE_PATTERN", value => Enum.Parse<CasePattern>(value));
+            GetVariable("ROUTE_PATTERN", value => Enum.Parse<CasePattern>(value, true));
 
         public bool IsPlural() => 
             GetVariable("PLURAL", bool.Parse);
@@ -69,10 +71,10 @@ namespace App.Services
             GetVariable("PATH_LEVELS", int.Parse);
 
         public string GetBaseUrl() =>
-            Environment.GetEnvironmentVariable("BASE_URL");
+            GetVariable("BASE_URL", s => s);
 
         public string GetSwaggerPath() =>
-            Environment.GetEnvironmentVariable("SWAGGER_PATH");
+            GetVariable("SWAGGER_PATH", s => s);
         #endregion
 
         #region Parsers
@@ -102,7 +104,7 @@ namespace App.Services
 
         private T GetVariable<T>(string variable, Func<string, T> parser)
         {
-            string value = Environment.GetEnvironmentVariable(variable);
+            string value = GetEnvironmentVariable(variable);
 
             if (string.IsNullOrWhiteSpace(value))
                 throw new Exception(_errorMessages[variable]);

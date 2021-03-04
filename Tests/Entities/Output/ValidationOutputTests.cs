@@ -1,5 +1,5 @@
 using System.Linq;
-using App.Entities;
+using App.Entities.Output;
 using Tests.Util;
 using Xunit;
 

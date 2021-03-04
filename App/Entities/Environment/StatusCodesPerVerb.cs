@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using App.Util;
 
-namespace App.Entities
+namespace App.Entities.Environment
 {
     public class StatusCodePerVerb : Dictionary<HttpVerbs, int[]>
     {

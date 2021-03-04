@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using App.Entities.Output;
 
-namespace App.Entities
+namespace App.Entities.Output
 {
     public interface IValidationOutput
     {

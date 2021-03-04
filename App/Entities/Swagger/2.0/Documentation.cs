@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using App.Entities.Api;
 
 namespace App.Entities.Swagger.Two
 {
@@ -60,12 +61,15 @@ namespace App.Entities.Swagger.Two
                 var list = new List<EndPoint>();
                 foreach (var pair in Paths)
                 {
-                    var operations = pair.Value.GetOperations();
-                    foreach (var operation in operations.Where(pair => pair.Value != null))
+                    var verbOperations = pair.Value.GetOperations();
+                    foreach (var verbOperationPair in verbOperations.Where(pair => pair.Value != null))
                     {
-                        var endPoint = new EndPoint(new ApiPath(pair.Key), operation.Key);
-                        endPoint.Responses = operation.Value.Responses.Keys.Select(key => int.Parse(key)).ToArray();
-                        endPoint.Parameters = operation.Value.Parameters.Cast<ISwaggerParameter>().ToArray();
+                        var verb = verbOperationPair.Key;
+                        var operation = verbOperationPair.Value;
+
+                        var endPoint = new EndPoint(new ApiPath(pair.Key), verb);
+                        endPoint.Responses = operation.Responses.Keys.Select(key => int.Parse(key)).ToArray();
+                        endPoint.Parameters = operation.Parameters.Select(p => new EndPointParameter(p.Name, p.In)).ToArray();
                         
                         list.Add(endPoint);
                     }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using App.Entities;
+using App.Entities.Api;
 using App.Entities.Swagger;
 using App.Entities.Swagger.Two;
 using Tests.Util;

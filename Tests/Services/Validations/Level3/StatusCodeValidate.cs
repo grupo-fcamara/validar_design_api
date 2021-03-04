@@ -1,8 +1,9 @@
 using Xunit;
 using System.Linq;
-using App.Services.Validations.Level3;
-using App.Entities;
 using System.Collections.Generic;
+using App.Services.Validations.Level3;
+using App.Entities.Api;
+using App.Entities.Environment;
 
 namespace Tests.Services.Validations.Level3
 {

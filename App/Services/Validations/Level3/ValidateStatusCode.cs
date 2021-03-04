@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using App.Entities;
+using App.Entities.Environment;
+using App.Entities.Output;
 using App.Entities.Swagger;
 using Humanizer;
 

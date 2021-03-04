@@ -1,6 +1,6 @@
 using System;
+using App.Services.Environment;
 using Xunit;
-using App.Services;
 
 namespace Tests.Services
 {

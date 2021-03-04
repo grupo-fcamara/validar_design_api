@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace App.Entities
+namespace App.Entities.Api
 {
     public class ApiPath
     {
