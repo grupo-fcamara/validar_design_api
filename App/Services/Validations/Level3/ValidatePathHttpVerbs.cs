@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace App.Services.Validations.Level3
 {
-    public class ValidatePathHttpVerbs : Generic.IValidator
+    public class ValidatePathHttpVerbs : IValidatePathHttpVerbs
     {
         private HttpVerbs[] _allowedVerbs;
 

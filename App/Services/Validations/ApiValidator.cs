@@ -35,7 +35,8 @@ namespace App.Services.Validations
                 new ValidationLevel(3,
                     new ValidatePathHttpVerbs(_data.HttpVerbs),
                     new ValidateStatusCode(_data.StatusCode),
-                    new ValidatePagination()
+                    new ValidatePagination(),
+                    new ValidateOrdination()
                 )
             };
 
