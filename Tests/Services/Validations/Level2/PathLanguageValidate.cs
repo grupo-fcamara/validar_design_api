@@ -21,8 +21,8 @@ namespace Tests
 
         private void Prepare()
         {
-            string xmlPath = (Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName + @"/Core14.profile.xml").Replace("Tests", "App");
-            string path = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName + @"/Core14.profile.xml";
+            string xmlPath = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName, "Core14.profile.xml").Replace("Tests", "App");
+            string path = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName, "Core14.profile.xml");
             
             if (!File.Exists(path))
                 File.Copy(xmlPath, path);
