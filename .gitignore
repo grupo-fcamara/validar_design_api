@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 .env
-Tests/coverage.json
+Tests/coverage*
 
 //Visual Studio and Visual Studio Code cache files
 .vs/
